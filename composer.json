@@ -1,0 +1,26 @@
+{
+	"keywords" : [
+		"http",
+		"mock",
+		"server",
+		"external"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Mcustiel\\Phiremock\\" : "src"
+		}
+	},
+	"name" : "mcustiel/phiremock",
+	"type" : "project",
+	"description" : "A http server mocker",
+	"license" : "GPL-3.0+",
+	"require" : {
+		"php" : ">=5.4",
+		"guzzle/guzzle" : ">=3.9.2 <4.0",
+		"symfony/process" : ">=2.7.6 <3.0",
+		"lstrojny/hmmmath" : ">=0.5.0 <1.0",
+		"slim/slim" : ">=2.6.2 <3.0",
+		"mcustiel/php-simple-request" : "dev-master",
+		"mcustiel/power-route" : "dev-develop"
+	}
+}

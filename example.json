@@ -1,0 +1,29 @@
+
+    "request": {
+            "method": "GET",
+            "url": {
+                "equalTo" : "/some/thing",
+                // or
+                "matches" : "some regex"
+            },
+            "body" : {
+                "equalTo" : "some content",
+                // or
+                "matches: : "some regex",
+            },
+            "headers" : {
+                "name" : { 
+                    "equalTo" : "some content",
+                    // or
+                    "matches: : "some regex",
+                }
+            }
+    },
+    "response": {
+            "status": 200,
+            "body": "Hello world!",
+            "headers": {
+                    "Content-Type": "text/plain"
+            }
+    }
+}
