@@ -1,20 +1,34 @@
 <?php
 namespace Mcustiel\Phiremock\Server\Domain;
 
+use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
+
 class Response
 {
     /**
+     * @SRV\OneOf({@SRV\Type("integer"), @SRV\Not(@SRV\NotNull)})
+     *
      * @var integer
      */
     private $statusCode;
     /**
+     * @SRV\OneOf({@SRV\Type("string"), @SRV\Not(@SRV\NotNull)})
+     *
      * @var string
      */
     private $body;
     /**
+     * @SRV\OneOf({@SRV\Type("array"), @SRV\Not(@SRV\NotNull)})
+     *
      * @var array
      */
     private $headers;
+    /**
+     * @SRV\OneOf({@SRV\Type("integer"), @SRV\Not(@SRV\NotNull)})
+     *
+     * @var integer
+     */
+    private $delayMillis;
 
     public function getStatusCode()
     {
@@ -26,7 +40,6 @@ class Response
         $this->statusCode = $statusCode;
         return $this;
     }
-
 
     public function getMethod()
     {
@@ -71,4 +84,15 @@ class Response
         $this->headers = $headers;
         return $this;
     }
- }
+
+    public function getDelayMillis()
+    {
+        return $this->delayMillis;
+    }
+
+    public function setDelayMillis($delayMillis)
+    {
+        $this->delayMillis = $delayMillis;
+        return $this;
+    }
+  }

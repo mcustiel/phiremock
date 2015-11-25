@@ -1,9 +1,13 @@
 <?php
 namespace Mcustiel\Phiremock\Server\Domain;
 
+use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
+
 class Condition
 {
     /**
+     * @SRV\OneOf({@SRV\Enum({"equalTo", "matches"}), @SRV\Not(@SRV\NotEmpty)})
+     *
      * @var string
      */
     private $matcher;

@@ -8,7 +8,7 @@ use Mcustiel\SimpleRequest\Annotation\ParseAs;
 class Request
 {
     /**
-     * @var Condition
+     * @var string
      *
      * @SRF\LowerCase
      * @SRV\Type("string")
@@ -30,10 +30,13 @@ class Request
     /**
      * @var Condition[]
      *
-     * @SRV\Type("object")
+     * @SRV\Type("array")
      */
     private $headers;
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return $this->method;
@@ -45,6 +48,9 @@ class Request
         return $this;
     }
 
+    /**
+     * @return \Mcustiel\Phiremock\Server\Domain\Condition
+     */
     public function getUrl()
     {
         return $this->url;
@@ -56,6 +62,9 @@ class Request
         return $this;
     }
 
+    /**
+     * @return \Mcustiel\Phiremock\Server\Domain\Condition
+     */
     public function getBody()
     {
         return $this->body;
@@ -67,6 +76,9 @@ class Request
         return $this;
     }
 
+    /**
+     * @return \Mcustiel\Phiremock\Server\Domain\Condition[]
+     */
     public function getHeaders()
     {
         return $this->headers;
