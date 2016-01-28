@@ -6,7 +6,6 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Mcustiel\Phiremock\Server\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Domain\Condition;
 use Mcustiel\PowerRoute\Common\MatcherFactory;
-use Mcustiel\Conversion\ConversionService;
 
 class RequestParser
 {

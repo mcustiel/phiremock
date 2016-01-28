@@ -9,7 +9,25 @@ $requestBuilder = new RequestBuilder();
 return [
     PowerRoute::CONFIG_ROOT_NODE => 'methodIsPost',
     PowerRoute::CONFIG_NODES => [
-        'methodIsPost' => [
+        'expectationUrl' => [
+            PowerRoute::CONFIG_NODE_CONDITION => [
+                PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [
+                    'url' => 'path'
+                ],
+                PowerRoute::CONFIG_NODE_CONDITION_MATCHER => [
+                    'matchesPattern' => '/\\_\\_phiremock\/expectation\/?$/'
+                ]
+            ],
+            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
+                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+                    ['goTo' => 'expectationMethodIsPost']
+                ],
+                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => [
+                    ['goTo' => 'default']
+                ]
+            ]
+        ],
+        'expectationMethodIsPost' => [
             PowerRoute::CONFIG_NODE_CONDITION => [
                 PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [
                     'method' => null
@@ -20,31 +38,57 @@ return [
             ],
             PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
                 PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
-                    ['goTo' => 'expectationUrl']
+                    ['addExpectation' => [
+                            'stubs' => $stubs,
+                            'requestBuilder' => $requestBuilder
+                        ]
+                    ]
                 ],
                 PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => [
-                    ['goTo' => 'default']
+                    ['goTo' => 'expectationMethodIsGet']
                 ]
             ]
         ],
-        'expectationUrl' => [
+        'expectationMethodIsGet' => [
             PowerRoute::CONFIG_NODE_CONDITION => [
                 PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [
-                    'url' => 'path'
+                    'method' => null
                 ],
                 PowerRoute::CONFIG_NODE_CONDITION_MATCHER => [
-                    'matchesPattern' => '/\\_\\_expectation\/?$/'
+                    'isEqualTo' => 'GET'
                 ]
             ],
             PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
                 PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
-                    ['goTo' => 'jsonContent']
+                    ['listExpectations' => ['stubs' => $stubs]]
                 ],
                 PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => [
-                    ['goTo' => 'default']
+                    ['goTo' => 'apiError']
                 ]
             ]
         ],
+
+        'apiError' => [
+            PowerRoute::CONFIG_NODE_CONDITION => [],
+            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
+                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+                    ['serverError' => 'Invalid api request']
+                ],
+                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => []
+            ]
+        ],
+
+
+        'default' => [
+            PowerRoute::CONFIG_NODE_CONDITION => [],
+            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
+                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+                    ['parseExpectations' => null]
+                ],
+                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => []
+            ]
+        ],
+
         'jsonContent' => [
             PowerRoute::CONFIG_NODE_CONDITION => [
                 PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [

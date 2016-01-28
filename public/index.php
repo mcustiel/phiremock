@@ -18,6 +18,7 @@ use Mcustiel\PowerRoute\Matchers\Equals;
 use Mcustiel\PowerRoute\Matchers\RegExp;
 use Mcustiel\Phiremock\Server\Actions\AddExpectationAction;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Response\SapiStreamEmitter;
 
 function getUriFromRequest(Request $request)
 {
@@ -25,30 +26,36 @@ function getUriFromRequest(Request $request)
     return 'http://localhost/' . $request->getPath() . (empty($query) ? '' : "?{$query}");
 }
 
-$config = require __DIR__ . '/../config/router-config.php';
+function getActionFactory()
+{
+    return new ActionFactory(['addExpectation' => AddExpectationAction::class]);
+}
+
+function getInputSourceFactory()
+{
+    return new InputSourceFactory([
+        'method' => Method::class,
+        'url' => Url::class,
+        'header' => Header::class
+    ]);
+}
+
+function getMatcherFactory()
+{
+    return new MatcherFactory([
+        'isEqualTo' => Equals::class,
+        'matchesPattern' => RegExp::class
+    ]);
+}
+
 $powerRoute = new PowerRoute(
-    $config,
-    new ActionFactory(
-        [
-            'addExpectation' => AddExpectationAction::class
-        ]
-    ),
-    new InputSourceFactory(
-        [
-            'method' => Method::class,
-            'url' => Url::class,
-            'header' => Header::class
-        ]
-    ),
-    new MatcherFactory(
-        [
-            'isEqualTo' => Equals::class,
-            'matchesPattern' => RegExp::class
-        ]
-    )
+    require __DIR__ . '/../config/router-config.php',
+    getActionFactory(),
+    getInputSourceFactory(),
+    getMatcherFactory()
 );
 
-$app = function (Request $request, Response $response) use ($requestBuilder, $powerRoute) {
+$app = function (Request $request, Response $response) use ($powerRoute) {
     BufferedSink::createPromise($request)
         ->then(
             function ($body) use ($response, $request, $powerRoute) {
@@ -63,6 +70,15 @@ $app = function (Request $request, Response $response) use ($requestBuilder, $po
                     array()
                 );
                 $psrResponse = $powerRoute->start($psrRequest, new \Zend\Diactoros\Response());
+
+                $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
+                $response->end($psrResponse->getBody()->__toString());
+            },
+            function ($reason) {
+
+            },
+            function ($update) {
+
             }
         );
 };

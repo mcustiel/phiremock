@@ -17,5 +17,6 @@ class HeaderParserFilter implements FilterInterface
                 }
             }
         }
+        return $return;
     }
 }
