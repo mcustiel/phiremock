@@ -9,13 +9,13 @@
             "body" : {
                 "equalTo" : "some content",
                 // or
-                "matches": : "some regex",
+                "matches" : "some regex",
             },
             "headers" : {
                 "name" : { 
                     "equalTo" : "some content",
                     // or
-                    "matches": : "some regex",
+                    "matches" : "some regex",
                 }
             }
     },
