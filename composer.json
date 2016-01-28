@@ -18,7 +18,7 @@
 		"php" : ">=5.4",
 		"react/http" : ">=0.4.1",
 		"mcustiel/php-simple-request" : "dev-master",
-		"mcustiel/power-route" : "dev-master",
-		"mcustiel/php-simple-conversion" : "dev-develop"
+		"mcustiel/power-route" : "dev-develop",
+		"mcustiel/php-simple-conversion" : "dev-master"
 	}
 }

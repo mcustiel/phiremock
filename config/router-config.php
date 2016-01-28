@@ -1,5 +1,4 @@
 <?php
-use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\Phiremock\Server\Utils\Stubs;
 use Mcustiel\SimpleRequest\RequestBuilder;
 
@@ -7,110 +6,90 @@ $stubs = Stubs();
 $requestBuilder = new RequestBuilder();
 
 return [
-    PowerRoute::CONFIG_ROOT_NODE => 'methodIsPost',
-    PowerRoute::CONFIG_NODES => [
+    'start' => 'methodIsPost',
+    'nodes' => [
         'expectationUrl' => [
-            PowerRoute::CONFIG_NODE_CONDITION => [
-                PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [
-                    'url' => 'path'
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => [ 'url' => 'path' ],
+                        'matcher' => [ 'matchesPattern' => '/\\_\\_phiremock\/expectation\/?$/' ],
+                    ],
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_MATCHER => [
-                    'matchesPattern' => '/\\_\\_phiremock\/expectation\/?$/'
-                ]
             ],
-            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+            'actions' => [
+                'if-matches' => [
                     ['goTo' => 'expectationMethodIsPost']
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => [
+                'else' => [
                     ['goTo' => 'default']
                 ]
             ]
         ],
         'expectationMethodIsPost' => [
-            PowerRoute::CONFIG_NODE_CONDITION => [
-                PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [
-                    'method' => null
+            'condition' => [
+                'all-of' => [
+                    [
+                        'input-source' => [ 'method' => null ],
+                        'matcher' => [ 'isEqualTo' => 'POST' ],
+                    ],
+                    [
+                        'input-source' => [ 'header' => 'Content-Type' ],
+                        'matcher' => [ 'matchesPattern' => '/application\/json/' ]
+                    ],
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_MATCHER => [
-                    'isEqualTo' => 'POST'
-                ]
             ],
-            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+            'actions' => [
+                'if-matches' => [
                     ['addExpectation' => [
                             'stubs' => $stubs,
                             'requestBuilder' => $requestBuilder
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => [
-                    ['goTo' => 'expectationMethodIsGet']
-                ]
+                'else' => [
+                    ['goTo' => 'expectationMethodIsGet'],
+                ],
             ]
         ],
         'expectationMethodIsGet' => [
-            PowerRoute::CONFIG_NODE_CONDITION => [
-                PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [
-                    'method' => null
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => [ 'method' => null ],
+                        'matcher' => [ 'isEqualTo' => 'GET' ],
+                    ],
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_MATCHER => [
-                    'isEqualTo' => 'GET'
-                ]
             ],
-            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+            'actions' => [
+                'if-matches' => [
                     ['listExpectations' => ['stubs' => $stubs]]
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => [
+                'else' => [
                     ['goTo' => 'apiError']
                 ]
             ]
         ],
 
         'apiError' => [
-            PowerRoute::CONFIG_NODE_CONDITION => [],
-            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+            'condition' => [],
+            'actions' => [
+                'if-matches' => [
                     ['serverError' => 'Invalid api request']
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => []
+                'else' => []
             ]
         ],
 
 
         'default' => [
-            PowerRoute::CONFIG_NODE_CONDITION => [],
-            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
+            'condition' => [],
+            'actions' => [
+                'if-matches' => [
                     ['parseExpectations' => null]
                 ],
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => []
-            ]
-        ],
-
-        'jsonContent' => [
-            PowerRoute::CONFIG_NODE_CONDITION => [
-                PowerRoute::CONFIG_NODE_CONDITION_SOURCE => [
-                    'header' => 'Content-Type'
-                ],
-                PowerRoute::CONFIG_NODE_CONDITION_MATCHER => [
-                    'matchesPattern' => '/application\/json/'
-                ]
+                'else' => [],
             ],
-            PowerRoute::CONFIG_NODE_CONDITION_ACTIONS => [
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_MATCH => [
-                    [
-                        'addExpectation' => [
-                            'stubs' => $stubs,
-                            'requestBuilder' => $requestBuilder
-                        ]
-                    ]
-                ],
-                PowerRoute::CONFIG_NODE_CONDITION_ACTIONS_NOTMATCH => [
-                    ['goTo' => 'default']
-                ]
-            ]
-        ]
+        ],
     ]
 ];
