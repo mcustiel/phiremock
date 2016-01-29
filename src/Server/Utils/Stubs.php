@@ -2,10 +2,12 @@
 namespace Mcustiel\Phiremock\Server\Utils;
 
 use Mcustiel\Phiremock\Server\Domain\Expectation;
+use Mcustiel\Phiremock\Server\Model\ExpectatationStorage;
 
-class Stubs
+class Stubs implements ExpectatationStorage
 {
     /**
+     *
      * @var \Mcustiel\Phiremock\Server\Domain\Expectation[]
      */
     private $config;
@@ -16,18 +18,35 @@ class Stubs
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Server\Domain\Expectation $expectation
+     *
+     * {@inheritDoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::addExpectation()
      */
-    public function addStub(Expectation $expectation)
+    public function addExpectation(Expectation $expectation)
     {
         $this->config[] = $expectation;
     }
 
     /**
-     * @return \Mcustiel\Phiremock\Server\Domain\Expectation[]
+     *
+     * {@inheritDoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::listExpectations()
      */
-    public function getExpectations()
+    public function listExpectations()
     {
         return $this->config;
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::clearExpectations()
+     */
+    public function clearExpectations()
+    {
+        $this->config = [];
     }
 }

@@ -5,7 +5,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Mcustiel\Phiremock\Server\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Domain\Condition;
-use Mcustiel\PowerRoute\Common\MatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 
 class RequestParser
 {

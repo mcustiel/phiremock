@@ -2,9 +2,6 @@
 use Mcustiel\Phiremock\Server\Utils\Stubs;
 use Mcustiel\SimpleRequest\RequestBuilder;
 
-$stubs = Stubs();
-$requestBuilder = new RequestBuilder();
-
 return [
     'start' => 'methodIsPost',
     'nodes' => [
@@ -12,8 +9,12 @@ return [
             'condition' => [
                 'one-of' => [
                     [
-                        'input-source' => [ 'url' => 'path' ],
-                        'matcher' => [ 'matchesPattern' => '/\\_\\_phiremock\/expectation\/?$/' ],
+                        'input-source' => [
+                            'url' => 'path'
+                        ],
+                        'matcher' => [
+                            'matchesPattern' => '/\\_\\_phiremock\/expectation\/?$/'
+                        ],
                     ],
                 ],
             ],
@@ -34,17 +35,19 @@ return [
                         'matcher' => [ 'isEqualTo' => 'POST' ],
                     ],
                     [
-                        'input-source' => [ 'header' => 'Content-Type' ],
-                        'matcher' => [ 'matchesPattern' => '/application\/json/' ]
+                        'input-source' => [
+                            'header' => 'Content-Type'
+                        ],
+                        'matcher' => [
+                            'isEqualTo' => '/application\/json/'
+                        ]
                     ],
                 ],
             ],
             'actions' => [
                 'if-matches' => [
-                    ['addExpectation' => [
-                            'stubs' => $stubs,
-                            'requestBuilder' => $requestBuilder
-                        ],
+                    [
+                        'addExpectation' => null,
                     ],
                 ],
                 'else' => [
@@ -63,7 +66,7 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    ['listExpectations' => ['stubs' => $stubs]]
+                    ['listExpectations' => null]
                 ],
                 'else' => [
                     ['goTo' => 'apiError']

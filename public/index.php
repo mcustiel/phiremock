@@ -8,9 +8,9 @@ use React\Http\Request;
 use React\Http\Response;
 use React\Stream\BufferedSink;
 use Mcustiel\PowerRoute\PowerRoute;
-use Mcustiel\PowerRoute\Common\ActionFactory;
-use Mcustiel\PowerRoute\Common\MatcherFactory;
-use Mcustiel\PowerRoute\Common\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\PowerRoute\InputSources\Method;
 use Mcustiel\PowerRoute\InputSources\Url;
 use Mcustiel\PowerRoute\InputSources\Header;
@@ -18,7 +18,11 @@ use Mcustiel\PowerRoute\Matchers\Equals;
 use Mcustiel\PowerRoute\Matchers\RegExp;
 use Mcustiel\Phiremock\Server\Actions\AddExpectationAction;
 use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Response\SapiStreamEmitter;
+use Mcustiel\PowerRoute\Actions\ServerError;
+
+
+$stubs = Stubs();
+$requestBuilder = new RequestBuilder();
 
 function getUriFromRequest(Request $request)
 {
@@ -28,7 +32,10 @@ function getUriFromRequest(Request $request)
 
 function getActionFactory()
 {
-    return new ActionFactory(['addExpectation' => AddExpectationAction::class]);
+    return new ActionFactory([
+        'addExpectation' => new AddExpectationAction($requestBuilder, $stubs),
+        'serverError' => ServerError::class,
+    ]);
 }
 
 function getInputSourceFactory()
@@ -36,7 +43,7 @@ function getInputSourceFactory()
     return new InputSourceFactory([
         'method' => Method::class,
         'url' => Url::class,
-        'header' => Header::class
+        'header' => Header::class,
     ]);
 }
 
@@ -44,7 +51,7 @@ function getMatcherFactory()
 {
     return new MatcherFactory([
         'isEqualTo' => Equals::class,
-        'matchesPattern' => RegExp::class
+        'matchesPattern' => RegExp::class,
     ]);
 }
 
