@@ -3,7 +3,7 @@ namespace Mcustiel\Phiremock\Server\Model;
 
 use Mcustiel\Phiremock\Server\Domain\Expectation;
 
-interface ExpectatationStorage
+interface ExpectationStorage
 {
     public function addExpectation(Expectation $expectation);
 

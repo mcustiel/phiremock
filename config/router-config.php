@@ -1,9 +1,7 @@
 <?php
-use Mcustiel\Phiremock\Server\Utils\Stubs;
-use Mcustiel\SimpleRequest\RequestBuilder;
 
 return [
-    'start' => 'methodIsPost',
+    'start' => 'expectationUrl',
     'nodes' => [
         'expectationUrl' => [
             'condition' => [
@@ -20,12 +18,12 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    ['goTo' => 'expectationMethodIsPost']
+                    ['goto' => 'expectationMethodIsPost'],
                 ],
                 'else' => [
-                    ['goTo' => 'default']
-                ]
-            ]
+                    ['goto' => 'default'],
+                ],
+            ],
         ],
         'expectationMethodIsPost' => [
             'condition' => [
@@ -35,25 +33,19 @@ return [
                         'matcher' => [ 'isEqualTo' => 'POST' ],
                     ],
                     [
-                        'input-source' => [
-                            'header' => 'Content-Type'
-                        ],
-                        'matcher' => [
-                            'isEqualTo' => '/application\/json/'
-                        ]
+                        'input-source' => ['header' => 'Content-Type'],
+                        'matcher' => ['isEqualTo' => 'application/json'],
                     ],
                 ],
             ],
             'actions' => [
                 'if-matches' => [
-                    [
-                        'addExpectation' => null,
-                    ],
+                    ['addExpectation' => null],
                 ],
                 'else' => [
-                    ['goTo' => 'expectationMethodIsGet'],
+                    ['goto' => 'expectationMethodIsGet'],
                 ],
-            ]
+            ],
         ],
         'expectationMethodIsGet' => [
             'condition' => [
@@ -66,22 +58,22 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    ['listExpectations' => null]
+                    ['listExpectations' => null],
                 ],
                 'else' => [
-                    ['goTo' => 'apiError']
-                ]
-            ]
+                    ['goto' => 'apiError'],
+                ],
+            ],
         ],
 
         'apiError' => [
             'condition' => [],
             'actions' => [
                 'if-matches' => [
-                    ['serverError' => 'Invalid api request']
+                    ['serverError' => null],
                 ],
-                'else' => []
-            ]
+                'else' => [],
+            ],
         ],
 
 
@@ -89,10 +81,10 @@ return [
             'condition' => [],
             'actions' => [
                 'if-matches' => [
-                    ['parseExpectations' => null]
+                    ['parseExpectations' => null],
                 ],
                 'else' => [],
             ],
         ],
-    ]
+    ],
 ];

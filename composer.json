@@ -15,9 +15,9 @@
 	"description" : "A http server mocker",
 	"license" : "GPL-3.0+",
 	"require" : {
-		"php" : ">=5.4",
-		"react/http" : ">=0.4.1",
-		"mcustiel/php-simple-request" : "dev-master",
+		"php" : ">=5.6",
+		"react/http" : "dev-master",
+		"mcustiel/php-simple-request" : "dev-develop",
 		"mcustiel/power-route" : "dev-develop",
 		"mcustiel/php-simple-conversion" : "dev-master"
 	}

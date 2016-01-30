@@ -18,13 +18,13 @@ class Request
     /**
      * @var Condition
      *
-     * @ParseAs("\\Mcustiel\\Phiremock\\Server\\Domain\\Condition")
+     * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Condition")
      */
     private $url;
     /**
      * @var Condition
      *
-     * @ParseAs("\\Mcustiel\\Phiremock\\Server\\Domain\\Condition")
+     * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Condition")
      */
     private $body;
     /**
@@ -93,10 +93,10 @@ class Request
         return $this;
     }
 
-    private function parseHeadersConditions(\stdClass $headers)
+    private function parseHeadersConditions(array $headers)
     {
         if ($headers) {
-            return $this->createConditionsArray(array($headers));
+            return $this->createConditionsArray($headers);
         }
         //throw new HeaderParsingException();
     }

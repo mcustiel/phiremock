@@ -1,20 +1,20 @@
 <?php
 namespace Mcustiel\Phiremock\Server;
 
-use Mcustiel\Phiremock\Server\Model\ExpectatationStorage;
-use Mcustiel\Phiremock\Server\Http\RequestHandler;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Mcustiel\PowerRoute\PowerRoute;
+use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
+use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 
-class PhiremockServer implements RequestHandler
+class Phiremock implements RequestHandlerInterface
 {
     private $storage;
 
     private $router;
 
     public function __construct(
-        ExpectatationStorage $storage,
+        ExpectationStorage $storage,
         PowerRoute $router
     ) {
         $this->storage = $storage;

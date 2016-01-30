@@ -1,10 +1,10 @@
 <?php
-namespace Mcustiel\Phiremock\Server\Utils;
+namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
 use Mcustiel\Phiremock\Server\Domain\Expectation;
-use Mcustiel\Phiremock\Server\Model\ExpectatationStorage;
+use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 
-class Stubs implements ExpectatationStorage
+class AutoStorage implements ExpectationStorage
 {
     /**
      *

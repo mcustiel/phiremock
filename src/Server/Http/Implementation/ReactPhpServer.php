@@ -11,11 +11,11 @@ use React\Stream\BufferedSink;
 use React\Http\Request as ReactRequest;
 use React\Http\Response as ReactResponse;
 use Zend\Diactoros\Response as PsrResponse;
+use React\Http\Request;
 
 class ReactPhpServer implements ServerInterface
 {
     private $requestHandler;
-
     private $loop;
     private $socket;
     private $http;
@@ -38,41 +38,52 @@ class ReactPhpServer implements ServerInterface
         $this->requestHandler = $handler;
     }
 
-    public function listen($port = 1337)
+    public function listen($port = 8080)
     {
-        $this->http->on('request', [$this, onRequest]);
-        echo "Server running at http://127.0.0.1:1337\n";
+        $this->http->on('request',
+            function (ReactRequest $request, ReactResponse $response) {
+                return $this->onRequest($request, $response);
+            });
+        echo "Server running at http://127.0.0.1:$port\n";
 
         $this->socket->listen($port);
         $this->loop->run();
     }
 
+    private function getUriFromRequest(Request $request)
+    {
+        $query = $request->getQuery();
+        return 'http://localhost/' . $request->getPath() . (empty($query) ? '' : "?{$query}");
+    }
+
+    private function convertFromReactToPsrRequest(Request $request, $body)
+    {
+        return new ServerRequest(
+            [
+                'REMOTE_ADDR' => $request->getRemoteAddress(),
+                'HTTP_VERSION' => $request->getHttpVersion()
+            ],
+            [],
+            $this->getUriFromRequest($request),
+            $request->getMethod(),
+            $body,
+            $request->getHeaders(),
+            [],
+            $request->getQuery()
+        );
+    }
+
     private function onRequest(ReactRequest $request, ReactResponse $response)
     {
-        BufferedSink::createPromise($request) ->then(
-            function ($body) use ($response, $request) {
-                $psrRequest = new ServerRequest(
-                    array(),
-                    array(),
-                    getUriFromRequest($request),
-
-                    $request->getQuery(),
-                    $body,
-                    array(),
-                    array()
-                );
-                //$psrResponse = $powerRoute->start($psrRequest, new \Zend\Diactoros\Response());
-                $psrResponse = $this->requestHandler->execute($psrRequest, new PsrResponse());
-
-                $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
-                $response->end($psrResponse->getBody()->__toString());
-            },
-            function ($reason) {
-                throw new \RuntimeException($reason);
-            },
-            function ($update) {
-                throw new \RuntimeException($update);
-            }
+        $psrRequest = $this->convertFromReactToPsrRequest(
+            $request,
+            'data://text/plain,' . $request->getBody()
         );
+        $psrResponse = $this->requestHandler->execute(
+            $psrRequest,
+            new PsrResponse()
+        );
+        $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
+        $response->end($psrResponse->getBody()->__toString());
     }
 }

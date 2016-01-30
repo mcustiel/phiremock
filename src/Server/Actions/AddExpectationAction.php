@@ -5,8 +5,9 @@ use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Server\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
+use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\PowerRoute\Common\ArgumentAware;
-use Mcustiel\Phiremock\Server\Model\ExpectatationStorage;
+use Zend\Diactoros\Stream;
 
 class AddExpectationAction implements ActionInterface
 {
@@ -21,7 +22,7 @@ class AddExpectationAction implements ActionInterface
      */
     private $storage;
 
-    public function __construct(RequestBuilder $requestBuilder, ExpectatationStorage $storage)
+    public function __construct(RequestBuilder $requestBuilder, ExpectationStorage $storage)
     {
         $this->requestBuilder = $requestBuilder;
         $this->storage = $storage;
@@ -42,8 +43,10 @@ class AddExpectationAction implements ActionInterface
 
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
             $listOfErrors = $e->getErrors();
+            var_export($e->__toString());
         } catch (\Exception $e) {
             $listOfErrors = [$e->getMessage()];
+            var_export($e->__toString());
         }
 
         $transactionData->setResponse(
@@ -60,12 +63,12 @@ class AddExpectationAction implements ActionInterface
             $statusCode = 500;
             $body = '{"result" : "ERROR", "details" : ' . json_encode($listOfErrors) . '}';
         }
-        return $response->withStatus($statusCode)->withBody("data://text/plain,{$body}");
+        return $response->withStatus($statusCode)->withBody(new Stream("data://text/plain,{$body}"));
     }
 
     private function parseJsonBody($request)
     {
-        $bodyJson = @json_decode($request->getBody()->__toString());
+        $bodyJson = @json_decode($request->getBody()->__toString(), true);
         if (json_last_error() != JSON_ERROR_NONE) {
             throw new \Exception(json_last_error_msg());
         }
