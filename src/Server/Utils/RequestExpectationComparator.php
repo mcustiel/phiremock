@@ -32,22 +32,35 @@ class RequestExpectationComparator
     public function equals(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         echo "Checking if request matches an expectation\n";
-        if (!$this->requestMethodMatchesExpectation($httpRequest, $expectedRequest)) {
-            echo "Method does not match\n";
-            return false;
+        $atLeastOneExecution = false;
+        if ($expectedRequest->getMethod()) {
+            if (!$this->requestMethodMatchesExpectation($httpRequest, $expectedRequest)) {
+                echo "Method does not match\n";
+                return false;
+            }
+            $atLeastOneExecution = true;
+            echo "Method match\n";
         }
-        echo "Method match\n";
-        if (!$this->requestUrlMatchesExpectation($httpRequest, $expectedRequest)) {
-            echo "Url does not match\n";
-            return false;
+        if ($expectedRequest->getUrl()) {
+            if (!$this->requestUrlMatchesExpectation($httpRequest, $expectedRequest)) {
+                echo "Url does not match\n";
+                return false;
+            }
+            $atLeastOneExecution = true;
+            echo "Url match\n";
         }
-        echo "Url match\n";
-        if (!$this->requestBodyMatchesExpectation($httpRequest, $expectedRequest)) {
-            echo "Body does not match\n";
-            return false;
+        if ($expectedRequest->getBody()) {
+            if (!$this->requestBodyMatchesExpectation($httpRequest, $expectedRequest)) {
+                echo "Body does not match\n";
+                return false;
+            }
+            $atLeastOneExecution = true;
+            echo "Body match\n";
         }
-        echo "Body match\n";
-        return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
+        if ($expectedRequest->getHeaders()) {
+            return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
+        }
+        return $atLeastOneExecution;
     }
 
     private function requestMethodMatchesExpectation($httpRequest, $expectedRequest)
@@ -56,7 +69,7 @@ class RequestExpectationComparator
             'method' => null
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
-            'isEqualTo' => $expectedRequest->getMethod()
+            'isSameString' => $expectedRequest->getMethod()
         ]);
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
@@ -64,7 +77,7 @@ class RequestExpectationComparator
     private function requestUrlMatchesExpectation($httpRequest, $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
-            'url' => null
+            'url' => 'path'
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
             $expectedRequest->getUrl()->getMatcher() => $expectedRequest->getUrl()->getValue()
@@ -103,6 +116,7 @@ class RequestExpectationComparator
 
     private function evaluate($inputSource, $matcher, $httpRequest)
     {
+        echo 'Input source returns: ' . $inputSource->getValue($httpRequest) . PHP_EOL;
         return $matcher->match($inputSource->getValue($httpRequest));
     }
 }

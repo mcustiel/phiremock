@@ -81,7 +81,8 @@ return [
             'condition' => [],
             'actions' => [
                 'if-matches' => [
-                    ['parseExpectations' => null],
+                    ['checkExpectations' => null],
+                    ['verifyExpectations' => null],
                 ],
                 'else' => [],
             ],

@@ -9,6 +9,9 @@ class ConvertToCondition implements FilterInterface
 {
     public function filter($value)
     {
+        if ($value === null) {
+            return;
+        }
         $this->checkValueIsValidOrThrowException($value);
 
         $matcher = key($value);
@@ -28,15 +31,15 @@ class ConvertToCondition implements FilterInterface
 
     private function isValidCondition($matcherName)
     {
-        return $matcherName == 'equalTo' || $matcherName == 'matches';
+        return $matcherName == 'isEqualTo' || $matcherName == 'matches';
     }
 
     private function checkValueIsValidOrThrowException($value)
     {
         if (!is_array($value) || count($value) != 1) {
             throw new FilterErrorException(
-                'Condition parsing failed it should be something like: "equalTo" : "a value"'
-                );
+                'Condition parsing failed it should be something like: "isEqualTo" : "a value"'
+            );
         }
     }
 }

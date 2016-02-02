@@ -18,11 +18,13 @@ class HeadersConditionsFilter implements FilterInterface
 
     public function filter($value)
     {
+        if ($value === null) {
+            return;
+        }
         $this->checkValueIsArrayOrThrowException($value);
 
         $return = [];
-        foreach ($value as $header => $condition)
-        {
+        foreach ($value as $header => $condition) {
             $return[$header] = $this->conditionFilter->filter($condition);
         }
         return $return;

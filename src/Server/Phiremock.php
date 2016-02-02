@@ -18,8 +18,10 @@ use Mcustiel\PowerRoute\InputSources\Url;
 use Mcustiel\PowerRoute\InputSources\Header;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Matchers\Equals;
+use Mcustiel\PowerRoute\Matchers\CaseInsensitiveEquals;
 use Mcustiel\PowerRoute\Matchers\RegExp;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+use Mcustiel\Phiremock\Server\Actions\VerifyRequestFound;
 
 class Phiremock implements RequestHandlerInterface
 {
@@ -65,7 +67,8 @@ class Phiremock implements RequestHandlerInterface
                 'addExpectation' => $this->getAddExpectationAction(),
                 //'listExpectations' => new ListExpectationAction($storage),
                 'serverError' => [ServerError::class],
-                'parseExpectations' => $this->getSearchExpectationAction()
+                'checkExpectations' => $this->getSearchExpectationAction(),
+                'verifyExpectations' => new VerifyRequestFound(),
             ]);
         }
         return $this->actionFactory;
@@ -112,6 +115,7 @@ class Phiremock implements RequestHandlerInterface
             $this->matcherFactory = new MatcherFactory([
                 'isEqualTo' => [Equals::class],
                 'matchesPattern' => [RegExp::class],
+                'isSameString' => [CaseInsensitiveEquals::class],
             ]);
         }
         return $this->matcherFactory;

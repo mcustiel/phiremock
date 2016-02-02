@@ -63,7 +63,7 @@ class Request
      * @param \Mcustiel\Phiremock\Server\Domain\Condition $url
      * @return \Mcustiel\Phiremock\Server\Domain\Request
      */
-    public function setUrl(Condition $url)
+    public function setUrl($url)
     {
         $this->url = $url;
         return $this;
@@ -81,7 +81,7 @@ class Request
      * @param \Mcustiel\Phiremock\Server\Domain\Condition $body
      * @return \Mcustiel\Phiremock\Server\Domain\Request
      */
-    public function setBody(Condition $body)
+    public function setBody($body)
     {
         $this->body = $body;
         return $this;
@@ -99,30 +99,9 @@ class Request
      * @param \Mcustiel\Phiremock\Server\Domain\Condition[]  $headers
      * @return \Mcustiel\Phiremock\Server\Domain\Request
      */
-    public function setHeaders(array $headers)
+    public function setHeaders($headers)
     {
         $this->headers = $headers;
         return $this;
-    }
-
-    private function createConditionsArray(array $headers)
-    {
-        $return = [];
-        foreach($headers as $key => $conditionArray) {
-            if (preg_match('/[a-z][a-z1-2\-]+/i', $key) && $conditionArray instanceof \stdClass) {
-                $return[$key] = $this->getConditionOrFail($conditionArray);
-            }
-        }
-        return $return;
-    }
-
-    private function getConditionOrFail($conditionArray)
-    {
-        $matcher = key((array)$conditionArray);
-        $value = current((array)$conditionArray);
-        if (empty($matcher) && empty($value)) {
-            //throw new HeaderParsingException();
-        }
-        return new Condition($matcher, $value);
     }
  }
