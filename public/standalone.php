@@ -11,9 +11,9 @@ if (PHP_SAPI != 'cli') {
     throw new \Exception('This is a standalone CLI application');
 }
 
-require 'functions.php';
+// require 'functions.php';
 
-$stubs = new AutoStorage();
+/*$stubs = new AutoStorage();
 $cacheConfig = new \stdClass();
 $cacheConfig->path = __DIR__ . '/../cache/requests/';
 $cacheConfig->disabled = true;
@@ -24,8 +24,8 @@ $powerRoute = new PowerRoute(
     getActionFactory($requestBuilder, $stubs),
     getConditionsMatchersFactory()
 );
-
-$application = new Phiremock($stubs, $powerRoute);
+*/
+$application = new Phiremock(require __DIR__ . '/../config/router-config.php'/*$stubs, $powerRoute*/);
 
 $server = new ReactPhpServer();
 $server->setRequestHandler($application);

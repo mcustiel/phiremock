@@ -11,6 +11,7 @@ use Mcustiel\PowerRoute\Matchers\RegExp;
 use Mcustiel\Phiremock\Server\Actions\AddExpectationAction;
 use Mcustiel\PowerRoute\Actions\ServerError;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+use Mcustiel\Phiremock\Server\Actions\SearchRequestAction;
 
 function getActionFactory($requestBuilder, $storage)
 {
@@ -18,7 +19,7 @@ function getActionFactory($requestBuilder, $storage)
         'addExpectation' => new AddExpectationAction($requestBuilder, $storage),
         //'listExpectations' => new ListExpectationAction($storage),
         'serverError' => [ServerError::class],
-        //'parseExpectations' => new RequestEvaluator($storage)
+        'parseExpectations' => new SearchRequestAction($storage, new RequestExpectationComparator())
     ]);
 }
 
