@@ -38,15 +38,15 @@ class ReactPhpServer implements ServerInterface
         $this->requestHandler = $handler;
     }
 
-    public function listen($port = 8080)
+    public function listen($port = 8080, $host = '0.0.0.0')
     {
         $this->http->on('request',
             function (ReactRequest $request, ReactResponse $response) {
                 return $this->onRequest($request, $response);
             });
-        echo "Server running at http://127.0.0.1:$port\n";
+        echo "Server running at http://$host:$port\n";
 
-        $this->socket->listen($port);
+        $this->socket->listen($port, $host);
         $this->loop->run();
     }
 
@@ -75,6 +75,7 @@ class ReactPhpServer implements ServerInterface
 
     private function onRequest(ReactRequest $request, ReactResponse $response)
     {
+        var_export($request->getBody());
         $psrRequest = $this->convertFromReactToPsrRequest(
             $request,
             'data://text/plain,' . $request->getBody()

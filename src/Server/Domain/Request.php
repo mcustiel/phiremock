@@ -3,7 +3,6 @@ namespace Mcustiel\Phiremock\Server\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
-use Mcustiel\SimpleRequest\Annotation\ParseAs;
 
 class Request
 {
@@ -18,19 +17,19 @@ class Request
     /**
      * @var Condition
      *
-     * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Condition")
+     * @SRF\CustomFilter(class="\Mcustiel\Phiremock\Server\Http\RequestFilters\ConvertToCondition")
      */
     private $url;
     /**
      * @var Condition
      *
-     * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Condition")
+     * @SRF\CustomFilter(class="\Mcustiel\Phiremock\Server\Http\RequestFilters\ConvertToCondition")
      */
     private $body;
     /**
      * @var Condition[]
      *
-     * @SRV\Type("array")
+     * @SRF\CustomFilter(class="\Mcustiel\Phiremock\Server\Http\RequestFilters\HeadersConditionsFilter")
      */
     private $headers;
 
@@ -42,6 +41,10 @@ class Request
         return $this->method;
     }
 
+    /**
+     * @param string $method
+     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     */
     public function setMethod($method)
     {
         $this->method = $method;
@@ -56,7 +59,11 @@ class Request
         return $this->url;
     }
 
-    public function setUrl($url)
+    /**
+     * @param \Mcustiel\Phiremock\Server\Domain\Condition $url
+     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     */
+    public function setUrl(Condition $url)
     {
         $this->url = $url;
         return $this;
@@ -70,7 +77,11 @@ class Request
         return $this->body;
     }
 
-    public function setBody($body)
+    /**
+     * @param \Mcustiel\Phiremock\Server\Domain\Condition $body
+     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     */
+    public function setBody(Condition $body)
     {
         $this->body = $body;
         return $this;
@@ -84,21 +95,14 @@ class Request
         return $this->headers;
     }
 
-    public function setHeaders($headers)
+    /**
+     * @param \Mcustiel\Phiremock\Server\Domain\Condition[]  $headers
+     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     */
+    public function setHeaders(array $headers)
     {
-        if (!($headers instanceof \stdClass)) {
-            //throw new HeaderParsingException();
-        }
-        $this->headers = $this->parseHeadersConditions($headers);
+        $this->headers = $headers;
         return $this;
-    }
-
-    private function parseHeadersConditions(array $headers)
-    {
-        if ($headers) {
-            return $this->createConditionsArray($headers);
-        }
-        //throw new HeaderParsingException();
     }
 
     private function createConditionsArray(array $headers)

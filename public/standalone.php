@@ -8,7 +8,7 @@ use Mcustiel\Phiremock\Server\Model\Implementation\AutoStorage;
 use Mcustiel\PowerRoute\PowerRoute;
 
 if (PHP_SAPI != 'cli') {
-    throw \Exception('This is a standalone CLI application');
+    throw new \Exception('This is a standalone CLI application');
 }
 
 require 'functions.php';
@@ -16,6 +16,7 @@ require 'functions.php';
 $stubs = new AutoStorage();
 $cacheConfig = new \stdClass();
 $cacheConfig->path = __DIR__ . '/../cache/requests/';
+$cacheConfig->disabled = true;
 $requestBuilder = new RequestBuilder($cacheConfig);
 
 $powerRoute = new PowerRoute(
@@ -28,4 +29,4 @@ $application = new Phiremock($stubs, $powerRoute);
 
 $server = new ReactPhpServer();
 $server->setRequestHandler($application);
-$server->listen(8086);
+$server->listen(8086, '0.0.0.0');

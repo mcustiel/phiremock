@@ -18,7 +18,7 @@ class AddExpectationAction implements ActionInterface
      */
     private $requestBuilder;
     /**
-     * @var \Mcustiel\Phiremock\Server\Model\ExpectatationStorage
+     * @var \Mcustiel\Phiremock\Server\Model\ExpectationStorage
      */
     private $storage;
 
@@ -33,6 +33,7 @@ class AddExpectationAction implements ActionInterface
         $listOfErrors = [];
         try {
             $bodyJson = $this->parseJsonBody($transactionData->getRequest());
+            var_export($bodyJson);
             $expectation = $this->requestBuilder->parseRequest(
                 $bodyJson,
                 Expectation::class,
@@ -40,7 +41,6 @@ class AddExpectationAction implements ActionInterface
             );
             var_export($expectation);
             $this->storage->addExpectation($expectation);
-
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
             $listOfErrors = $e->getErrors();
             var_export($e->__toString());
