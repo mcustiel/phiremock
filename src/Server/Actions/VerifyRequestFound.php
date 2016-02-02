@@ -36,6 +36,9 @@ class VerifyRequestFound implements ActionInterface
                 $response = $response->withHeader($name, $value);
             };
         }
+        if ($foundResponse->getDelayMillis()) {
+            usleep($foundResponse->getDelayMillis() * 1000);
+        }
         $transactionData->setResponse($response);
     }
 }
