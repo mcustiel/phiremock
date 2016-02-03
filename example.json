@@ -1,26 +1,20 @@
 {
+    "scenarioName": "potato",
+    "scenarioStateIs": "Scenario.START",
+    "newScenarioState": "tomato",
     "request": {
             "method": "GET",
             "url": {
-                "equalTo" : "/some/thing",
-                // or
-                "matches" : "some regex"
-            },
-            "body" : {
-                "equalTo" : "some content",
-                // or
-                "matches" : "some regex",
+                "isEqualTo" : "/some/thing"
             },
             "headers" : {
-                "name" : { 
-                    "equalTo" : "some content",
-                    // or
-                    "matches" : "some regex",
+                "Content-Type" : { 
+                    "isEqualTo" : "text/plain"
                 }
             }
     },
     "response": {
-            "status": 200,
+            "statusCode": 200,
             "body": "Hello world!",
             "headers": {
                     "Content-Type": "text/plain"
