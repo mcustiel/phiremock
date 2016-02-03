@@ -3,14 +3,11 @@ namespace Mcustiel\Phiremock\Server\Actions;
 
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 
 class SearchRequestAction implements ActionInterface
 {
-    use ArgumentAware;
-
     /**
      * @var \Mcustiel\Phiremock\Server\Model\ExpectationStorage
      */
@@ -47,5 +44,9 @@ class SearchRequestAction implements ActionInterface
             }
         }
         $transactionData->set('foundResponse', false);
+    }
+
+    public function setArgument($argument)
+    {
     }
 }

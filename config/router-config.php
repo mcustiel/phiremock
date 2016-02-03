@@ -3,13 +3,13 @@
 return [
     'start' => 'expectationUrl',
     'nodes' => [
+
+// -------------------------------- API: expectations ---------------------------
         'expectationUrl' => [
             'condition' => [
                 'one-of' => [
                     [
-                        'input-source' => [
-                            'url' => 'path'
-                        ],
+                        'input-source' => ['url' => 'path'],
                         'matcher' => [
                             'matchesPattern' => '/\\_\\_phiremock\/expectation\/?$/'
                         ],
@@ -29,8 +29,8 @@ return [
             'condition' => [
                 'all-of' => [
                     [
-                        'input-source' => [ 'method' => null ],
-                        'matcher' => [ 'isEqualTo' => 'POST' ],
+                        'input-source' => ['method' => null],
+                        'matcher' => ['isEqualTo' => 'POST'],
                     ],
                     [
                         'input-source' => ['header' => 'Content-Type'],
@@ -51,8 +51,8 @@ return [
             'condition' => [
                 'one-of' => [
                     [
-                        'input-source' => [ 'method' => null ],
-                        'matcher' => [ 'isEqualTo' => 'GET' ],
+                        'input-source' => ['method' => null],
+                        'matcher' => ['isEqualTo' => 'GET'],
                     ],
                 ],
             ],
@@ -61,11 +61,70 @@ return [
                     ['listExpectations' => null],
                 ],
                 'else' => [
+                    ['goto' => 'expectationMethodIsDelete'],
+                ],
+            ],
+        ],
+        'expectationMethodIsDelete' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher' => ['isEqualTo' => 'DELETE'],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['clearExpectations' => null],
+                ],
+                'else' => [
                     ['goto' => 'apiError'],
                 ],
             ],
         ],
 
+// -------------------------------- API: scenarios ---------------------------
+        'scenariosUrl' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['url' => 'path'],
+                        'matcher' => [
+                            'matchesPattern' => '/\\_\\_phiremock\/scenarios\/?$/'
+                        ],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['scenariosMethodIsDelete' => null],
+                ],
+                'else' => [
+                    ['goto' => 'default'],
+                ],
+            ],
+        ],
+        'scenariosMethodIsDelete' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher' => ['isEqualTo' => 'DELETE'],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['clearScenarios' => null],
+                ],
+                'else' => [
+                    ['goto' => 'apiError'],
+                ],
+            ],
+        ],
+
+// -------------------------------- API: error happened ---------------------------
         'apiError' => [
             'condition' => [],
             'actions' => [
@@ -76,7 +135,7 @@ return [
             ],
         ],
 
-
+// ---------------------------- Verify configured expectations -----------------------
         'default' => [
             'condition' => [],
             'actions' => [

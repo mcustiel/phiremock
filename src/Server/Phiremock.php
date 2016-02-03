@@ -22,6 +22,9 @@ use Mcustiel\PowerRoute\Matchers\RegExp;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
 use Mcustiel\Phiremock\Server\Actions\VerifyRequestFound;
 use Mcustiel\PowerRoute\InputSources\Body;
+use Mcustiel\Phiremock\Server\Actions\ListExpectationsAction;
+use Mcustiel\Phiremock\Server\Actions\ClearExpectationsAction;
+use Mcustiel\Phiremock\Server\Actions\ClearScenariosAction;
 
 class Phiremock implements RequestHandlerInterface
 {
@@ -66,8 +69,10 @@ class Phiremock implements RequestHandlerInterface
         if ($this->actionFactory === null) {
             $this->actionFactory = new ActionFactory([
                 'addExpectation' => $this->getAddExpectationAction(),
-                //'listExpectations' => new ListExpectationAction($storage),
+                'listExpectations' => new ListExpectationsAction($this->storage),
+                'clearExpectations' => new ClearExpectationsAction($this->storage),
                 'serverError' => [ServerError::class],
+                'clearScenarios' => new ClearScenariosAction($this->storage),
                 'checkExpectations' => $this->getSearchExpectationAction(),
                 'verifyExpectations' => new VerifyRequestFound($this->storage),
             ]);
@@ -105,7 +110,7 @@ class Phiremock implements RequestHandlerInterface
         );
     }
 
-    function getInputSourceFactory()
+    private function getInputSourceFactory()
     {
         if ($this->inputSourceFactory === null) {
             $this->inputSourceFactory = new InputSourceFactory([
@@ -118,7 +123,7 @@ class Phiremock implements RequestHandlerInterface
         return $this->inputSourceFactory;
     }
 
-    function getMatcherFactory()
+    private function getMatcherFactory()
     {
         if ($this->matcherFactory === null) {
             $this->matcherFactory = new MatcherFactory([
@@ -130,7 +135,7 @@ class Phiremock implements RequestHandlerInterface
         return $this->matcherFactory;
     }
 
-    function getConditionsMatchersFactory()
+    private function getConditionsMatchersFactory()
     {
         return new ConditionsMatcherFactory(
             $this->getInputSourceFactory(),

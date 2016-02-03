@@ -4,14 +4,11 @@ namespace Mcustiel\Phiremock\Server\Actions;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\PowerRoute\Actions\NotFound;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 use Zend\Diactoros\Stream;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 
 class VerifyRequestFound implements ActionInterface
 {
-    use ArgumentAware;
-
     /**
      *
      * @var \Mcustiel\Phiremock\Server\Model\ScenarioStorage
@@ -38,6 +35,10 @@ class VerifyRequestFound implements ActionInterface
         $this->processScenario($foundExpectation);
         $foundResponse = $foundExpectation->getResponse();
         $transactionData->setResponse($this->generateResponse($transactionData, $foundResponse));
+    }
+
+    public function setArgument($argument)
+    {
     }
 
     /**

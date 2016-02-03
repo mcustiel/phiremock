@@ -11,8 +11,6 @@ use Zend\Diactoros\Stream;
 
 class AddExpectationAction implements ActionInterface
 {
-    use ArgumentAware;
-
     /**
      * @var \Mcustiel\SimpleRequest\RequestBuilder
      */
@@ -52,6 +50,14 @@ class AddExpectationAction implements ActionInterface
         $transactionData->setResponse(
             $this->constructResponse($listOfErrors, $transactionData->getResponse())
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Mcustiel\PowerRoute\Common\ArgumentAwareInterface::setArgument()
+     */
+    public function setArgument($argument)
+    {
     }
 
     private function constructResponse($listOfErrors, $response)
