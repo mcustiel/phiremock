@@ -22,6 +22,7 @@ use Mcustiel\PowerRoute\Matchers\CaseInsensitiveEquals;
 use Mcustiel\PowerRoute\Matchers\RegExp;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
 use Mcustiel\Phiremock\Server\Actions\VerifyRequestFound;
+use Mcustiel\PowerRoute\InputSources\Body;
 
 class Phiremock implements RequestHandlerInterface
 {
@@ -104,6 +105,7 @@ class Phiremock implements RequestHandlerInterface
                 'method' => [Method::class],
                 'url' => [Url::class],
                 'header' => [Header::class],
+                'body' => [Body::class]
             ]);
         }
         return $this->inputSourceFactory;

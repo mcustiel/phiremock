@@ -5,6 +5,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\Phiremock\Server\Domain\Request;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
+use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 
 class RequestExpectationComparator
 {
@@ -34,6 +36,7 @@ class RequestExpectationComparator
         echo "Checking if request matches an expectation\n";
         $atLeastOneExecution = false;
         if ($expectedRequest->getMethod()) {
+            echo "Checking request\n";
             if (!$this->requestMethodMatchesExpectation($httpRequest, $expectedRequest)) {
                 echo "Method does not match\n";
                 return false;
@@ -42,6 +45,7 @@ class RequestExpectationComparator
             echo "Method match\n";
         }
         if ($expectedRequest->getUrl()) {
+            echo "Checking URL\n";
             if (!$this->requestUrlMatchesExpectation($httpRequest, $expectedRequest)) {
                 echo "Url does not match\n";
                 return false;
@@ -50,6 +54,7 @@ class RequestExpectationComparator
             echo "Url match\n";
         }
         if ($expectedRequest->getBody()) {
+            echo "Checking body\n";
             if (!$this->requestBodyMatchesExpectation($httpRequest, $expectedRequest)) {
                 echo "Body does not match\n";
                 return false;
@@ -58,12 +63,13 @@ class RequestExpectationComparator
             echo "Body match\n";
         }
         if ($expectedRequest->getHeaders()) {
+            echo "Checking headers\n";
             return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
         }
         return $atLeastOneExecution;
     }
 
-    private function requestMethodMatchesExpectation($httpRequest, $expectedRequest)
+    private function requestMethodMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
             'method' => null
@@ -74,7 +80,7 @@ class RequestExpectationComparator
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
-    private function requestUrlMatchesExpectation($httpRequest, $expectedRequest)
+    private function requestUrlMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
             'url' => 'path'
@@ -85,7 +91,7 @@ class RequestExpectationComparator
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
-    private function requestBodyMatchesExpectation($httpRequest, $expectedRequest)
+    private function requestBodyMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
             'body' => null
@@ -96,7 +102,7 @@ class RequestExpectationComparator
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
-    private function requestHeadersMatchExpectation($httpRequest, $expectedRequest)
+    private function requestHeadersMatchExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         foreach ($expectedRequest->getHeaders() as $header => $headerCondition) {
             $inputSource = $this->inputSourceFactory->createFromConfig([
@@ -114,8 +120,11 @@ class RequestExpectationComparator
         return true;
     }
 
-    private function evaluate($inputSource, $matcher, $httpRequest)
-    {
+    private function evaluate(
+        InputSourceInterface $inputSource,
+        MatcherInterface $matcher,
+        ServerRequestInterface $httpRequest
+    ) {
         echo 'Input source returns: ' . $inputSource->getValue($httpRequest) . PHP_EOL;
         return $matcher->match($inputSource->getValue($httpRequest));
     }
