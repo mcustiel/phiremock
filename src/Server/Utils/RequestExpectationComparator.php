@@ -46,14 +46,18 @@ class RequestExpectationComparator
         $atLeastOneExecution = false;
 
         if ($expectation->getScenarioStateIs()) {
+            echo "Checking scenario\n";
             if (!$expectation->getScenarioName()) {
+                echo "Scenario misconfiguration\n";
                 throw new \RuntimeException(
                     'Expecting scenario state without specifying scenario name'
                 );
             }
+            echo "Verifying scenario state\n";
             $scenarioState = $this->scenarioStorage->getScenarioState(
                 $expectation->getScenarioName()
             );
+            echo "Comparing $scenarioState with " . $expectation->getScenarioStateIs() . " \n";
             if ($expectation->getScenarioStateIs() != $scenarioState) {
                 return false;
             }

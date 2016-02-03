@@ -5,7 +5,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
-use Mcustiel\Phiremock\Server\Model\Implementation\AutoStorage;
 use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
 use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\PowerRoute\Actions\ServerError;
@@ -36,8 +35,9 @@ class Phiremock implements RequestHandlerInterface
 
     private $matcherFactory;
 
-    public function __construct(array $config) {
-        $this->storage = new AutoStorage();
+    public function __construct(array $config, StorageInterface $storage)
+    {
+        $this->storage = $storage;
         $this->router = $this->createRouter($config);
     }
 
@@ -69,7 +69,7 @@ class Phiremock implements RequestHandlerInterface
                 //'listExpectations' => new ListExpectationAction($storage),
                 'serverError' => [ServerError::class],
                 'checkExpectations' => $this->getSearchExpectationAction(),
-                'verifyExpectations' => new VerifyRequestFound(),
+                'verifyExpectations' => new VerifyRequestFound($this->storage),
             ]);
         }
         return $this->actionFactory;
@@ -82,7 +82,10 @@ class Phiremock implements RequestHandlerInterface
 
     private function getAddExpectationAction()
     {
-        return new AddExpectationAction($this->getRequestBuilder(), $this->storage);
+        return new AddExpectationAction(
+            $this->getRequestBuilder(),
+            $this->storage
+        );
     }
 
     private function getRequestBuilder()
@@ -95,7 +98,11 @@ class Phiremock implements RequestHandlerInterface
 
     private function getComparator()
     {
-        return new RequestExpectationComparator($this->getMatcherFactory(), $this->getInputSourceFactory());
+        return new RequestExpectationComparator(
+            $this->getMatcherFactory(),
+            $this->getInputSourceFactory(),
+            $this->storage
+        );
     }
 
     function getInputSourceFactory()

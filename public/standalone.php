@@ -25,7 +25,10 @@ $powerRoute = new PowerRoute(
     getConditionsMatchersFactory()
 );
 */
-$application = new Phiremock(require __DIR__ . '/../config/router-config.php'/*$stubs, $powerRoute*/);
+$application = new Phiremock(
+    require __DIR__ . '/../config/router-config.php',
+    new AutoStorage()
+);
 
 $server = new ReactPhpServer();
 $server->setRequestHandler($application);

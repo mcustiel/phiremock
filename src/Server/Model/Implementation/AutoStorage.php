@@ -2,11 +2,12 @@
 namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
 use Mcustiel\Phiremock\Server\Domain\Expectation;
-use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
-use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
+use Mcustiel\Phiremock\Server\StorageInterface;
 
-class AutoStorage implements ExpectationStorage, ScenarioStorage
+class AutoStorage implements StorageInterface
 {
+    const INITIAL_SCENARIO = "Scenario.START";
+
     /**
      *
      * @var \Mcustiel\Phiremock\Server\Domain\Expectation[]
