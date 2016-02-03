@@ -114,4 +114,4 @@ class Request implements \JsonSerializable
             'headers' => $this->headers,
         ];
     }
- }
+}

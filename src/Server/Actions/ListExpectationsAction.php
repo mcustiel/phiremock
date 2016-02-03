@@ -24,7 +24,7 @@ class ListExpectationsAction implements ActionInterface
     public function execute(TransactionData $transactionData)
     {
         $list = json_encode($this->storage->listExpectations());
-var_export($list);
+        var_export($list);
 
         $transactionData->setResponse(
             $transactionData->getResponse()
