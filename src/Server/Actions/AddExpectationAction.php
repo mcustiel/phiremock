@@ -6,7 +6,6 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Server\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
-use Mcustiel\PowerRoute\Common\ArgumentAware;
 use Zend\Diactoros\Stream;
 
 class AddExpectationAction implements ActionInterface
