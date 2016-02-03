@@ -91,5 +91,4 @@ class AutoStorage implements StorageInterface
     {
         $this->scenarios = [];
     }
-
 }

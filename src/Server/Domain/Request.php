@@ -104,4 +104,4 @@ class Request
         $this->headers = $headers;
         return $this;
     }
- }
+}

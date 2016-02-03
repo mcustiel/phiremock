@@ -95,4 +95,4 @@ class Response
         $this->delayMillis = $delayMillis;
         return $this;
     }
-  }
+}
