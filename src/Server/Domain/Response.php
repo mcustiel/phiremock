@@ -3,7 +3,7 @@ namespace Mcustiel\Phiremock\Server\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
-class Response
+class Response implements \JsonSerializable
 {
     /**
      * @SRV\OneOf({@SRV\Type("integer"), @SRV\Not(@SRV\NotNull)})
@@ -95,4 +95,14 @@ class Response
         $this->delayMillis = $delayMillis;
         return $this;
     }
-  }
+
+    public function jsonSerialize()
+    {
+        return [
+            'statusCode' => $this->statusCode,
+            'body' => $this->body,
+            'headers' => $this->headers,
+            'delayMillis' => $this->delayMillis,
+        ];
+    }
+}

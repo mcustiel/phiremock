@@ -4,7 +4,7 @@ namespace Mcustiel\Phiremock\Server\Domain;
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
-class Request
+class Request implements \JsonSerializable
 {
     /**
      * @var string
@@ -103,5 +103,15 @@ class Request
     {
         $this->headers = $headers;
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'method' => $this->method,
+            'url' => $this->url,
+            'body' => $this->body,
+            'headers' => $this->headers,
+        ];
     }
  }
