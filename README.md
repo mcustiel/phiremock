@@ -4,7 +4,7 @@ A http mocker service, (wiremock)[http://wiremock.org/] style, written in PHP.
 * Allows to match expectations using regexp patterns or equality. 
 * REST interface to setup.
 * Stateful and stateless mocking.
-* Lag simulation.
+* Network latency simulation.
 
 ### Important
 This project is **WORK IN PROGRESS**
