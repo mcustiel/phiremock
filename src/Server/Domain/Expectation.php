@@ -24,13 +24,19 @@ class Expectation
      *
      * @SRV\OneOf({@SRV\Type("null"), @SRV\AllOf(@SRV\Type("string"), @SRV\NotEmpty)})
      */
-    private $setScenario;
+    private $scenarioName;
     /**
      * @var string
      *
      * @SRV\OneOf({@SRV\Type("null"), @SRV\AllOf(@SRV\Type("string"), @SRV\NotEmpty)})
      */
-    private $scenarioIs;
+    private $scenarioStateIs;
+    /**
+     * @var string
+     *
+     * @SRV\OneOf({@SRV\Type("null"), @SRV\AllOf(@SRV\Type("string"), @SRV\NotEmpty)})
+     */
+    private $newScenarioState;
 
     public function getRequest()
     {
@@ -54,25 +60,36 @@ class Expectation
         return $this;
     }
 
-    public function getSetScenario()
+    public function getScenarioName()
     {
-        return $this->setScenario;
+        return $this->scenarioName;
     }
 
-    public function setSetScenario($setScenario)
+    public function setScenarioName($scenario)
     {
-        $this->setScenario = $setScenario;
+        $this->scenarioName = $scenario;
         return $this;
     }
 
-    public function getScenarioIs()
+    public function getScenarioStateIs()
     {
-        return $this->scenarioIs;
+        return $this->scenarioStateIs;
     }
 
-    public function setScenarioIs($scenarioIs)
+    public function setScenarioStateIs($scenarioStateIs)
     {
-        $this->scenarioIs = $scenarioIs;
+        $this->scenarioStateIs = $scenarioStateIs;
+        return $this;
+    }
+
+    public function getNewScenarioState()
+    {
+        return $this->newScenarioState;
+    }
+
+    public function setNewScenarioState($newScenarioState)
+    {
+        $this->newScenarioState = $newScenarioState;
         return $this;
     }
 }

@@ -7,6 +7,8 @@ use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
+use Mcustiel\Phiremock\Server\Domain\Expectation;
+use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 
 class RequestExpectationComparator
 {
@@ -19,22 +21,46 @@ class RequestExpectationComparator
      */
     private $inputSourceFactory;
 
+    /**
+     * @var \Mcustiel\Phiremock\Server\Model\ScenarioStorage
+     */
+    private $scenarioStorage;
+
     public function __construct(
         MatcherFactory $matcherFactory,
-        InputSourceFactory $inputSourceFactory
+        InputSourceFactory $inputSourceFactory,
+        ScenarioStorage $scenarioStorage
     ) {
         $this->matcherFactory = $matcherFactory;
         $this->inputSourceFactory = $inputSourceFactory;
+        $this->scenarioStorage = $scenarioStorage;
     }
 
     /**
      * @param \Psr\Http\Message\ServerRequestInterface  $httpRequest
      * @param \Mcustiel\Phiremock\Server\Domain\Request $expectedRequest
      */
-    public function equals(ServerRequestInterface $httpRequest, Request $expectedRequest)
+    public function equals(ServerRequestInterface $httpRequest, Expectation $expectation)
     {
         echo "Checking if request matches an expectation\n";
         $atLeastOneExecution = false;
+
+        if ($expectation->getScenarioStateIs()) {
+            if (!$expectation->getScenarioName()) {
+                throw new \RuntimeException(
+                    'Expecting scenario state without specifying scenario name'
+                );
+            }
+            $scenarioState = $this->scenarioStorage->getScenarioState(
+                $expectation->getScenarioName()
+            );
+            if ($expectation->getScenarioStateIs() != $scenarioState) {
+                return false;
+            }
+        }
+
+        $expectedRequest = $expectation->getRequest();
+
         if ($expectedRequest->getMethod()) {
             echo "Checking request\n";
             if (!$this->requestMethodMatchesExpectation($httpRequest, $expectedRequest)) {

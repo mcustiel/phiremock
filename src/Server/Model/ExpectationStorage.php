@@ -20,15 +20,4 @@ interface ExpectationStorage
      * @return \Mcustiel\Phiremock\Server\Domain\Expectation[]
      */
     public function listExpectations();
-
-    /**
-     * @param string $name
-     * @param string $state
-     */
-    //public function setScenarioState($name, $state);
-
-    /**
-     * @param string $name
-     */
-    //public function getScenarioState($name);
 }

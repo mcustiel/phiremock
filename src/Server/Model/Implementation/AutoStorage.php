@@ -3,8 +3,9 @@ namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
 use Mcustiel\Phiremock\Server\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
+use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 
-class AutoStorage implements ExpectationStorage
+class AutoStorage implements ExpectationStorage, ScenarioStorage
 {
     /**
      *
@@ -12,9 +13,15 @@ class AutoStorage implements ExpectationStorage
      */
     private $config;
 
+    /**
+     * @var string[]
+     */
+    private $scenarios;
+
     public function __construct()
     {
         $this->config = [];
+        $this->scenarios = [];
     }
 
     /**
@@ -49,4 +56,39 @@ class AutoStorage implements ExpectationStorage
     {
         $this->config = [];
     }
+
+    /**
+     *
+     * {@inheritDoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Model\ScenarioStorage::setScenarioState()
+     */
+    public function setScenarioState($name, $state)
+    {
+        $this->scenarios[$name] = $state;
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Model\ScenarioStorage::getScenarioState()
+     */
+    public function getScenarioState($name)
+    {
+        if (!isset($this->scenarios[$name])) {
+            $this->scenarios[$name] = self::INITIAL_SCENARIO;
+        }
+        return $this->scenarios[$name];
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Mcustiel\Phiremock\Server\Model\ScenarioStorage::clearScenarios()
+     */
+    public function clearScenarios()
+    {
+        $this->scenarios = [];
+    }
+
 }

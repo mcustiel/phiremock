@@ -41,8 +41,8 @@ class SearchRequestAction implements ActionInterface
         $request = $transactionData->getRequest();
         var_export($this->storage);
         foreach ($this->storage->listExpectations() as $expectation) {
-            if ($this->comparator->equals($request, $expectation->getRequest())) {
-                $transactionData->set('foundResponse', $expectation->getResponse());
+            if ($this->comparator->equals($request, $expectation)) {
+                $transactionData->set('foundExpectation', $expectation);
                 return;
             }
         }
