@@ -22,21 +22,51 @@ class Expectation implements \JsonSerializable
     /**
      * @var string
      *
-     * @SRV\OneOf({@SRV\Type("null"), @SRV\AllOf(@SRV\Type("string"), @SRV\NotEmpty)})
+     * @SRV\OneOf({
+     *      @SRV\Type("null"),
+     *      @SRV\AllOf({
+     *          @SRV\Type("string"),
+     *          @SRV\NotEmpty
+     *      })
+     * })
      */
     private $scenarioName;
     /**
      * @var string
      *
-     * @SRV\OneOf({@SRV\Type("null"), @SRV\AllOf(@SRV\Type("string"), @SRV\NotEmpty)})
+     * @SRV\OneOf({
+     *      @SRV\Type("null"),
+     *      @SRV\AllOf({
+     *          @SRV\Type("string"),
+     *          @SRV\NotEmpty
+     *      })
+     * })
      */
     private $scenarioStateIs;
     /**
      * @var string
      *
-     * @SRV\OneOf({@SRV\Type("null"), @SRV\AllOf(@SRV\Type("string"), @SRV\NotEmpty)})
+     * @SRV\OneOf({
+     *      @SRV\Type("null"),
+     *      @SRV\AllOf({
+     *          @SRV\Type("string"),
+     *          @SRV\NotEmpty
+     *      })
+     * })
      */
     private $newScenarioState;
+
+    /**
+     * @var integer
+     * @SRV\OneOf({
+     *      @SRV\Type("null"),
+     *      @SRV\AllOf({
+     *          @SRV\TypeInteger,
+     *          @SRV\Minimum(0)
+     *      })
+     * })
+     */
+    private $priority = 0;
 
     public function getRequest()
     {

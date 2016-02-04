@@ -6,7 +6,10 @@ use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 class Condition implements \JsonSerializable
 {
     /**
-     * @SRV\OneOf({@SRV\Enum({"equalTo", "matches"}), @SRV\Not(@SRV\NotEmpty)})
+     * @SRV\OneOf({
+     *      @SRV\Enum({"equalTo", "matches"}),
+     *      @SRV\Not(@SRV\NotEmpty)
+     * })
      *
      * @var string
      */

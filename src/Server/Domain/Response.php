@@ -6,25 +6,37 @@ use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 class Response implements \JsonSerializable
 {
     /**
-     * @SRV\OneOf({@SRV\Type("integer"), @SRV\Not(@SRV\NotNull)})
+     * @SRV\OneOf({
+     *      @SRV\Type("integer"),
+     *      @SRV\Not(@SRV\NotNull)
+     * })
      *
      * @var integer
      */
     private $statusCode;
     /**
-     * @SRV\OneOf({@SRV\Type("string"), @SRV\Not(@SRV\NotNull)})
+     * @SRV\OneOf({
+     *      @SRV\Type("string"),
+     *      @SRV\Not(@SRV\NotNull)
+     * })
      *
      * @var string
      */
     private $body;
     /**
-     * @SRV\OneOf({@SRV\Type("array"), @SRV\Not(@SRV\NotNull)})
+     * @SRV\OneOf({
+     *      @SRV\Type("array"),
+     *      @SRV\Not(@SRV\NotNull)
+     * })
      *
      * @var array
      */
     private $headers;
     /**
-     * @SRV\OneOf({@SRV\Type("integer"), @SRV\Not(@SRV\NotNull)})
+     * @SRV\OneOf({
+     *      @SRV\Type("integer"),
+     *      @SRV\Not(@SRV\NotNull)
+     * })
      *
      * @var integer
      */

@@ -1,18 +1,11 @@
 <?php
 namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
-use Mcustiel\Phiremock\Server\Domain\Expectation;
-use Mcustiel\Phiremock\Server\StorageInterface;
+use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 
-class AutoStorage implements StorageInterface
+class ScenarioAutoStorage implements ScenarioStorage
 {
     const INITIAL_SCENARIO = "Scenario.START";
-
-    /**
-     *
-     * @var \Mcustiel\Phiremock\Server\Domain\Expectation[]
-     */
-    private $config;
 
     /**
      * @var string[]
@@ -21,41 +14,7 @@ class AutoStorage implements StorageInterface
 
     public function __construct()
     {
-        $this->config = [];
         $this->scenarios = [];
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     *
-     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::addExpectation()
-     */
-    public function addExpectation(Expectation $expectation)
-    {
-        $this->config[] = $expectation;
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     *
-     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::listExpectations()
-     */
-    public function listExpectations()
-    {
-        return $this->config;
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     *
-     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::clearExpectations()
-     */
-    public function clearExpectations()
-    {
-        $this->config = [];
     }
 
     /**

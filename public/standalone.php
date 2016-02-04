@@ -1,35 +1,29 @@
 <?php
 require __DIR__ . '/autoload.php';
 
-use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
 use Mcustiel\Phiremock\Server\Phiremock;
-use Mcustiel\Phiremock\Server\Model\Implementation\AutoStorage;
-use Mcustiel\PowerRoute\PowerRoute;
+use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
+use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
 
 if (PHP_SAPI != 'cli') {
     throw new \Exception('This is a standalone CLI application');
 }
 
-// require 'functions.php';
+$options = CommandLine::parseArgs($argv);
 
-/*$stubs = new AutoStorage();
-$cacheConfig = new \stdClass();
-$cacheConfig->path = __DIR__ . '/../cache/requests/';
-$cacheConfig->disabled = true;
-$requestBuilder = new RequestBuilder($cacheConfig);
+$port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $options['p'] : '8086');
+$interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
 
-$powerRoute = new PowerRoute(
-    require __DIR__ . '/../config/router-config.php',
-    getActionFactory($requestBuilder, $stubs),
-    getConditionsMatchersFactory()
-);
-*/
+$scenarioStorage = new ScenarioAutoStorage();
+$expectationStorage = new ExpectationAutoStorage();
+
 $application = new Phiremock(
     require __DIR__ . '/../config/router-config.php',
-    new AutoStorage()
+    $expectationStorage,
+    $scenarioStorage
 );
 
 $server = new ReactPhpServer();
 $server->setRequestHandler($application);
-$server->listen(8086, '0.0.0.0');
+$server->listen($port, $interface);

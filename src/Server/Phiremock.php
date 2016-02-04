@@ -25,10 +25,14 @@ use Mcustiel\PowerRoute\InputSources\Body;
 use Mcustiel\Phiremock\Server\Actions\ListExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearScenariosAction;
+use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
+use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 
 class Phiremock implements RequestHandlerInterface
 {
-    private $storage;
+    private $expectationStorage;
+
+    private $scenarioStorage;
 
     private $router;
 
@@ -38,9 +42,13 @@ class Phiremock implements RequestHandlerInterface
 
     private $matcherFactory;
 
-    public function __construct(array $config, StorageInterface $storage)
-    {
-        $this->storage = $storage;
+    public function __construct(
+        array $config,
+        ExpectationStorage $expectationStorage,
+        ScenarioStorage $scenarioStorage
+    ) {
+        $this->expectationStorage = $expectationStorage;
+        $this->scenarioStorage = $scenarioStorage;
         $this->router = $this->createRouter($config);
     }
 
@@ -69,12 +77,12 @@ class Phiremock implements RequestHandlerInterface
         if ($this->actionFactory === null) {
             $this->actionFactory = new ActionFactory([
                 'addExpectation' => $this->getAddExpectationAction(),
-                'listExpectations' => new ListExpectationsAction($this->storage),
-                'clearExpectations' => new ClearExpectationsAction($this->storage),
+                'listExpectations' => new ListExpectationsAction($this->expectationStorage),
+                'clearExpectations' => new ClearExpectationsAction($this->expectationStorage),
                 'serverError' => [ServerError::class],
-                'clearScenarios' => new ClearScenariosAction($this->storage),
+                'clearScenarios' => new ClearScenariosAction($this->scenarioStorage),
                 'checkExpectations' => $this->getSearchExpectationAction(),
-                'verifyExpectations' => new VerifyRequestFound($this->storage),
+                'verifyExpectations' => new VerifyRequestFound($this->scenarioStorage),
             ]);
         }
         return $this->actionFactory;
@@ -82,14 +90,14 @@ class Phiremock implements RequestHandlerInterface
 
     private function getSearchExpectationAction()
     {
-        return new SearchRequestAction($this->storage, $this->getComparator());
+        return new SearchRequestAction($this->expectationStorage, $this->getComparator());
     }
 
     private function getAddExpectationAction()
     {
         return new AddExpectationAction(
             $this->getRequestBuilder(),
-            $this->storage
+            $this->expectationStorage
         );
     }
 
@@ -106,7 +114,7 @@ class Phiremock implements RequestHandlerInterface
         return new RequestExpectationComparator(
             $this->getMatcherFactory(),
             $this->getInputSourceFactory(),
-            $this->storage
+            $this->scenarioStorage
         );
     }
 
