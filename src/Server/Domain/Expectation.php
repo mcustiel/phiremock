@@ -9,12 +9,14 @@ class Expectation implements \JsonSerializable
     /**
      * @var Request
      *
+     * @SRV\NotNull
      * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Request")
      */
     private $request;
     /**
      * @var Response
      *
+     * @SRV\NotNull
      * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Response")
      */
     private $response;

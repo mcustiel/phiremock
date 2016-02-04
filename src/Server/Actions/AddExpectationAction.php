@@ -29,12 +29,25 @@ class AddExpectationAction implements ActionInterface
     {
         $listOfErrors = [];
         try {
+            /**
+             * @var \Mcustiel\Phiremock\Server\Domain\Expectation $expectation
+             */
             $expectation = $this->requestBuilder->parseRequest(
                 $this->parseJsonBody($transactionData->getRequest()),
                 Expectation::class,
                 RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
             );
             var_export($expectation);
+            if (empty($expectation->getRequest()->getBody()) &&
+                empty($expectation->getRequest()->getHeaders()) &&
+                empty($expectation->getRequest()->getMethod()) &&
+                empty($expectation->getRequest()->getUrl())) {
+                    throw new \RuntimeException('Invalid request specified in expectation');
+                }
+            if (empty($expectation->getResponse()->getStatusCode()) &&
+                empty($expectation->getResponse()->getBody())) {
+                    throw new \RuntimeException('Invalid response specified in expectation');
+                }
             $this->storage->addExpectation($expectation);
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
             $listOfErrors = $e->getErrors();

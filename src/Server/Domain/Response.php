@@ -13,7 +13,7 @@ class Response implements \JsonSerializable
      *
      * @var integer
      */
-    private $statusCode;
+    private $statusCode = 200;
     /**
      * @SRV\OneOf({
      *      @SRV\Type("string"),

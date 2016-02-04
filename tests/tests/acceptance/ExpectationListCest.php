@@ -28,7 +28,6 @@ class ExpectationListCest
     public function returnCreatedExpectationTest(AcceptanceTester $I)
     {
         $request = new Request();
-
         $urlCondition = new Condition('isEqualTo', '/the/request/url');
         $request->setUrl($urlCondition);
         $response = new Response();
