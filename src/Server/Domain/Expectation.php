@@ -4,7 +4,7 @@ namespace Mcustiel\Phiremock\Server\Domain;
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 use Mcustiel\SimpleRequest\Annotation\ParseAs;
 
-class Expectation
+class Expectation implements \JsonSerializable
 {
     /**
      * @var Request
@@ -91,5 +91,16 @@ class Expectation
     {
         $this->newScenarioState = $newScenarioState;
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'scenarioName' => $this->scenarioName,
+            'scenarioStateIs' => $this->scenarioStateIs,
+            'newScenarioState' => $this->newScenarioState,
+            'request' => $this->request,
+            'response' => $this->response,
+        ];
     }
 }

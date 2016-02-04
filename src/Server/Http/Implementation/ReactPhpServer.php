@@ -7,7 +7,6 @@ use React\EventLoop\Factory as EventLoop;
 use React\Socket\Server as ReactSocket;
 use React\Http\Server as ReactServer;
 use Zend\Diactoros\ServerRequest;
-use React\Stream\BufferedSink;
 use React\Http\Request as ReactRequest;
 use React\Http\Response as ReactResponse;
 use Zend\Diactoros\Response as PsrResponse;

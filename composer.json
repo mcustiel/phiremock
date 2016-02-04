@@ -19,6 +19,10 @@
 		"react/http" : "dev-master",
 		"mcustiel/php-simple-request" : "dev-develop",
 		"mcustiel/power-route" : "dev-develop",
-		"mcustiel/php-simple-conversion" : "dev-master"
-	}
+		"mcustiel/php-simple-conversion" : "dev-master",
+                "monolog/monolog" : "~1.17.2"
+	},
+        "require-dev": {
+               "fabpot/php-cs-fixer": "~1.11.1"
+        }
 }

@@ -3,7 +3,7 @@ namespace Mcustiel\Phiremock\Server\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
-class Condition
+class Condition implements \JsonSerializable
 {
     /**
      * @SRV\OneOf({@SRV\Enum({"equalTo", "matches"}), @SRV\Not(@SRV\NotEmpty)})
@@ -42,5 +42,10 @@ class Condition
     {
         $this->value = $value;
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [$this->matcher => $this->value];
     }
 }
