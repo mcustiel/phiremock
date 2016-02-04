@@ -29,10 +29,8 @@ class AddExpectationAction implements ActionInterface
     {
         $listOfErrors = [];
         try {
-            $bodyJson = $this->parseJsonBody($transactionData->getRequest());
-            var_export($bodyJson);
             $expectation = $this->requestBuilder->parseRequest(
-                $bodyJson,
+                $this->parseJsonBody($transactionData->getRequest()),
                 Expectation::class,
                 RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
             );

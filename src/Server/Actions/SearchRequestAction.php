@@ -37,16 +37,28 @@ class SearchRequestAction implements ActionInterface
         echo "Exceute\n";
         $request = $transactionData->getRequest();
         var_export($this->storage);
-        foreach ($this->storage->listExpectations() as $expectation) {
-            if ($this->comparator->equals($request, $expectation)) {
-                $transactionData->set('foundExpectation', $expectation);
-                return;
-            }
+        $foundExpectation = $this->searchForMatchingExpectation($request);
+        if ($foundExpectation === nul) {
+            $transactionData->set('foundResponse', false);
+            return;
         }
-        $transactionData->set('foundResponse', false);
+        $transactionData->set('foundExpectation', $foundExpectation);
     }
 
     public function setArgument($argument)
     {
+    }
+
+    private function searchForMatchingExpectation($request)
+    {
+        $lastFound = null;
+        foreach ($this->storage->listExpectations() as $expectation) {
+            if ($this->comparator->equals($request, $expectation)) {
+                if ($lastFound == null || $expectation->getPriority() > $lastFound->getPriority()) {
+                    $lastFound = $expectation;
+                }
+            }
+        }
+        return $lastFound;
     }
 }

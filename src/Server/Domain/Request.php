@@ -10,8 +10,10 @@ class Request implements \JsonSerializable
      * @var string
      *
      * @SRF\LowerCase
-     * @SRV\Type("string")
-     * @SRV\Enum({"get", "post", "put", "delete", "fetch", "options"})
+     * @SRV\OneOf({
+     *      @SRV\Type("null"),
+     *      @SRV\Enum({"get", "post", "put", "delete", "fetch", "options"})
+     * })
      */
     private $method;
     /**

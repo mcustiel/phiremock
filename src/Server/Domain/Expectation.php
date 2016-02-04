@@ -9,7 +9,6 @@ class Expectation implements \JsonSerializable
     /**
      * @var Request
      *
-     * @SRV\NotNull
      * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Request")
      */
     private $request;
@@ -133,4 +132,16 @@ class Expectation implements \JsonSerializable
             'response' => $this->response,
         ];
     }
+
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
 }

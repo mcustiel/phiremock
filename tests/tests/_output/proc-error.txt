@@ -1,0 +1,177 @@
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Call to undefined method Mcustiel\Phiremock\Server\Domain\Expectation::setPriority() in /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/RequestParser.php on line 83
+PHP Stack trace:
+PHP   1. {main}() /home/mcustiel/workspaces/php/phiremock/public/standalone.php:0
+PHP   2. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen() /home/mcustiel/workspaces/php/phiremock/public/standalone.php:29
+PHP   3. React\EventLoop\StreamSelectLoop->run() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:49
+PHP   4. React\EventLoop\StreamSelectLoop->waitForStreamActivity() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:201
+PHP   5. call_user_func:{/home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227}() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227
+PHP   6. React\Socket\Connection->handleData() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227
+PHP   7. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Connection.php:15
+PHP   8. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP   9. React\Http\RequestParser->feed() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  10. React\Http\RequestParser->finishParsing() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/RequestParser.php:50
+PHP  11. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/RequestParser.php:86
+PHP  12. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  13. React\Http\Server->React\Http\{closure}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  14. React\Http\Server->handleRequest() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/Server.php:27
+PHP  15. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/Server.php:63
+PHP  16. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  17. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->Mcustiel\Phiremock\Server\Http\Implementation\{closure}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  18. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->onRequest() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:44
+PHP  19. Mcustiel\Phiremock\Server\Phiremock->execute() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:85
+PHP  20. Mcustiel\PowerRoute\PowerRoute->start() /home/mcustiel/workspaces/php/phiremock/src/Server/Phiremock.php:63
+PHP  21. Mcustiel\PowerRoute\PowerRoute->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:58
+PHP  22. Mcustiel\PowerRoute\Actions\GoToAction->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:79
+PHP  23. Mcustiel\PowerRoute\PowerRoute->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/Actions/GoToAction.php:16
+PHP  24. Mcustiel\Phiremock\Server\Actions\AddExpectationAction->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:79
+PHP  25. Mcustiel\SimpleRequest\RequestBuilder->parseRequest() /home/mcustiel/workspaces/php/phiremock/src/Server/Actions/AddExpectationAction.php:38
+PHP  26. Mcustiel\SimpleRequest\AllErrorsRequestParser->parse() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/RequestBuilder.php:81
+PHP  27. Mcustiel\SimpleRequest\RequestParser->setProperty() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/AllErrorsRequestParser.php:47
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Call to undefined method Mcustiel\Phiremock\Server\Domain\Expectation::setPriority() in /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/RequestParser.php on line 83
+PHP Stack trace:
+PHP   1. {main}() /home/mcustiel/workspaces/php/phiremock/public/standalone.php:0
+PHP   2. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen() /home/mcustiel/workspaces/php/phiremock/public/standalone.php:29
+PHP   3. React\EventLoop\StreamSelectLoop->run() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:49
+PHP   4. React\EventLoop\StreamSelectLoop->waitForStreamActivity() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:201
+PHP   5. call_user_func:{/home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227}() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227
+PHP   6. React\Socket\Connection->handleData() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227
+PHP   7. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Connection.php:15
+PHP   8. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP   9. React\Http\RequestParser->feed() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  10. React\Http\RequestParser->finishParsing() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/RequestParser.php:50
+PHP  11. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/RequestParser.php:86
+PHP  12. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  13. React\Http\Server->React\Http\{closure}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  14. React\Http\Server->handleRequest() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/Server.php:27
+PHP  15. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/Server.php:63
+PHP  16. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  17. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->Mcustiel\Phiremock\Server\Http\Implementation\{closure}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  18. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->onRequest() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:44
+PHP  19. Mcustiel\Phiremock\Server\Phiremock->execute() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:85
+PHP  20. Mcustiel\PowerRoute\PowerRoute->start() /home/mcustiel/workspaces/php/phiremock/src/Server/Phiremock.php:63
+PHP  21. Mcustiel\PowerRoute\PowerRoute->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:58
+PHP  22. Mcustiel\PowerRoute\Actions\GoToAction->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:79
+PHP  23. Mcustiel\PowerRoute\PowerRoute->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/Actions/GoToAction.php:16
+PHP  24. Mcustiel\Phiremock\Server\Actions\AddExpectationAction->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:79
+PHP  25. Mcustiel\SimpleRequest\RequestBuilder->parseRequest() /home/mcustiel/workspaces/php/phiremock/src/Server/Actions/AddExpectationAction.php:36
+PHP  26. Mcustiel\SimpleRequest\AllErrorsRequestParser->parse() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/RequestBuilder.php:81
+PHP  27. Mcustiel\SimpleRequest\RequestParser->setProperty() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/AllErrorsRequestParser.php:47
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Call to undefined method Mcustiel\Phiremock\Server\Domain\Expectation::setPriority() in /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/RequestParser.php on line 83
+PHP Stack trace:
+PHP   1. {main}() /home/mcustiel/workspaces/php/phiremock/public/standalone.php:0
+PHP   2. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen() /home/mcustiel/workspaces/php/phiremock/public/standalone.php:29
+PHP   3. React\EventLoop\StreamSelectLoop->run() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:49
+PHP   4. React\EventLoop\StreamSelectLoop->waitForStreamActivity() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:201
+PHP   5. call_user_func:{/home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227}() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227
+PHP   6. React\Socket\Connection->handleData() /home/mcustiel/workspaces/php/phiremock/vendor/react/event-loop/StreamSelectLoop.php:227
+PHP   7. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Connection.php:15
+PHP   8. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP   9. React\Http\RequestParser->feed() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  10. React\Http\RequestParser->finishParsing() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/RequestParser.php:50
+PHP  11. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/RequestParser.php:86
+PHP  12. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  13. React\Http\Server->React\Http\{closure}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  14. React\Http\Server->handleRequest() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/Server.php:27
+PHP  15. Evenement\EventEmitter->emit() /home/mcustiel/workspaces/php/phiremock/vendor/react/http/src/Server.php:63
+PHP  16. call_user_func_array:{/home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  17. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->Mcustiel\Phiremock\Server\Http\Implementation\{closure}() /home/mcustiel/workspaces/php/phiremock/vendor/evenement/evenement/src/Evenement/EventEmitterTrait.php:64
+PHP  18. Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->onRequest() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:44
+PHP  19. Mcustiel\Phiremock\Server\Phiremock->execute() /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php:85
+PHP  20. Mcustiel\PowerRoute\PowerRoute->start() /home/mcustiel/workspaces/php/phiremock/src/Server/Phiremock.php:63
+PHP  21. Mcustiel\PowerRoute\PowerRoute->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:58
+PHP  22. Mcustiel\PowerRoute\Actions\GoToAction->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:79
+PHP  23. Mcustiel\PowerRoute\PowerRoute->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/Actions/GoToAction.php:16
+PHP  24. Mcustiel\Phiremock\Server\Actions\AddExpectationAction->execute() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/power-route/src/PowerRoute.php:79
+PHP  25. Mcustiel\SimpleRequest\RequestBuilder->parseRequest() /home/mcustiel/workspaces/php/phiremock/src/Server/Actions/AddExpectationAction.php:36
+PHP  26. Mcustiel\SimpleRequest\AllErrorsRequestParser->parse() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/RequestBuilder.php:81
+PHP  27. Mcustiel\SimpleRequest\RequestParser->setProperty() /home/mcustiel/workspaces/php/phiremock/vendor/mcustiel/php-simple-request/src/AllErrorsRequestParser.php:47
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(29): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
