@@ -26,4 +26,9 @@ $application = new Phiremock(
 
 $server = new ReactPhpServer();
 $server->setRequestHandler($application);
+
+register_shutdown_function(function () use ($server) {
+    $server->shutdown();
+});
+
 $server->listen($port, $interface);

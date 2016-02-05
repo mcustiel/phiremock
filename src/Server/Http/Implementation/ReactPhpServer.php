@@ -49,6 +49,11 @@ class ReactPhpServer implements ServerInterface
         $this->loop->run();
     }
 
+    public function shutdown()
+    {
+        $this->loop->stop();
+    }
+
     private function getUriFromRequest(Request $request)
     {
         $query = $request->getQuery();

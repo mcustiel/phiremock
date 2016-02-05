@@ -15,6 +15,7 @@ class Condition implements \JsonSerializable
      */
     private $matcher;
     /**
+     * @SRV\NotNull
      * @var mixed
      */
     private $value;

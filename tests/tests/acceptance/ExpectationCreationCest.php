@@ -14,11 +14,13 @@ class ExpectationCreationCest
 
     public function _after(AcceptanceTester $I)
     {
+
     }
 
     // tests
     public function creationWithOnlyValidUrlConditionTest(AcceptanceTester $I)
     {
+        $I->wantTo('Check if can create an expecteation that only checks url');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -41,6 +43,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithOnlyValidMethodConditionTest(AcceptanceTester $I)
     {
+        $I->wantTo('Check if can create an expecteation that only checks method');
         $request = new Request();
         $request->setMethod('post');
         $response = new Response();
@@ -63,6 +66,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithOnlyValidBodyConditionTest(AcceptanceTester $I)
     {
+        $I->wantTo('Check if can create an expecteation that only checks body');
         $request = new Request();
         $request->setBody(new Condition('matches', 'potato'));
         $response = new Response();
@@ -85,6 +89,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithOnlyValidHeadersConditionTest(AcceptanceTester $I)
     {
+        $I->wantTo('Check if can create an expecteation that only checks headers');
         $request = new Request();
         $request->setHeaders(['Accept' => new Condition('matches', 'potato')]);
         $response = new Response();
@@ -107,6 +112,7 @@ class ExpectationCreationCest
     // tests
     public function creationFailWhenEmptyRequestTest(AcceptanceTester $I)
     {
+        $I->wantTo('See if creation fails when request is empty');
         $response = new Response();
         $response->setStatusCode(201);
         $expectation = new Expectation();
@@ -118,6 +124,25 @@ class ExpectationCreationCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '{"result" : "ERROR", "details" : {"request":"Field request, was set with invalid value: NULL"}}'
+        );
+    }
+
+    // tests
+    public function creationFailWhenEmptyResponseTest(AcceptanceTester $I)
+    {
+        $I->wantTo('See if creation fails when response is empty');
+        $request = new Request();
+        $request->setHeaders(['Accept' => new Condition('matches', 'potato')]);
+
+        $expectation = new Expectation();
+        $expectation->setRequest($request);
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs('500');
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals(
+            '{"result" : "ERROR", "details" : {"response":"Field response, was set with invalid value: NULL"}}'
         );
     }
 }
