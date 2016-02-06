@@ -12,7 +12,7 @@ class Request implements \JsonSerializable
      * @SRF\LowerCase
      * @SRV\OneOf({
      *      @SRV\Type("null"),
-     *      @SRV\Enum({"get", "post", "put", "delete", "fetch", "options"})
+     *      @SRV\Enum({"get", "post", "put", "delete", "fetch", "options", "head"})
      * })
      */
     private $method;
