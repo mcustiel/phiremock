@@ -79,7 +79,6 @@ class ReactPhpServer implements ServerInterface
 
     private function onRequest(ReactRequest $request, ReactResponse $response)
     {
-        var_export($request->getBody());
         $psrRequest = $this->convertFromReactToPsrRequest(
             $request,
             'data://text/plain,' . $request->getBody()

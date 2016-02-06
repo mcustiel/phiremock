@@ -37,29 +37,33 @@ class AddExpectationAction implements ActionInterface
                 Expectation::class,
                 RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
             );
-            var_export($expectation);
-            if (empty($expectation->getRequest()->getBody()) &&
-                empty($expectation->getRequest()->getHeaders()) &&
-                empty($expectation->getRequest()->getMethod()) &&
-                empty($expectation->getRequest()->getUrl())) {
-                    throw new \RuntimeException('Invalid request specified in expectation');
-                }
-            if (empty($expectation->getResponse()->getStatusCode()) &&
-                empty($expectation->getResponse()->getBody())) {
-                    throw new \RuntimeException('Invalid response specified in expectation');
-                }
+            if ($this->requestIsInvalid($expectation->getRequest())) {
+                throw new \RuntimeException('Invalid request specified in expectation');
+            }
+            if ($this->responseIsInvalid($expectation->getResponse())) {
+                throw new \RuntimeException('Invalid response specified in expectation');
+            }
             $this->storage->addExpectation($expectation);
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
             $listOfErrors = $e->getErrors();
-            var_export($e->__toString());
         } catch (\Exception $e) {
             $listOfErrors = [$e->getMessage()];
-            var_export($e->__toString());
         }
 
         $transactionData->setResponse(
             $this->constructResponse($listOfErrors, $transactionData->getResponse())
         );
+    }
+
+    private function responseIsInvalid($response)
+    {
+        return empty($response->getStatusCode());
+    }
+
+    private function requestIsInvalid($request)
+    {
+        return empty($request->getBody()) && empty($request->getHeaders())
+            && empty($request->getMethod()) && empty($request->getUrl());
     }
 
     /**

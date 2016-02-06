@@ -13,13 +13,10 @@ class ConvertToCondition implements FilterInterface
             return;
         }
         $this->checkValueIsValidOrThrowException($value);
-
         $matcher = key($value);
         $this->validateMatcherOrThrowException($matcher);
         $this->validateValueOrThrowException($value[$matcher]);
-        $condition = new Condition($matcher, $value[$matcher]);
-        var_export($condition);
-        return $condition;
+        return new Condition($matcher, $value[$matcher]);
     }
 
     private function validateValueOrThrowException($value)

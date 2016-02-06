@@ -20,7 +20,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithOnlyValidUrlConditionTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expecteation that only checks url');
+        $I->wantTo('create an expectation that only checks url');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -43,7 +43,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithOnlyValidMethodConditionTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expecteation that only checks method');
+        $I->wantTo('create an expectation that only checks method');
         $request = new Request();
         $request->setMethod('post');
         $response = new Response();
@@ -66,7 +66,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithOnlyValidBodyConditionTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expecteation that only checks body');
+        $I->wantTo('create an expectation that only checks body');
         $request = new Request();
         $request->setBody(new Condition('matches', 'potato'));
         $response = new Response();
@@ -89,7 +89,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithOnlyValidHeadersConditionTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expecteation that only checks headers');
+        $I->wantTo('create an expectation that only checks headers');
         $request = new Request();
         $request->setHeaders(['Accept' => new Condition('matches', 'potato')]);
         $response = new Response();
@@ -149,7 +149,7 @@ class ExpectationCreationCest
     // tests
     public function creationWithAllOptionsFilledTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expecteation with all possible option filled');
+        $I->wantTo('create an expectation with all possible option filled');
         $request = (new Request())
             ->setUrl(new Condition('isEqualTo', '/the/request/url'))
             ->setBody(new Condition('isEqualTo', 'the body'))

@@ -34,9 +34,7 @@ class SearchRequestAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData)
     {
-        echo "Exceute\n";
         $request = $transactionData->getRequest();
-        var_export($this->storage);
         $foundExpectation = $this->searchForMatchingExpectation($request);
         if ($foundExpectation === nul) {
             $transactionData->set('foundResponse', false);
