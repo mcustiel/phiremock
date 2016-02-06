@@ -1,14 +1,14 @@
 <?php
 namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
-use Mcustiel\Phiremock\Server\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 
 class ExpectationAutoStorage implements ExpectationStorage
 {
     /**
      *
-     * @var \Mcustiel\Phiremock\Server\Domain\Expectation[]
+     * @var \Mcustiel\Phiremock\Domain\Expectation[]
      */
     private $config;
 

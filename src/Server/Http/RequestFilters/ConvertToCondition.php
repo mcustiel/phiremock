@@ -3,7 +3,7 @@ namespace Mcustiel\Phiremock\Server\Http\RequestFilters;
 
 use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 use Mcustiel\SimpleRequest\Exception\FilterErrorException;
-use Mcustiel\Phiremock\Server\Domain\Condition;
+use Mcustiel\Phiremock\Domain\Condition;
 
 class ConvertToCondition implements FilterInterface
 {

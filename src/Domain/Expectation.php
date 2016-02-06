@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\Phiremock\Server\Domain;
+namespace Mcustiel\Phiremock\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 use Mcustiel\SimpleRequest\Annotation\ParseAs;
@@ -10,14 +10,14 @@ class Expectation implements \JsonSerializable
      * @var Request
      *
      * @SRV\NotNull
-     * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Request")
+     * @ParseAs("\Mcustiel\Phiremock\Domain\Request")
      */
     private $request;
     /**
      * @var Response
      *
      * @SRV\NotNull
-     * @ParseAs("\Mcustiel\Phiremock\Server\Domain\Response")
+     * @ParseAs("\Mcustiel\Phiremock\Domain\Response")
      */
     private $response;
     /**

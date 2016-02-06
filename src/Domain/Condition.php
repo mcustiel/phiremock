@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\Phiremock\Server\Domain;
+namespace Mcustiel\Phiremock\Domain;
 
 class Condition implements \JsonSerializable
 {

@@ -3,7 +3,7 @@ namespace Mcustiel\Phiremock\Server\Actions;
 
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\Phiremock\Server\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Zend\Diactoros\Stream;
@@ -30,7 +30,7 @@ class AddExpectationAction implements ActionInterface
         $listOfErrors = [];
         try {
             /**
-             * @var \Mcustiel\Phiremock\Server\Domain\Expectation $expectation
+             * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
              */
             $expectation = $this->requestBuilder->parseRequest(
                 $this->parseJsonBody($transactionData->getRequest()),

@@ -1,5 +1,5 @@
 <?php
-namespace Mcustiel\Phiremock\Server\Domain;
+namespace Mcustiel\Phiremock\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
@@ -45,7 +45,7 @@ class Request implements \JsonSerializable
 
     /**
      * @param string $method
-     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setMethod($method)
     {
@@ -54,7 +54,7 @@ class Request implements \JsonSerializable
     }
 
     /**
-     * @return \Mcustiel\Phiremock\Server\Domain\Condition
+     * @return \Mcustiel\Phiremock\Domain\Condition
      */
     public function getUrl()
     {
@@ -62,8 +62,8 @@ class Request implements \JsonSerializable
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Server\Domain\Condition $url
-     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     * @param \Mcustiel\Phiremock\Domain\Condition $url
+     * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setUrl($url)
     {
@@ -72,7 +72,7 @@ class Request implements \JsonSerializable
     }
 
     /**
-     * @return \Mcustiel\Phiremock\Server\Domain\Condition
+     * @return \Mcustiel\Phiremock\Domain\Condition
      */
     public function getBody()
     {
@@ -80,8 +80,8 @@ class Request implements \JsonSerializable
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Server\Domain\Condition $body
-     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     * @param \Mcustiel\Phiremock\Domain\Condition $body
+     * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setBody($body)
     {
@@ -90,7 +90,7 @@ class Request implements \JsonSerializable
     }
 
     /**
-     * @return \Mcustiel\Phiremock\Server\Domain\Condition[]
+     * @return \Mcustiel\Phiremock\Domain\Condition[]
      */
     public function getHeaders()
     {
@@ -98,8 +98,8 @@ class Request implements \JsonSerializable
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Server\Domain\Condition[]  $headers
-     * @return \Mcustiel\Phiremock\Server\Domain\Request
+     * @param \Mcustiel\Phiremock\Domain\Condition[]  $headers
+     * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setHeaders($headers)
     {

@@ -24,7 +24,7 @@ class VerifyRequestFound implements ActionInterface
     {
         /**
          *
-         * @var \Mcustiel\Phiremock\Server\Domain\Expectation $foundExpectation
+         * @var \Mcustiel\Phiremock\Domain\Expectation $foundExpectation
          */
         $foundExpectation = $transactionData->get('foundExpectation');
         if (! $foundExpectation) {

@@ -2,12 +2,12 @@
 namespace Mcustiel\Phiremock\Server\Utils;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Mcustiel\Phiremock\Server\Domain\Request;
+use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
-use Mcustiel\Phiremock\Server\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 
 class RequestExpectationComparator
@@ -38,7 +38,7 @@ class RequestExpectationComparator
 
     /**
      * @param \Psr\Http\Message\ServerRequestInterface  $httpRequest
-     * @param \Mcustiel\Phiremock\Server\Domain\Request $expectedRequest
+     * @param \Mcustiel\Phiremock\Domain\Request $expectedRequest
      */
     public function equals(ServerRequestInterface $httpRequest, Expectation $expectation)
     {
