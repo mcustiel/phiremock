@@ -1,13 +1,13 @@
 <?php
 
-
 use Mcustiel\Phiremock\Server\Domain\Request;
 use Mcustiel\Phiremock\Server\Domain\Response;
 use Mcustiel\Phiremock\Server\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Domain\Condition;
 
-class UrlConditionCest
+class BodyConditionCest
 {
+
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectation');
@@ -22,7 +22,7 @@ class UrlConditionCest
     {
         $I->wantTo('Check if can create an expectation that checks url using isEqualTo');
         $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
+        $request->setBody(new Condition('isEqualTo', 'Potato body'));
         $response = new Response();
         $response->setStatusCode(201);
         $expectation = new Expectation();
@@ -35,7 +35,7 @@ class UrlConditionCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
+            . '"request":{"method":null,"url":null,"body":{"isEqualTo":"Potato body"},"headers":null},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
         );
     }
@@ -45,7 +45,7 @@ class UrlConditionCest
     {
         $I->wantTo('Check if can create an expectation that checks url using matches');
         $request = new Request();
-        $request->setUrl(new Condition('matches', '/some pattern/'));
+        $request->setBody(new Condition('matches', '/tomato pattern/'));
         $response = new Response();
         $response->setStatusCode(201);
         $expectation = new Expectation();
@@ -58,7 +58,7 @@ class UrlConditionCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":{"matches":"\/some pattern\/"},"body":null,"headers":null},'
+            . '"request":{"method":null,"url":null,"body":{"matches":"\/tomato pattern\/"},"headers":null},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
         );
     }
@@ -68,7 +68,7 @@ class UrlConditionCest
     {
         $I->wantTo('Check if can create an expectation that checks url using matches');
         $request = new Request();
-        $request->setUrl(new Condition('potato', '/some pattern/'));
+        $request->setBody(new Condition('potato', '/some pattern/'));
         $response = new Response();
         $response->setStatusCode(201);
         $expectation = new Expectation();
@@ -86,7 +86,7 @@ class UrlConditionCest
     {
         $I->wantTo('Check if can create an expectation that checks url using matches');
         $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', null));
+        $request->setBody(new Condition('isEqualTo', null));
         $response = new Response();
         $response->setStatusCode(201);
         $expectation = new Expectation();
