@@ -96,10 +96,6 @@ class UrlConditionCest
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
-        $I->seeResponseEquals(
-            '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":{"matches":"\/some pattern\/"},"body":null,"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
-            );
+        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Condition value can not be null"]}');
     }
 }

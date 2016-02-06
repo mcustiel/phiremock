@@ -15,15 +15,25 @@ class ConvertToCondition implements FilterInterface
         $this->checkValueIsValidOrThrowException($value);
 
         $matcher = key($value);
-        if ($this->isValidCondition($matcher)) {
-            $condition = new Condition($matcher, $value[$matcher]);
-            var_export($condition);
-            return $condition;
-        }
-        throw new FilterErrorException(
-            'Invalid condition matcher specified: ' . $matcher
-        );
+        $this->validateMatcherOrThrowException($matcher);
+        $this->validateValueOrThrowException($value[$matcher]);
+        $condition = new Condition($matcher, $value[$matcher]);
+        var_export($condition);
+        return $condition;
     }
+
+    private function validateValueOrThrowException($value)
+    {
+        if ($value === null) {
+            throw new FilterErrorException('Condition value can not be null');
+        }
+    }
+    private function validateMatcherOrThrowException($matcher)
+    {
+        if (!$this->isValidCondition($matcher)) {
+            throw new FilterErrorException('Invalid condition matcher specified: ' . $matcher);
+        }}
+
 
     public function setSpecification($specification = null)
     {

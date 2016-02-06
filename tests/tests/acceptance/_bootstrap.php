@@ -1,5 +1,7 @@
 <?php
 // Here you can initialize variables that will be available to your tests
+
+/*
 touch(__DIR__ . '/../_output/proc-output.txt');
 touch(__DIR__ . '/../_output/proc-error.txt');
 
@@ -40,3 +42,4 @@ register_shutdown_function(function () use ($process, $pipes) {
     echo PHP_EOL;
     echo proc_close($process);
 });
+*/
