@@ -2,7 +2,6 @@
 use Mcustiel\Phiremock\Server\Domain\Request;
 use Mcustiel\Phiremock\Server\Domain\Response;
 use Mcustiel\Phiremock\Server\Domain\Expectation;
-use Mcustiel\Phiremock\Server\Domain\Condition;
 
 class MethodConditionCest
 {
@@ -18,7 +17,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function createAnExpectationUsingMethodPost(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an with method post');
+        $I->wantTo('create an with method post');
         $request = new Request();
         $request->setMethod('post');
         $response = new Response();
@@ -41,7 +40,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function createAnExpectationUsingMethodGet(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an with method get');
+        $I->wantTo('create an with method get');
         $request = new Request();
         $request->setMethod('get');
         $response = new Response();
@@ -64,7 +63,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function createAnExpectationUsingMethodPut(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an with method put');
+        $I->wantTo('create an with method put');
         $request = new Request();
         $request->setMethod('put');
         $response = new Response();
@@ -87,7 +86,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function createAnExpectationUsingMethodDelete(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an with method delete');
+        $I->wantTo('create an with method delete');
         $request = new Request();
         $request->setMethod('delete');
         $response = new Response();
@@ -110,7 +109,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function createAnExpectationUsingMethodFetch(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an with method fetch');
+        $I->wantTo('create an with method fetch');
         $request = new Request();
         $request->setMethod('fetch');
         $response = new Response();
@@ -133,7 +132,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function createAnExpectationUsingMethodOptions(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an with method options');
+        $I->wantTo('create an with method options');
         $request = new Request();
         $request->setMethod('options');
         $response = new Response();
@@ -156,7 +155,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function createAnExpectationUsingMethodHead(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an with method head');
+        $I->wantTo('create an with method head');
         $request = new Request();
         $request->setMethod('head');
         $response = new Response();
@@ -179,7 +178,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function failWhenInvalidMethodSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an expectation that checks url using matches');
+        $I->wantTo('create an expectation that checks url using matches');
         $request = new Request();
         $request->setMethod('potato');
         $response = new Response();

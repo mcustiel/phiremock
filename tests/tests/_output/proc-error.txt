@@ -16,3 +16,51 @@ Stack trace:
 #1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
 #2 {main}
   thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29
+PHP Fatal error:  Uncaught exception 'React\Socket\ConnectionException' with message 'Could not bind to tcp://0.0.0.0:8086: Address already in use' in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php:29
+Stack trace:
+#0 /home/mcustiel/workspaces/php/phiremock/src/Server/Http/Implementation/ReactPhpServer.php(48): React\Socket\Server->listen('8086', '0.0.0.0')
+#1 /home/mcustiel/workspaces/php/phiremock/public/standalone.php(34): Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer->listen('8086', '0.0.0.0')
+#2 {main}
+  thrown in /home/mcustiel/workspaces/php/phiremock/vendor/react/socket/src/Server.php on line 29

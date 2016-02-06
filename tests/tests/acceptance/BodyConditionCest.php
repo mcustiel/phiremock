@@ -20,7 +20,7 @@ class BodyConditionCest
     // tests
     public function createAnExpectationUsingBodyEqualToTest(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an expectation that checks body using isEqualTo');
+        $I->wantTo('create an expectation that checks body using isEqualTo');
         $request = new Request();
         $request->setBody(new Condition('isEqualTo', 'Potato body'));
         $response = new Response();
@@ -43,7 +43,7 @@ class BodyConditionCest
     // tests
     public function createAnExpectationUsingBodyMatchesTest(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an expectation that checks body using matches');
+        $I->wantTo('create an expectation that checks body using matches');
         $request = new Request();
         $request->setBody(new Condition('matches', '/tomato pattern/'));
         $response = new Response();
@@ -66,7 +66,7 @@ class BodyConditionCest
     // tests
     public function failWhenInvalidMatcherSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an expectation that checks body using matches');
+        $I->wantTo('create an expectation that checks body using matches');
         $request = new Request();
         $request->setBody(new Condition('potato', '/some pattern/'));
         $response = new Response();
@@ -84,7 +84,7 @@ class BodyConditionCest
     // tests
     public function failWhenInvalidValueSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('Check if can create an expectation that checks body using matches');
+        $I->wantTo('create an expectation that checks body using matches');
         $request = new Request();
         $request->setBody(new Condition('isEqualTo', null));
         $response = new Response();
