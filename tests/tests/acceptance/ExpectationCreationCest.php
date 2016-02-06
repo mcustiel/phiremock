@@ -145,4 +145,58 @@ class ExpectationCreationCest
             '{"result" : "ERROR", "details" : {"response":"Field response, was set with invalid value: NULL"}}'
         );
     }
+
+    // tests
+    public function creationWithAllOptionsFilledTest(AcceptanceTester $I)
+    {
+        $I->wantTo('Check if can create an expecteation with all possible option filled');
+        $request = (new Request())
+            ->setUrl(new Condition('isEqualTo', '/the/request/url'))
+            ->setBody(new Condition('isEqualTo', 'the body'))
+            ->setMethod('get')
+            ->setHeaders([
+                'Content-Type' => new Condition('matches', '/json/'),
+                'Accepts' => new Condition('isEqualTo', 'application/json'),
+                'X-Some-Random-Header' => new Condition('isEqualTo', 'random value'),
+            ]);
+
+        $response = (new Response())
+            ->setStatusCode(201)
+            ->setBody('Response body')
+            ->setDelayMillis(5000)
+            ->setHeaders([
+                'X-Special-Header' => 'potato',
+                'Location' => 'href://potato.tmt',
+            ]);
+
+        $expectation = (new Expectation())
+            ->setRequest($request)
+            ->setResponse($response)
+            ->setScenarioName('potato')
+            ->setScenarioStateIs('tomato')
+            ->setNewScenarioState('banana')
+            ->setPriority(3);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->sendGET('/__phiremock/expectation');
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals(
+            '[{"scenarioName":"potato","scenarioStateIs":"tomato","newScenarioState":"banana",'
+            . '"request":{'
+            . '"method":"get","url":{"isEqualTo":"\/the\/request\/url"},'
+            . '"body":{"isEqualTo":"the body"},'
+            . '"headers":{'
+            . '"Content-Type":{"matches":"\/json\/"},'
+            . '"Accepts":{"isEqualTo":"application\/json"},'
+            . '"X-Some-Random-Header":{"isEqualTo":"random value"}}},'
+            . '"response":{'
+            . '"statusCode":201,"body":"Response body","headers":{'
+            . '"X-Special-Header":"potato",'
+            . '"Location":"href:\/\/potato.tmt"},'
+            . '"delayMillis":5000}}]'
+        );
+    }
 }
