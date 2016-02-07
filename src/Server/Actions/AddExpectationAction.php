@@ -25,6 +25,10 @@ class AddExpectationAction implements ActionInterface
         $this->storage = $storage;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
+     */
     public function execute(TransactionData $transactionData)
     {
         $listOfErrors = [];
