@@ -135,6 +135,7 @@ class RequestExpectationComparator
     private function requestHeadersMatchExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         foreach ($expectedRequest->getHeaders() as $header => $headerCondition) {
+            echo "$header => " . var_export($headerCondition) . PHP_EOL;
             $inputSource = $this->inputSourceFactory->createFromConfig([
                 'header' => $header
             ]);

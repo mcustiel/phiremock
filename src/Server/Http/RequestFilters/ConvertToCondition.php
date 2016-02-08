@@ -29,7 +29,8 @@ class ConvertToCondition implements FilterInterface
     {
         if (!$this->isValidCondition($matcher)) {
             throw new FilterErrorException('Invalid condition matcher specified: ' . $matcher);
-        }}
+        }
+    }
 
 
     public function setSpecification($specification = null)

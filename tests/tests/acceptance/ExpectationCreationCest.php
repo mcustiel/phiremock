@@ -14,10 +14,8 @@ class ExpectationCreationCest
 
     public function _after(AcceptanceTester $I)
     {
-
     }
 
-    // tests
     public function creationWithOnlyValidUrlConditionTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that only checks url');
@@ -40,7 +38,6 @@ class ExpectationCreationCest
         );
     }
 
-    // tests
     public function creationWithOnlyValidMethodConditionTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that only checks method');
@@ -63,7 +60,6 @@ class ExpectationCreationCest
             );
     }
 
-    // tests
     public function creationWithOnlyValidBodyConditionTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that only checks body');
@@ -86,7 +82,6 @@ class ExpectationCreationCest
             );
     }
 
-    // tests
     public function creationWithOnlyValidHeadersConditionTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that only checks headers');
@@ -109,7 +104,6 @@ class ExpectationCreationCest
             );
     }
 
-    // tests
     public function creationFailWhenEmptyRequestTest(AcceptanceTester $I)
     {
         $I->wantTo('See if creation fails when request is empty');
@@ -127,7 +121,6 @@ class ExpectationCreationCest
         );
     }
 
-    // tests
     public function creationFailWhenEmptyResponseTest(AcceptanceTester $I)
     {
         $I->wantTo('See if creation fails when response is empty');
@@ -146,7 +139,42 @@ class ExpectationCreationCest
         );
     }
 
-    // tests
+    public function creationFailWhenAnythingSentAsRequestTest(AcceptanceTester $I)
+    {
+        $I->wantTo('See if creation fails when anything sent as request');
+
+        $expectation = [
+            'response' => ['statusCode' => 200],
+            'request' => ['potato' => 'tomato']
+        ];
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs('500');
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid request specified in expectation"]}');
+    }
+
+    public function creationFailWhenAnythingSentAsResponseTest(AcceptanceTester $I)
+    {
+        $I->wantTo('See if creation fails when anything sent as request');
+
+        $expectation = [
+            'response' => 'response',
+            'request' => ['url' => ['isEqualTo' => '/tomato']]
+        ];
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs('500');
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals(
+            '{"result" : "ERROR", "details" : {"response":"Request builder is intended to be used with arrays or instances of \\\\stdClass"}}'
+        );
+    }
+
     public function creationWithAllOptionsFilledTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with all possible option filled');

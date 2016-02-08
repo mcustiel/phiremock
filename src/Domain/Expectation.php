@@ -145,5 +145,4 @@ class Expectation implements \JsonSerializable
         $this->priority = $priority;
         return $this;
     }
-
 }

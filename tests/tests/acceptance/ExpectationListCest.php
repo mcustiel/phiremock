@@ -17,7 +17,6 @@ class ExpectationListCest
     {
     }
 
-    // tests
     public function returnEmptyListTest(AcceptanceTester $I)
     {
         $I->sendGET('/__phiremock/expectation');

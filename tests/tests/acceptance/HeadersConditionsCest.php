@@ -15,7 +15,6 @@ class HeadersConditionsCest
     {
     }
 
-    // tests
     public function creationWithOneHeaderUsingEqualToTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks one header using isEqualTo');
@@ -40,7 +39,6 @@ class HeadersConditionsCest
         );
     }
 
-    // tests
     public function creationWithOneHeaderUsingMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks one header using matches');
@@ -65,7 +63,6 @@ class HeadersConditionsCest
         );
     }
 
-    // tests
     public function failWhenUsingInvalidMatcherTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when the matcher is invalid');
@@ -85,7 +82,6 @@ class HeadersConditionsCest
         $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid condition matcher specified: potato"]}');
     }
 
-    // tests
     public function failWhenUsingNullValueTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when the value is null');
@@ -105,7 +101,6 @@ class HeadersConditionsCest
         $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Condition value can not be null"]}');
     }
 
-    // tests
     public function creationWithMoreThanOneHeaderConditionTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks more than one header');

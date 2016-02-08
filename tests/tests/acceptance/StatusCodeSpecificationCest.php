@@ -16,10 +16,9 @@ class StatusCodeSpecificationCest
     {
     }
 
-    // tests
     public function createExpectationWithStatusCodeTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation with a valid body');
+        $I->wantTo('create an expectation with a valid status code');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -39,10 +38,9 @@ class StatusCodeSpecificationCest
         );
     }
 
-    // tests
     public function createExpectationWithDefaultStatusCodeTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation with a valid body');
+        $I->wantTo('create an expectation with a default status code');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -59,5 +57,21 @@ class StatusCodeSpecificationCest
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
             . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null}}]'
         );
+    }
+
+    public function failWhenNoStatusCodeIsSetTest(AcceptanceTester $I)
+    {
+        $I->wantTo('fail when the status code is not set');
+        $request = new Request();
+        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
+        $response = (new Response())->setStatusCode(null);
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs(500);
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid response specified in expectation"]}');
     }
 }

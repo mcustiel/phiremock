@@ -16,7 +16,6 @@ class BodySpecificationCest
     {
     }
 
-    // tests
     public function createExpectationWithBodyResponseTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with a valid body');
@@ -39,7 +38,6 @@ class BodySpecificationCest
         );
     }
 
-    // tests
     public function createWithEmptyBodyTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with an empty body');
@@ -62,7 +60,6 @@ class BodySpecificationCest
             );
     }
 
-    // tests
     public function failWithEmptyBodyWhenEmptyStatusCodeTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when creating expectation with an empty body and empty statusCode');

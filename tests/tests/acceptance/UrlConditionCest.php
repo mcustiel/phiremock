@@ -17,7 +17,6 @@ class UrlConditionCest
     {
     }
 
-    // tests
     public function createAnExpectationUsingUrlEqualToTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks url using isEqualTo');
@@ -40,7 +39,6 @@ class UrlConditionCest
         );
     }
 
-    // tests
     public function createAnExpectationUsingUrlMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks url using matches');
@@ -63,7 +61,6 @@ class UrlConditionCest
         );
     }
 
-    // tests
     public function failWhenInvalidMatcherSpecifiedTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks url using matches');
@@ -81,7 +78,6 @@ class UrlConditionCest
         $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid condition matcher specified: potato"]}');
     }
 
-    // tests
     public function failWhenInvalidValueSpecifiedTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks url using matches');

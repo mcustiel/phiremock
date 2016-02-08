@@ -5,7 +5,7 @@ use Mcustiel\Phiremock\Domain\Expectation;
 
 class MethodConditionCest
 {
-public function _before(AcceptanceTester $I)
+    public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectation');
     }
@@ -14,7 +14,6 @@ public function _before(AcceptanceTester $I)
     {
     }
 
-    // tests
     public function createAnExpectationUsingMethodPost(AcceptanceTester $I)
     {
         $I->wantTo('create an with method post');
@@ -37,7 +36,6 @@ public function _before(AcceptanceTester $I)
         );
     }
 
-    // tests
     public function createAnExpectationUsingMethodGet(AcceptanceTester $I)
     {
         $I->wantTo('create an with method get');
@@ -60,7 +58,6 @@ public function _before(AcceptanceTester $I)
         );
     }
 
-    // tests
     public function createAnExpectationUsingMethodPut(AcceptanceTester $I)
     {
         $I->wantTo('create an with method put');
@@ -83,7 +80,6 @@ public function _before(AcceptanceTester $I)
         );
     }
 
-    // tests
     public function createAnExpectationUsingMethodDelete(AcceptanceTester $I)
     {
         $I->wantTo('create an with method delete');
@@ -106,7 +102,6 @@ public function _before(AcceptanceTester $I)
         );
     }
 
-    // tests
     public function createAnExpectationUsingMethodFetch(AcceptanceTester $I)
     {
         $I->wantTo('create an with method fetch');
@@ -129,7 +124,6 @@ public function _before(AcceptanceTester $I)
         );
     }
 
-    // tests
     public function createAnExpectationUsingMethodOptions(AcceptanceTester $I)
     {
         $I->wantTo('create an with method options');
@@ -152,7 +146,6 @@ public function _before(AcceptanceTester $I)
             );
     }
 
-    // tests
     public function createAnExpectationUsingMethodHead(AcceptanceTester $I)
     {
         $I->wantTo('create an with method head');
@@ -175,7 +168,6 @@ public function _before(AcceptanceTester $I)
         );
     }
 
-    // tests
     public function failWhenInvalidMethodSpecifiedTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks url using matches');

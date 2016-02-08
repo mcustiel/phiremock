@@ -17,7 +17,6 @@ class BodyConditionCest
     {
     }
 
-    // tests
     public function createAnExpectationUsingBodyEqualToTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks body using isEqualTo');
@@ -40,7 +39,6 @@ class BodyConditionCest
         );
     }
 
-    // tests
     public function createAnExpectationUsingBodyMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks body using matches');
@@ -63,7 +61,6 @@ class BodyConditionCest
         );
     }
 
-    // tests
     public function failWhenInvalidMatcherSpecifiedTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks body using matches');
@@ -81,7 +78,6 @@ class BodyConditionCest
         $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid condition matcher specified: potato"]}');
     }
 
-    // tests
     public function failWhenInvalidValueSpecifiedTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks body using matches');
