@@ -29,7 +29,7 @@ class AddExpectationAction implements ActionInterface
      * {@inheritDoc}
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
-    public function execute(TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         $listOfErrors = [];
         try {
@@ -68,14 +68,6 @@ class AddExpectationAction implements ActionInterface
     {
         return empty($request->getBody()) && empty($request->getHeaders())
             && empty($request->getMethod()) && empty($request->getUrl());
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \Mcustiel\PowerRoute\Common\ArgumentAwareInterface::setArgument()
-     */
-    public function setArgument($argument)
-    {
     }
 
     private function constructResponse($listOfErrors, $response)

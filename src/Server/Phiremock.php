@@ -27,6 +27,8 @@ use Mcustiel\Phiremock\Server\Actions\ClearExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearScenariosAction;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
+use Mcustiel\PowerRoute\Common\Creation\LazyCreator;
+use Mcustiel\PowerRoute\Common\Creation\SingletonLazyCreator;
 
 class Phiremock implements RequestHandlerInterface
 {
@@ -77,12 +79,24 @@ class Phiremock implements RequestHandlerInterface
         if ($this->actionFactory === null) {
             $this->actionFactory = new ActionFactory([
                 'addExpectation' => $this->getAddExpectationAction(),
-                'listExpectations' => new ListExpectationsAction($this->expectationStorage),
-                'clearExpectations' => new ClearExpectationsAction($this->expectationStorage),
-                'serverError' => [ServerError::class],
-                'clearScenarios' => new ClearScenariosAction($this->scenarioStorage),
+                'listExpectations' => new SingletonLazyCreator(
+                    ListExpectationsAction::class,
+                    [$this->expectationStorage]
+                 ),
+                'clearExpectations' => new SingletonLazyCreator(
+                    ClearExpectationsAction::class,
+                    [$this->expectationStorage]
+                ),
+                'serverError' => new SingletonLazyCreator(ServerError::class),
+                'clearScenarios' => new SingletonLazyCreator(
+                    ClearScenariosAction::class,
+                    [$this->scenarioStorage]
+                ),
                 'checkExpectations' => $this->getSearchExpectationAction(),
-                'verifyExpectations' => new VerifyRequestFound($this->scenarioStorage),
+                'verifyExpectations' => new SingletonLazyCreator(
+                    VerifyRequestFound::class,
+                    [$this->scenarioStorage]
+                ),
             ]);
         }
         return $this->actionFactory;
@@ -90,15 +104,18 @@ class Phiremock implements RequestHandlerInterface
 
     private function getSearchExpectationAction()
     {
-        return new SearchRequestAction($this->expectationStorage, $this->getComparator());
+        return new SingletonLazyCreator(
+            SearchRequestAction::class,
+            [$this->expectationStorage, $this->getComparator()]
+        );
     }
 
     private function getAddExpectationAction()
     {
-        return new AddExpectationAction(
+        return new LazyCreator(AddExpectationAction::class, [
             $this->getRequestBuilder(),
             $this->expectationStorage
-        );
+        ]);
     }
 
     private function getRequestBuilder()
@@ -122,10 +139,10 @@ class Phiremock implements RequestHandlerInterface
     {
         if ($this->inputSourceFactory === null) {
             $this->inputSourceFactory = new InputSourceFactory([
-                'method' => [Method::class],
-                'url' => [Url::class],
-                'header' => [Header::class],
-                'body' => [Body::class]
+                'method' => new SingletonLazyCreator(Method::class),
+                'url' => new SingletonLazyCreator(Url::class),
+                'header' => new SingletonLazyCreator(Header::class),
+                'body' => new SingletonLazyCreator(Body::class)
             ]);
         }
         return $this->inputSourceFactory;
@@ -135,9 +152,9 @@ class Phiremock implements RequestHandlerInterface
     {
         if ($this->matcherFactory === null) {
             $this->matcherFactory = new MatcherFactory([
-                'isEqualTo' => [Equals::class],
-                'matchesPattern' => [RegExp::class],
-                'isSameString' => [CaseInsensitiveEquals::class],
+                'isEqualTo' => new SingletonLazyCreator(Equals::class),
+                'matchesPattern' => new SingletonLazyCreator(RegExp::class),
+                'isSameString' => new SingletonLazyCreator(CaseInsensitiveEquals::class),
             ]);
         }
         return $this->matcherFactory;

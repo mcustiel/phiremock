@@ -20,7 +20,7 @@ class VerifyRequestFound implements ActionInterface
         $this->scenarioStorage = $scenarioStorage;
     }
 
-    public function execute(TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         /**
          *
@@ -35,10 +35,6 @@ class VerifyRequestFound implements ActionInterface
         $this->processScenario($foundExpectation);
         $foundResponse = $foundExpectation->getResponse();
         $transactionData->setResponse($this->generateResponse($transactionData, $foundResponse));
-    }
-
-    public function setArgument($argument)
-    {
     }
 
     /**

@@ -32,7 +32,7 @@ class SearchRequestAction implements ActionInterface
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
-    public function execute(TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         $request = $transactionData->getRequest();
         $foundExpectation = $this->searchForMatchingExpectation($request);
@@ -41,10 +41,6 @@ class SearchRequestAction implements ActionInterface
             return;
         }
         $transactionData->set('foundExpectation', $foundExpectation);
-    }
-
-    public function setArgument($argument)
-    {
     }
 
     private function searchForMatchingExpectation($request)

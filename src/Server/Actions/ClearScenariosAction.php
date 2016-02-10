@@ -20,20 +20,12 @@ class ClearScenariosAction implements ActionInterface
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
-    public function execute(TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         $this->storage->clearScenarios();
 
         $transactionData->setResponse(
             $transactionData->getResponse()->withStatus(200)
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \Mcustiel\PowerRoute\Common\ArgumentAwareInterface::setArgument()
-     */
-    public function setArgument($argument)
-    {
     }
 }

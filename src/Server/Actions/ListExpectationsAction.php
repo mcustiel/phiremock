@@ -21,7 +21,7 @@ class ListExpectationsAction implements ActionInterface
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
-    public function execute(TransactionData $transactionData)
+    public function execute(TransactionData $transactionData, $argument = null)
     {
         $list = json_encode($this->storage->listExpectations());
 
@@ -30,9 +30,5 @@ class ListExpectationsAction implements ActionInterface
             ->withBody(new Stream("data://text/plain,$list"))
             ->withHeader('Content-type', 'application/json')
         );
-    }
-
-    public function setArgument($argument)
-    {
     }
 }
