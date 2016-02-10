@@ -34,7 +34,10 @@ class Response implements \JsonSerializable
     private $headers;
     /**
      * @SRV\OneOf({
-     *      @SRV\Type("integer"),
+     *      @SRV\AllOf({
+     *          @SRV\Type("integer"),
+     *          @SRV\Minimum(0)
+     *      }),
      *      @SRV\Not(@SRV\NotNull)
      * })
      *
