@@ -97,7 +97,7 @@ class BodyConditionCest
 
     public function responseExpectedWhenRequestBodyMatchesTest(AcceptanceTester $I)
     {
-        $I->wantTo('see if mocking based in request body works');
+        $I->wantTo('see if mocking based in request body pattern works');
         $request = new Request();
         $request->setBody(new Condition('matches', '/.*potato.*/'))
             ->setMethod('post');
@@ -111,7 +111,50 @@ class BodyConditionCest
 
         $I->seeResponseCodeIs(201);
 
-        $I->sendPOST('/dontcare', "This is the potato body");
+        $I->sendPOST('/dontcare', 'This is the potato body');
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseEquals('Found');
+    }
+
+    public function responseExpectedWhenRequestBodyEqualsTest(AcceptanceTester $I)
+    {
+        $I->wantTo('see if mocking based in request body equality works');
+        $request = new Request();
+        $request->setBody(new Condition('isEqualTo', 'potato'))
+            ->setMethod('post');
+        $response = new Response();
+        $response->setBody('Found');
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs(201);
+
+        $I->sendPOST('/dontcare', 'potato');
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseEquals('Found');
+    }
+
+    public function responseExpectedWhenRequestBodyCaseInsensitiveEqualsTest(AcceptanceTester $I)
+    {
+        $I->wantTo('see if mocking based in request body case insensitive equality works');
+        $request = new Request();
+        $request->setBody(new Condition('isSameString', 'pOtAtO'))
+            ->setMethod('post');
+        $response = new Response();
+        $response->setBody('Found');
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs(201);
+        $I->sendPOST('/dontcare', 'potato');
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseEquals('Found');

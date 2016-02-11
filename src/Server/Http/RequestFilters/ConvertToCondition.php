@@ -39,7 +39,7 @@ class ConvertToCondition implements FilterInterface
 
     private function isValidCondition($matcherName)
     {
-        return $matcherName == 'isEqualTo' || $matcherName == 'matches';
+        return $matcherName == 'isEqualTo' || $matcherName == 'matches' || $matcherName == 'isSameString';
     }
 
     private function checkValueIsValidOrThrowException($value)
