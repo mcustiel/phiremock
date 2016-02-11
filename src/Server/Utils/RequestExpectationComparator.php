@@ -9,6 +9,7 @@ use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
+use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 
 class RequestExpectationComparator
 {
@@ -126,6 +127,9 @@ class RequestExpectationComparator
         $inputSource = $this->inputSourceFactory->createFromConfig([
             'body' => null
         ]);
+        echo "Input source body is = " . $inputSource->getInstance()->getValue($httpRequest);
+        echo "\nExpected body is = " . $expectedRequest->getBody()->getValue();
+        echo PHP_EOL;
         $matcher = $this->matcherFactory->createFromConfig([
             $expectedRequest->getBody()->getMatcher() => $expectedRequest->getBody()->getValue()
         ]);
@@ -152,11 +156,13 @@ class RequestExpectationComparator
     }
 
     private function evaluate(
-        InputSourceInterface $inputSource,
-        MatcherInterface $matcher,
+        ClassArgumentObject $inputSource,
+        ClassArgumentObject $matcher,
         ServerRequestInterface $httpRequest
     ) {
-        echo 'Input source returns: ' . $inputSource->getValue($httpRequest) . PHP_EOL;
-        return $matcher->match($inputSource->getValue($httpRequest));
+        return $matcher->getInstance()->match(
+            $inputSource->getInstance()->getValue($httpRequest, $inputSource->getArgument()),
+            $matcher->getArgument()
+        );
     }
 }

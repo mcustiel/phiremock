@@ -94,4 +94,26 @@ class BodyConditionCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Condition value can not be null"]}');
     }
+
+    public function responseExpectedWhenRequestBodyMatchesTest(AcceptanceTester $I)
+    {
+        $I->wantTo('see if mocking based in request body works');
+        $request = new Request();
+        $request->setBody(new Condition('matches', '/.*potato.*/'))
+            ->setMethod('post');
+        $response = new Response();
+        $response->setBody('Found');
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs(201);
+
+        $I->sendPOST('/dontcare', "This is the potato body");
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseEquals('Found');
+    }
 }

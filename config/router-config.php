@@ -11,7 +11,7 @@ return [
                     [
                         'input-source' => ['url' => 'path'],
                         'matcher' => [
-                            'matchesPattern' => '/\\_\\_phiremock\/expectation\/?$/'
+                            'matches' => '/\\_\\_phiremock\/expectation\/?$/'
                         ],
                     ],
                 ],
@@ -91,7 +91,7 @@ return [
                     [
                         'input-source' => ['url' => 'path'],
                         'matcher' => [
-                            'matchesPattern' => '/\\_\\_phiremock\/scenarios\/?$/'
+                            'matches' => '/\\_\\_phiremock\/scenarios\/?$/'
                         ],
                     ],
                 ],

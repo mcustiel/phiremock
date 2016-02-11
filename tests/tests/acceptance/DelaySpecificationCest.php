@@ -42,7 +42,7 @@ public function _before(AcceptanceTester $I)
     // tests
     public function failWhithNegativedDelayTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation with an invalid delay specification');
+        $I->wantTo('create an expectation with a negative delay specification');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -59,5 +59,49 @@ public function _before(AcceptanceTester $I)
             . '{"response":"delayMillis: Field delayMillis, '
             . 'was set with invalid value: -5000"}}'
         );
+    }
+
+    // tests
+    public function failWhithInvalidDelayTest(AcceptanceTester $I)
+    {
+        $I->wantTo('create an expectation with an invalid delay specification');
+        $request = new Request();
+        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
+        $response = new Response();
+        $response->setDelayMillis('potato');
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs('500');
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals(
+            '{"result" : "ERROR", "details" : '
+            . '{"response":"delayMillis: Field delayMillis, '
+            . 'was set with invalid value: \'potato\'"}}'
+        );
+    }
+
+    // tests
+    public function mockRequestWithDelayTest(AcceptanceTester $I)
+    {
+        $I->wantTo('mock a request with delay');
+        $request = new Request();
+        $request->setUrl(new Condition('isEqualTo', '/the/request/url'))
+            ->setMethod('GET');
+        $response = new Response();
+        $response->setDelayMillis(2000);
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs(201);
+
+        $start = microtime(true);
+        $I->sendGET('/the/request/url');
+        $I->seeResponseCodeIs(200);
+        $I->assertGreaterThan(2000, (microtime(true)-$start)*1000);
     }
 }

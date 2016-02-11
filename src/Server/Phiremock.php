@@ -153,7 +153,7 @@ class Phiremock implements RequestHandlerInterface
         if ($this->matcherFactory === null) {
             $this->matcherFactory = new MatcherFactory([
                 'isEqualTo' => new SingletonLazyCreator(Equals::class),
-                'matchesPattern' => new SingletonLazyCreator(RegExp::class),
+                'matches' => new SingletonLazyCreator(RegExp::class),
                 'isSameString' => new SingletonLazyCreator(CaseInsensitiveEquals::class),
             ]);
         }
