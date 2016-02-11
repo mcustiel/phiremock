@@ -99,8 +99,7 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body pattern works');
         $request = new Request();
-        $request->setBody(new Condition('matches', '/.*potato.*/'))
-            ->setMethod('post');
+        $request->setBody(new Condition('matches', '/.*potato.*/'));
         $response = new Response();
         $response->setBody('Found');
         $expectation = new Expectation();
@@ -121,8 +120,7 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body equality works');
         $request = new Request();
-        $request->setBody(new Condition('isEqualTo', 'potato'))
-            ->setMethod('post');
+        $request->setBody(new Condition('isEqualTo', 'potato'));
         $response = new Response();
         $response->setBody('Found');
         $expectation = new Expectation();
@@ -143,8 +141,7 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body case insensitive equality works');
         $request = new Request();
-        $request->setBody(new Condition('isSameString', 'pOtAtO'))
-            ->setMethod('post');
+        $request->setBody(new Condition('isSameString', 'pOtAtO'));
         $response = new Response();
         $response->setBody('Found');
         $expectation = new Expectation();

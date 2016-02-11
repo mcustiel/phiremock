@@ -129,4 +129,59 @@ class HeadersConditionsCest
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
         );
     }
+
+    public function responseExpectedWhenRequestOneHeaderMatchesTest(AcceptanceTester $I)
+    {
+        $I->wantTo('see if mocking based in one request header works');
+        $request = new Request();
+        $request->setHeaders([
+            'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded')
+        ]);
+        $response = new Response();
+        $response->setBody('Found');
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs(201);
+        $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $I->sendGET('/dontcare');
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseEquals('Found');
+    }
+
+    public function responseExpectedWhenSeveralHeadersMatchesTest(AcceptanceTester $I)
+    {
+        $I->wantTo('see if mocking based in several request headers works');
+        $request = new Request();
+        $request->setHeaders([
+            'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
+            'X-Potato' => new Condition('matches', '/.*tomato.*/'),
+            'X-Tomato' => new Condition('isSameString', 'PoTaTo')
+        ]);
+        $response = new Response();
+        $response->setBody('Found');
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectation', $expectation);
+
+        $I->seeResponseCodeIs(201);
+
+        $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $I->sendGET('/dontcare');
+
+        $I->seeResponseCodeIs(404);
+
+        $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $I->haveHttpHeader('X-potato', 'a-tomato-0');
+        $I->haveHttpHeader('X-tomato', 'potato');
+        $I->sendGET('/dontcare');
+
+        $I->seeResponseEquals('Found');
+    }
 }
