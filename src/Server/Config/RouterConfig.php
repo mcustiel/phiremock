@@ -1,0 +1,10 @@
+<?php
+namespace Mcustiel\Phiremock\Server\Config;
+
+class RouterConfig
+{
+    public static function get()
+    {
+        return __DIR__ . '/router-config.php';
+    }
+}

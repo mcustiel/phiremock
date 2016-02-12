@@ -1,10 +1,13 @@
 <?php
-require __DIR__ . '/autoload.php';
+$loader = require __DIR__ . '/../vendor/autoload.php';
+
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
 use Mcustiel\Phiremock\Server\Phiremock;
 use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
+use Mcustiel\Phiremock\Server\Config\RouterConfig;
 
 if (PHP_SAPI != 'cli') {
     throw new \Exception('This is a standalone CLI application');
@@ -19,7 +22,7 @@ $scenarioStorage = new ScenarioAutoStorage();
 $expectationStorage = new ExpectationAutoStorage();
 
 $application = new Phiremock(
-    require __DIR__ . '/../config/router-config.php',
+    RouterConfig::get(),
     $expectationStorage,
     $scenarioStorage
 );
