@@ -19,7 +19,7 @@
 		"react/http" : "dev-master",
 		"mcustiel/php-simple-request" : "dev-develop",
 		"mcustiel/power-route" : "dev-develop",
-		"mcustiel/php-simple-conversion" : "dev-master",
+		"guzzlehttp/guzzle": "~6.2",
 		"monolog/monolog" : "~1.17.2",
 		"pwfisher/command-line-php" : "dev-master"
 	},

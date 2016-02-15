@@ -5,6 +5,6 @@ class RouterConfig
 {
     public static function get()
     {
-        return __DIR__ . '/router-config.php';
+        return require __DIR__ . '/router-config.php';
     }
 }
