@@ -3,6 +3,8 @@ namespace Mcustiel\Phiremock\Server\Model;
 
 interface ScenarioStorage
 {
+    const INITIAL_SCENARIO = "Scenario.START";
+
     /**
      * @param string $name
      * @param string $state

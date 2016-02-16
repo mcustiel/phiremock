@@ -5,8 +5,6 @@ use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 
 class ScenarioAutoStorage implements ScenarioStorage
 {
-    const INITIAL_SCENARIO = "Scenario.START";
-
     /**
      * @var string[]
      */
