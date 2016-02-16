@@ -36,23 +36,33 @@ class SearchRequestAction implements ActionInterface
     {
         $request = $transactionData->getRequest();
         $foundExpectation = $this->searchForMatchingExpectation($request);
-        if ($foundExpectation === null) {
-            $transactionData->set('foundResponse', false);
+        if ($foundExpectation['expectation'] === null) {
+            $transactionData->set('foundExpectation', false);
             return;
         }
-        $transactionData->set('foundExpectation', $foundExpectation);
+        $transactionData->set('foundExpectation', $foundExpectation['expectation']);
+        $this->storage->setExpectationUses(
+            $foundExpectation['position'],
+            $this->storage->getExpectationUses($foundExpectation['position']) + 1
+        );
+        $transactionData->set('foundExpectationPosition', $foundExpectation['position']);
     }
 
     private function searchForMatchingExpectation($request)
     {
         $lastFound = null;
-        foreach ($this->storage->listExpectations() as $expectation) {
+        $foundPosition = -1;
+        foreach ($this->storage->listExpectations() as $position => $expectation) {
             if ($this->comparator->equals($request, $expectation)) {
                 if ($lastFound == null || $expectation->getPriority() > $lastFound->getPriority()) {
                     $lastFound = $expectation;
+                    $foundPosition = $position;
                 }
             }
         }
-        return $lastFound;
+        return [
+            'expectation' => $lastFound,
+            'position' => $foundPosition
+        ];
     }
 }

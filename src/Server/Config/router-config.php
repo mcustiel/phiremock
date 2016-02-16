@@ -21,7 +21,7 @@ return [
                     ['goto' => 'expectationMethodIsPost'],
                 ],
                 'else' => [
-                    ['goto' => 'default'],
+                    ['goto' => 'scenariosUrl'],
                 ],
             ],
         ],
@@ -101,7 +101,7 @@ return [
                     ['scenariosMethodIsDelete' => null],
                 ],
                 'else' => [
-                    ['goto' => 'default'],
+                    ['goto' => 'verifyUrl'],
                 ],
             ],
         ],
@@ -117,6 +117,51 @@ return [
             'actions' => [
                 'if-matches' => [
                     ['clearScenarios' => null],
+                ],
+                'else' => [
+                    ['goto' => 'apiError'],
+                ],
+            ],
+        ],
+
+// -------------------------------- API: error happened ---------------------------
+
+        'verifyUrl' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['url' => 'path'],
+                        'matcher' => [
+                            'matches' => '/\\_\\_phiremock\/executions\/?$/'
+                        ],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['goto' => 'verifyMethodIsPost'],
+                ],
+                'else' => [
+                    ['goto' => 'default'],
+                ],
+            ],
+        ],
+        'verifyMethodIsPost' => [
+            'condition' => [
+                'all-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher' => ['isEqualTo' => 'POST'],
+                    ],
+                    [
+                        'input-source' => ['header' => 'Content-Type'],
+                        'matcher' => ['isEqualTo' => 'application/json'],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['countExecutions' => null],
                 ],
                 'else' => [
                     ['goto' => 'apiError'],

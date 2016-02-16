@@ -12,9 +12,15 @@ class ExpectationAutoStorage implements ExpectationStorage
      */
     private $config;
 
+    /**
+     *
+     * @var integer[]
+     */
+    private $counts;
+
     public function __construct()
     {
-        $this->config = [];
+        $this->clearExpectations();
     }
 
     /**
@@ -26,6 +32,7 @@ class ExpectationAutoStorage implements ExpectationStorage
     public function addExpectation(Expectation $expectation)
     {
         $this->config[] = $expectation;
+        $this->counts[] = 0;
     }
 
     /**
@@ -48,5 +55,28 @@ class ExpectationAutoStorage implements ExpectationStorage
     public function clearExpectations()
     {
         $this->config = [];
+        $this->counts = [];
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectationStorage::getExpectationUses()
+     */
+    public function getExpectationUses($position)
+    {
+        return $this->counts[$position];
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectationStorage::setExpectationUses()
+     */
+    public function setExpectationUses($position, $value)
+    {
+        $this->counts[$position] = $value;
     }
 }

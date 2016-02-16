@@ -20,4 +20,15 @@ interface ExpectationStorage
      * @return \Mcustiel\Phiremock\Domain\Expectation[]
      */
     public function listExpectations();
+
+    /**
+     * @param mixed $position
+     */
+    public function getExpectationUses($position);
+
+    /**
+     * @param mixed   $position
+     * @param integer $value
+     */
+    public function setExpectationUses($position, $value);
 }
