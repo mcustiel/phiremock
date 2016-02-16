@@ -34,5 +34,5 @@
         "phploc/phploc" : ">=2.1.1",
         "phpdocumentor/phpdocumentor" : ">=2.8.5"
 	},
-	"bin": ["bin/standalone"]
+	"bin": ["bin/phiremock"]
 }
