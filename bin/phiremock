@@ -1,7 +1,10 @@
 #!/usr/bin/php
 <?php
-$loader = require __DIR__ . '/../vendor/autoload.php';
-
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    $loader = require __DIR__ . '/../vendor/autoload.php';
+} else {
+    $loader = require __DIR__ . '/../../../autoload.php';
+}
 \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
