@@ -51,13 +51,13 @@ class CountExecutionAction implements ActionInterface
                 Expectation::class,
                 RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
             );
-            if ($this->requestIsInvalid($request)) {
+            if ($this->requestIsInvalid($expectation->getRequest())) {
                 throw new \RuntimeException('Invalid request specified to verify');
             }
             $count = $this->searchForExecutionsCount($expectation);
             $transactionData->setResponse(
-                $response->withStatus(200)
-                ->withBody(new Stream('data://text/plain,' . json_encode(['count' => $count])))
+                $transactionData->getResponse()->withStatus(200)
+                    ->withBody(new Stream('data://text/plain,' . json_encode(['count' => $count])))
             );
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
             $listOfErrors = $e->getErrors();
@@ -73,10 +73,12 @@ class CountExecutionAction implements ActionInterface
     private function searchForExecutionsCount(Expectation $request)
     {
         $foundPosition = -1;
+        $lastFound = null;
         foreach ($this->storage->listExpectations() as $position => $expectation) {
             if ($this->compare($request, $expectation)) {
                 if ($lastFound == null || $expectation->getPriority() > $lastFound->getPriority()) {
                     $foundPosition = $position;
+                    $lastFound = $lastFound;
                 }
             }
         }
