@@ -29,6 +29,7 @@ use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 use Mcustiel\PowerRoute\Common\Creation\LazyCreator;
 use Mcustiel\PowerRoute\Common\Creation\SingletonLazyCreator;
+use Mcustiel\Phiremock\Server\Actions\CountExecutionAction;
 
 class Phiremock implements RequestHandlerInterface
 {
@@ -96,6 +97,14 @@ class Phiremock implements RequestHandlerInterface
                 'verifyExpectations' => new SingletonLazyCreator(
                     VerifyRequestFound::class,
                     [$this->scenarioStorage]
+                ),
+                'countExecutions' => new SingletonLazyCreator(
+                    CountExecutionAction::class,
+                    [
+                        $this->getRequestBuilder(),
+                        $this->scenarioStorage,
+                        $this->getComparator(),
+                    ]
                 ),
             ]);
         }
