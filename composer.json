@@ -3,8 +3,17 @@
 		"http",
 		"mock",
 		"server",
-		"external"
+		"external",
+		"acceptance",
+		"tests"
 	],
+	"authors" : [{
+        "name" : "Mariano Custiel",
+        "email" : "jmcustiel@gmail.com",
+        "homepage" : "https://github.com/mcustiel",
+        "role" : "Developer"
+        }
+    ],
 	"autoload" : {
 		"psr-4" : {
 			"Mcustiel\\Phiremock\\" : "src"
@@ -12,10 +21,10 @@
 	},
 	"name" : "mcustiel/phiremock",
 	"type" : "project",
-	"description" : "A http server mocker",
+	"description" : "A mocker for HTTP and REST services",
 	"license" : "GPL-3.0+",
 	"require" : {
-		"php" : ">=5.6",
+		"php" : ">=5.5",
 		"react/http" : "dev-master",
 		"mcustiel/php-simple-request" : "dev-develop",
 		"mcustiel/power-route" : "dev-develop",
