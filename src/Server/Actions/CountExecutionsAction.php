@@ -10,7 +10,7 @@ use Zend\Diactoros\Stream;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 
-class CountExecutionAction implements ActionInterface
+class CountExecutionsAction implements ActionInterface
 {
     /**
      * @var \Mcustiel\SimpleRequest\RequestBuilder
@@ -55,13 +55,18 @@ class CountExecutionAction implements ActionInterface
                 throw new \RuntimeException('Invalid request specified to verify');
             }
             $count = $this->searchForExecutionsCount($expectation);
+            echo "$count executions found\n";
             $transactionData->setResponse(
                 $transactionData->getResponse()->withStatus(200)
+                    ->withHeader('Content-Type', 'application/json')
                     ->withBody(new Stream('data://text/plain,' . json_encode(['count' => $count])))
             );
+            return;
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
+            echo "Invalid request: " , $e->__toString();
             $listOfErrors = $e->getErrors();
         } catch (\Exception $e) {
+            echo "Exception: " , $e->__toString();
             $listOfErrors = [$e->getMessage()];
         }
 
@@ -75,7 +80,7 @@ class CountExecutionAction implements ActionInterface
         $foundPosition = -1;
         $lastFound = null;
         foreach ($this->storage->listExpectations() as $position => $expectation) {
-            if ($this->compare($request, $expectation)) {
+            if ($this->compareExpectations($request, $expectation)) {
                 if ($lastFound == null || $expectation->getPriority() > $lastFound->getPriority()) {
                     $foundPosition = $position;
                     $lastFound = $lastFound;
@@ -95,12 +100,15 @@ class CountExecutionAction implements ActionInterface
     private function compareRequests(Request $request1, Request $request2)
     {
         return $request1->getMethod() == $request2->getMethod()
-            && $request1->getBody()->getMatcher() == $request2->getBody()->getMatcher()
-            && $request1->getBody()->getValue() == $request2->getBody()->getValue()
-            && $request1->getHeaders()->getMatcher() == $request2->getHeaders()->getMatcher()
-            && $request1->getHeaders()->getValue() == $request2->getHeaders()->getValue()
-            && $request1->getUrl()->getMatcher() == $request2->getUrl()->getMatcher()
-            && $request1->getUrl()->getValue() == $request2->getUrl()->getValue();
+            && (($request1->getBody() == null && $request2->getBody() == null)
+            || $request1->getBody()->getMatcher() == $request2->getBody()->getMatcher()
+            || $request1->getBody()->getValue() == $request2->getBody()->getValue())
+            && (($request1->getHeaders() == null && $request2->getHeaders() == null)
+            ||$request1->getHeaders()->getMatcher() == $request2->getHeaders()->getMatcher()
+            || $request1->getHeaders()->getValue() == $request2->getHeaders()->getValue())
+            && (($request1->getUrl() == null && $request2->getUrl())
+            || $request1->getUrl()->getMatcher() == $request2->getUrl()->getMatcher()
+            || $request1->getUrl()->getValue() == $request2->getUrl()->getValue());
     }
 
     private function responseIsInvalid($response)

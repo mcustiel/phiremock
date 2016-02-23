@@ -11,10 +11,12 @@ use Mcustiel\Phiremock\Client\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
+use Mcustiel\Phiremock\Domain\Response;
 
 class Phiremock
 {
     const API_EXPECTATIONS_URL = '/__phiremock/expectation';
+    const API_EXECUTIONS_URL = '/__phiremock/executions';
 
     /**
      * @var \Mcustiel\Phiremock\Client\Http\RemoteConnectionInterface
@@ -81,6 +83,29 @@ class Phiremock
                 $return[] = $builder->parseRequest($expectationArray, Expectation::class);
             }
             return $return;
+        }
+
+        $this->checkErrorResponse($response);
+    }
+
+    public function countExecutions(RequestBuilder $requestBuilder)
+    {
+        $expectation = $requestBuilder->build();
+        $expectation->setResponse(new Response());
+        $uri = $this->createBaseUri()->withPath(self::API_EXECUTIONS_URL);
+        $json = json_encode($expectation);
+
+        $request = (new PsrRequest())
+            ->withUri($uri)
+            ->withMethod('post')
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(new Stream("data://text/plain,{$json}"));
+
+        $response = $this->connection->send($request);
+
+        if ($response->getStatusCode() === 200) {
+            $json = json_decode($response->getBody()->__toString());
+            return $json->count;
         }
 
         $this->checkErrorResponse($response);

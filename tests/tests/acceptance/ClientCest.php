@@ -88,4 +88,29 @@ class ClientCest
         $I->seeResponseEquals('Coconut!');
         $I->seeHttpHeader('X-Tomato', 'Potato-received-again');
     }
+
+    // tests
+    public function countExecutionsTest(AcceptanceTester $I)
+    {
+        $expectation = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(new Condition('isEqualTo', '/potato'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Tomato!');
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendGET('/potato');
+        $I->seeResponseCodeIs(201);
+        $I->seeResponseEquals('Tomato!');
+
+        $I->sendGET('/potato');
+
+        $count = $this->phiremock->countExecutions(
+            A::getRequest()->andUrl(Is::equalTo('/potato'))
+        );
+        $I->assertEquals(2, $count);
+    }
 }
