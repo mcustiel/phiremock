@@ -26,7 +26,7 @@ Run your phiremock service using it's cli command:
     ./bin/phiremock -p 8088 -i 0.0.0.0
 ```
 
-** Cli arguments: ** 
+**Cli arguments:** 
 * -i argument specifies in which interface Phiremock should listen for requests. Default is 0.0.0.0
 * -p argument is the port in which Phiremock should listen. Default is 8086
 
