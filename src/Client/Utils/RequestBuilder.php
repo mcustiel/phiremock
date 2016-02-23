@@ -11,6 +11,7 @@ class RequestBuilder
     private $headers = [];
     private $scenarioName;
     private $scenarioIs;
+    private $priority;
 
     private function __construct($method)
     {
@@ -48,6 +49,11 @@ class RequestBuilder
         return $this;
     }
 
+    public function andPriority($priority)
+    {
+        $this->priority = $priority;
+    }
+
     public function build()
     {
         if (!empty($this->headers)) {
@@ -58,6 +64,9 @@ class RequestBuilder
         if ($this->scenarioName && $this->scenarioIs) {
             $expectation->setScenarioName($this->scenarioName)
                 ->setScenarioStateIs($this->scenarioIs);
+        }
+        if ($this->priority) {
+            $expectation->setPriority((integer) $this->priority);
         }
         return $expectation;
     }

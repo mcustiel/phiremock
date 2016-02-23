@@ -17,6 +17,7 @@ class Phiremock
 {
     const API_EXPECTATIONS_URL = '/__phiremock/expectation';
     const API_EXECUTIONS_URL = '/__phiremock/executions';
+    const API_SCENARIOS_URL = '/__phiremock/scenarios';
 
     /**
      * @var \Mcustiel\Phiremock\Client\Http\RemoteConnectionInterface
@@ -113,7 +114,10 @@ class Phiremock
 
     public function resetScenarios()
     {
+        $uri = $this->createBaseUri()->withPath(self::API_SCENARIOS_URL);
+        $request = (new PsrRequest())->withUri($uri)->withMethod('delete');
 
+        $this->checkResponse($this->connection->send($request));
     }
 
     public static function on(RequestBuilder $requestBuilder)
