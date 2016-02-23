@@ -20,6 +20,16 @@ First of all you need to setup the config for the different environments for you
     }
 ```
 
+Run your phiremock service using it's cli command:
+
+```bash
+    ./bin/phiremock -p 8088 -i 0.0.0.0
+```
+
+** Cli arguments: ** 
+* -i argument specifies in which interface Phiremock should listen for requests. Default is 0.0.0.0
+* -p argument is the port in which Phiremock should listen. Default is 8086
+
 Then, using phiremock's REST interface, expectations can be configured, specifying the response to send for a given request. A REST expectation resource for phiremock looks like this:
 
 ```json
