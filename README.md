@@ -1,6 +1,6 @@
 # phiremock (beta)
 
-Phiremock is a HTTP services mocker, it allows software developers to setup static responses for expected requests to avoid connecting to real services during development. Also can be used to avoid using real services and to expect always the same response during acceptance tests. Any HTTP service (i.e.: REST services) can be mocked.
+Phiremock is a HTTP services mocker and stubber, it allows software developers to setup static responses for expected requests to avoid connecting to real services during development. Also can be used to avoid using real services and to expect always the same response during acceptance tests. Any HTTP service (i.e.: REST services) can be mocked and stubbed.
 
 ## How does it work?
 
