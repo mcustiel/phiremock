@@ -33,6 +33,7 @@ use Mcustiel\Phiremock\Server\Model\Implementation\RequestAutoStorage;
 use Mcustiel\Phiremock\Server\Phiremock;
 use Mcustiel\Phiremock\Server\Config\RouterConfig;
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
+use Mcustiel\Phiremock\Server\Actions\StoreRequestAction;
 
 $di = new DependencyInjectionService();
 
@@ -43,6 +44,7 @@ $di->register('config', function () {
 $di->register('server', function () use ($di) {
     $server = new ReactPhpServer();
     $server->setRequestHandler($di->get('application'));
+    return $server;
 });
 
 $di->register('application', function () use ($di) {
@@ -94,7 +96,7 @@ $di->register('inputSourceFactory', function() {
 });
 
 $di->register('router', function () use ($di) {
-    new PowerRoute(
+    return new PowerRoute(
         $di->get('config'),
         $di->get('actionFactory'),
         $di->get('conditionsMatcherFactory')
@@ -117,27 +119,24 @@ $di->register('actionFactory', function () use ($di) {
         ]),
         'listExpectations' => new SingletonLazyCreator(
             ListExpectationsAction::class,
-            $di->get('scenarioStorage')
+            [$di->get('expectationStorage')]
          ),
         'clearExpectations' => new SingletonLazyCreator(
             ClearExpectationsAction::class,
-            $di->get('expectationStorage')
+            [$di->get('expectationStorage')]
         ),
         'serverError' => new SingletonLazyCreator(ServerError::class),
         'clearScenarios' => new SingletonLazyCreator(
             ClearScenariosAction::class,
-            $di->get('scenarioStorage')
+            [$di->get('scenarioStorage')]
         ),
         'checkExpectations' => new SingletonLazyCreator(
             SearchRequestAction::class,
-            [
-                $di->get('requestStorage'),
-                $di->get('requestExpectationComparator'),
-            ]
+            [$di->get('expectationStorage'), $di->get('requestExpectationComparator')]
         ),
         'verifyExpectations' => new SingletonLazyCreator(
             VerifyRequestFound::class,
-            $di->get('scenarioStorage')
+            [$di->get('scenarioStorage')]
         ),
         'countRequests' => new SingletonLazyCreator(
             CountRequestsAction::class,
@@ -147,6 +146,10 @@ $di->register('actionFactory', function () use ($di) {
                 $di->get('requestExpectationComparator'),
             ]
         ),
+        'storeRequest' => new SingletonLazyCreator(
+            StoreRequestAction::class,
+            [$di->get('requestStorage')]
+         ),
     ]);
 });
 

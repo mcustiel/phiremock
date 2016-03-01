@@ -36,7 +36,7 @@ class SearchRequestAction implements ActionInterface
     {
         $request = $transactionData->getRequest();
         $foundExpectation = $this->searchForMatchingExpectation($request);
-        if ($foundExpectation['expectation'] === null) {
+        if ($foundExpectation === null) {
             $transactionData->set('foundExpectation', false);
             return;
         }
