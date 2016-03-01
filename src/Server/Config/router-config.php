@@ -161,7 +161,7 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    ['countExecutions' => null],
+                    ['countRequests' => null],
                 ],
                 'else' => [
                     ['goto' => 'apiError'],
@@ -185,6 +185,7 @@ return [
             'condition' => [],
             'actions' => [
                 'if-matches' => [
+                    ['storeRequest' => null],
                     ['checkExpectations' => null],
                     ['verifyExpectations' => null],
                 ],

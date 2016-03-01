@@ -1,38 +1,29 @@
 #!/usr/bin/php
 <?php
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    $loader = require __DIR__ . '/../vendor/autoload.php';
-} else {
-    $loader = require __DIR__ . '/../../../autoload.php';
-}
-\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-
-use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
-use Mcustiel\Phiremock\Server\Phiremock;
-use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
-use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
-use Mcustiel\Phiremock\Server\Config\RouterConfig;
 
 if (PHP_SAPI != 'cli') {
     throw new \Exception('This is a standalone CLI application');
 }
 
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    $loader = require __DIR__ . '/../vendor/autoload.php';
+} else {
+    $loader = require __DIR__ . '/../../../autoload.php';
+}
+
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
+use Mcustiel\Phiremock\Server\Config\Dependencies;
+use Mcustiel\DependencyInjection\DependencyInjectionService;
+
+AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 $options = CommandLine::parseArgs($argv);
 
 $port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $options['p'] : '8086');
 $interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
 
-$scenarioStorage = new ScenarioAutoStorage();
-$expectationStorage = new ExpectationAutoStorage();
-
-$application = new Phiremock(
-    RouterConfig::get(),
-    $expectationStorage,
-    $scenarioStorage
-);
-
-$server = new ReactPhpServer();
-$server->setRequestHandler($application);
+$di = Dependencies::init();
+$server = $di->get('server');
 
 register_shutdown_function(function () use ($server) {
     $server->shutdown();
