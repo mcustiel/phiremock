@@ -2,7 +2,6 @@
 namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
 use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Model\RequestStorage;
 use Psr\Http\Message\ServerRequestInterface;
 

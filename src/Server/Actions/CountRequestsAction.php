@@ -5,11 +5,11 @@ use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
-use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Zend\Diactoros\Stream;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Mcustiel\Phiremock\Server\Model\RequestStorage;
+use Mcustiel\Phiremock\Common\StringStream;
 
 class CountRequestsAction implements ActionInterface
 {
@@ -79,7 +79,7 @@ class CountRequestsAction implements ActionInterface
     private function searchForExecutionsCount(Expectation $expectation)
     {
         $count = 0;
-        foreach ($this->requestStorage->listRequests() as $request) {
+        foreach ($this->requestsStorage->listRequests() as $request) {
             if ($this->comparator->equals($request, $expectation)) {
                 $count++;
             }

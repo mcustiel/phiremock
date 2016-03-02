@@ -17,7 +17,7 @@ class ClientCest
 
     public function _before(AcceptanceTester $I)
     {
-        $I->sendDELETE('/__phiremock/expectation');
+        $I->sendDELETE('/__phiremock/expectations');
         $this->phiremock = new PhiremockClient('127.0.0.1', '8086');
     }
 
@@ -92,6 +92,7 @@ class ClientCest
     // tests
     public function countExecutionsTest(AcceptanceTester $I)
     {
+        $I->sendDELETE('/__phiremock/executions');
         $expectation = new Expectation();
         $request = new Request();
         $request->setMethod('get');

@@ -11,7 +11,7 @@ return [
                     [
                         'input-source' => ['url' => 'path'],
                         'matcher' => [
-                            'matches' => '/\\_\\_phiremock\/expectation\/?$/'
+                            'matches' => '/\\_\\_phiremock\/expectations\/?$/'
                         ],
                     ],
                 ],
@@ -162,6 +162,24 @@ return [
             'actions' => [
                 'if-matches' => [
                     ['countRequests' => null],
+                ],
+                'else' => [
+                    ['goto' => 'verifyMethodIsDelete'],
+                ],
+            ],
+        ],
+        'verifyMethodIsDelete' => [
+            'condition' => [
+                'all-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher' => ['isEqualTo' => 'DELETE'],
+                    ]
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['resetCount' => null],
                 ],
                 'else' => [
                     ['goto' => 'apiError'],

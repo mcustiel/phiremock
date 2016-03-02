@@ -5,7 +5,6 @@ use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Client\Http\RemoteConnectionInterface;
 use Zend\Diactoros\Request as PsrRequest;
 use Zend\Diactoros\Uri;
-use Zend\Diactoros\Stream;
 use Mcustiel\SimpleRequest\RequestBuilder as SimpleRequestBuilder;
 use Mcustiel\Phiremock\Client\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Domain\Request;
@@ -16,7 +15,7 @@ use Mcustiel\Phiremock\Common\StringStream;
 
 class Phiremock
 {
-    const API_EXPECTATIONS_URL = '/__phiremock/expectation';
+    const API_EXPECTATIONS_URL = '/__phiremock/expectations';
     const API_EXECUTIONS_URL = '/__phiremock/executions';
     const API_SCENARIOS_URL = '/__phiremock/scenarios';
 
@@ -116,6 +115,14 @@ class Phiremock
     public function resetScenarios()
     {
         $uri = $this->createBaseUri()->withPath(self::API_SCENARIOS_URL);
+        $request = (new PsrRequest())->withUri($uri)->withMethod('delete');
+
+        $this->checkResponse($this->connection->send($request));
+    }
+
+    public function resetRequestsCounter()
+    {
+        $uri = $this->createBaseUri()->withPath(self::API_EXECUTIONS_URL);
         $request = (new PsrRequest())->withUri($uri)->withMethod('delete');
 
         $this->checkResponse($this->connection->send($request));

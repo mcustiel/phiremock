@@ -34,6 +34,7 @@ use Mcustiel\Phiremock\Server\Phiremock;
 use Mcustiel\Phiremock\Server\Config\RouterConfig;
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
 use Mcustiel\Phiremock\Server\Actions\StoreRequestAction;
+use Mcustiel\Phiremock\Server\Actions\ResetRequestsCountAction;
 
 $di = new DependencyInjectionService();
 
@@ -145,6 +146,10 @@ $di->register('actionFactory', function () use ($di) {
                 $di->get('requestStorage'),
                 $di->get('requestExpectationComparator'),
             ]
+        ),
+        'resetCount' => new SingletonLazyCreator(
+            ResetRequestsCountAction::class,
+            [$di->get('requestStorage')]
         ),
         'storeRequest' => new SingletonLazyCreator(
             StoreRequestAction::class,

@@ -10,7 +10,7 @@ class BodyConditionCest
 
     public function _before(AcceptanceTester $I)
     {
-        $I->sendDELETE('/__phiremock/expectation');
+        $I->sendDELETE('/__phiremock/expectations');
     }
 
     public function _after(AcceptanceTester $I)
@@ -27,9 +27,9 @@ class BodyConditionCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -49,12 +49,12 @@ class BodyConditionCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->sendPOST('/test', 'tomato 4b4n7c');
         $I->seeResponseCodeIs(201);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -74,7 +74,7 @@ class BodyConditionCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();
@@ -91,7 +91,7 @@ class BodyConditionCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
@@ -109,7 +109,7 @@ class BodyConditionCest
         $expectation->setRequest($request)->setResponse($response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(201);
 
@@ -130,7 +130,7 @@ class BodyConditionCest
         $expectation->setRequest($request)->setResponse($response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(201);
 
@@ -151,7 +151,7 @@ class BodyConditionCest
         $expectation->setRequest($request)->setResponse($response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(201);
         $I->sendPOST('/dontcare', 'potato');

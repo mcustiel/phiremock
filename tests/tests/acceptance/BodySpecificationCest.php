@@ -9,7 +9,7 @@ class BodySpecificationCest
 {
     public function _before(AcceptanceTester $I)
     {
-        $I->sendDELETE('/__phiremock/expectation');
+        $I->sendDELETE('/__phiremock/expectations');
     }
 
     public function _after(AcceptanceTester $I)
@@ -26,9 +26,9 @@ class BodySpecificationCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -48,9 +48,9 @@ class BodySpecificationCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -70,7 +70,7 @@ class BodySpecificationCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();

@@ -4,13 +4,13 @@ namespace Mcustiel\Phiremock\Server\Actions;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
-use Mcustiel\Phiremock\Common\StringStream;
+use Mcustiel\Phiremock\Server\Model\RequestStorage;
 
-class ListExpectationsAction implements ActionInterface
+class ResetRequestsCountAction implements ActionInterface
 {
     private $storage;
 
-    public function __construct(ExpectationStorage $storage)
+    public function __construct(RequestStorage $storage)
     {
         $this->storage = $storage;
     }
@@ -23,12 +23,10 @@ class ListExpectationsAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        $list = json_encode($this->storage->listExpectations());
+        $this->storage->clearRequests();
 
         $transactionData->setResponse(
-            $transactionData->getResponse()
-            ->withBody(new StringStream($list))
-            ->withHeader('Content-type', 'application/json')
+            $transactionData->getResponse()->withStatus(200)
         );
     }
 }

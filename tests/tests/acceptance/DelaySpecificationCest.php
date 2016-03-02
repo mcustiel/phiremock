@@ -9,7 +9,7 @@ class DelaySpecificationCest
 {
 public function _before(AcceptanceTester $I)
     {
-        $I->sendDELETE('/__phiremock/expectation');
+        $I->sendDELETE('/__phiremock/expectations');
     }
 
     public function _after(AcceptanceTester $I)
@@ -27,9 +27,9 @@ public function _before(AcceptanceTester $I)
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -50,7 +50,7 @@ public function _before(AcceptanceTester $I)
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();
@@ -72,7 +72,7 @@ public function _before(AcceptanceTester $I)
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();
@@ -95,7 +95,7 @@ public function _before(AcceptanceTester $I)
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(201);
 

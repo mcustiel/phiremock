@@ -8,7 +8,7 @@ class HeadersConditionsCest
 {
     public function _before(AcceptanceTester $I)
     {
-        $I->sendDELETE('/__phiremock/expectation');
+        $I->sendDELETE('/__phiremock/expectations');
     }
 
     public function _after(AcceptanceTester $I)
@@ -27,9 +27,9 @@ class HeadersConditionsCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -51,9 +51,9 @@ class HeadersConditionsCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -75,7 +75,7 @@ class HeadersConditionsCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
@@ -94,7 +94,7 @@ class HeadersConditionsCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
@@ -115,9 +115,9 @@ class HeadersConditionsCest
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
-        $I->sendGET('/__phiremock/expectation');
+        $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
@@ -143,7 +143,7 @@ class HeadersConditionsCest
         $expectation->setRequest($request)->setResponse($response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(201);
         $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -168,7 +168,7 @@ class HeadersConditionsCest
         $expectation->setRequest($request)->setResponse($response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectation', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $expectation);
 
         $I->seeResponseCodeIs(201);
 
