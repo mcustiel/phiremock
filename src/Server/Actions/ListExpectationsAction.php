@@ -5,6 +5,7 @@ use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Zend\Diactoros\Stream;
+use Mcustiel\Phiremock\Common\StringStream;
 
 class ListExpectationsAction implements ActionInterface
 {
@@ -27,7 +28,7 @@ class ListExpectationsAction implements ActionInterface
 
         $transactionData->setResponse(
             $transactionData->getResponse()
-            ->withBody(new Stream("data://text/plain,$list"))
+            ->withBody(new StringStream($list))
             ->withHeader('Content-type', 'application/json')
         );
     }

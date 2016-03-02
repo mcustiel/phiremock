@@ -7,6 +7,7 @@ use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Zend\Diactoros\Stream;
+use Mcustiel\Phiremock\Common\StringStream;
 
 class AddExpectationAction implements ActionInterface
 {
@@ -47,6 +48,7 @@ class AddExpectationAction implements ActionInterface
             if ($this->responseIsInvalid($expectation->getResponse())) {
                 throw new \RuntimeException('Invalid response specified in expectation');
             }
+            var_export($expectation);
             $this->storage->addExpectation($expectation);
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
             $listOfErrors = $e->getErrors();
@@ -79,12 +81,14 @@ class AddExpectationAction implements ActionInterface
             $statusCode = 500;
             $body = '{"result" : "ERROR", "details" : ' . json_encode($listOfErrors) . '}';
         }
-        return $response->withStatus($statusCode)->withBody(new Stream("data://text/plain,{$body}"));
+        return $response->withStatus($statusCode)->withBody(new StringStream($body));
     }
 
     private function parseJsonBody($request)
     {
+        var_export($request->getBody()->__toString());
         $bodyJson = @json_decode($request->getBody()->__toString(), true);
+        var_export($bodyJson);
         if (json_last_error() != JSON_ERROR_NONE) {
             throw new \Exception(json_last_error_msg());
         }

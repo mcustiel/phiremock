@@ -9,6 +9,7 @@ use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Zend\Diactoros\Stream;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
+use Mcustiel\Phiremock\Common\StringStream;
 
 class CountExecutionsAction implements ActionInterface
 {
@@ -59,7 +60,7 @@ class CountExecutionsAction implements ActionInterface
             $transactionData->setResponse(
                 $transactionData->getResponse()->withStatus(200)
                     ->withHeader('Content-Type', 'application/json')
-                    ->withBody(new Stream('data://text/plain,' . json_encode(['count' => $count])))
+                    ->withBody(new StringStream(json_encode(['count' => $count])))
             );
             return;
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
@@ -127,7 +128,7 @@ class CountExecutionsAction implements ActionInterface
         $statusCode = 500;
         $body = '{"result" : "ERROR", "details" : ' . json_encode($listOfErrors) . '}';
 
-        return $response->withStatus($statusCode)->withBody(new Stream("data://text/plain,{$body}"));
+        return $response->withStatus($statusCode)->withBody(new StringStream($body));
     }
 
     private function parseJsonBody($request)

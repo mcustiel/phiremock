@@ -6,6 +6,7 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\PowerRoute\Actions\NotFound;
 use Zend\Diactoros\Stream;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
+use Mcustiel\Phiremock\Common\StringStream;
 
 class VerifyRequestFound implements ActionInterface
 {
@@ -50,7 +51,7 @@ class VerifyRequestFound implements ActionInterface
          */
         $response = $transactionData->getResponse();
         if ($foundResponse->getBody()) {
-            $response = $response->withBody(new Stream('data://text/plain,' . $foundResponse->getBody()));
+            $response = $response->withBody(new StringStream($foundResponse->getBody()));
         }
         if ($foundResponse->getStatusCode()) {
             $response = $response->withStatus($foundResponse->getStatusCode());
