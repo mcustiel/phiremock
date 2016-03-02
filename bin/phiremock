@@ -21,6 +21,9 @@ $options = CommandLine::parseArgs($argv);
 
 $port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $options['p'] : '8086');
 $interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
+$debug = isset($options['d']) ? $options['d'] : false;
+
+define('LOG_LEVEL', $debug? Logger::DEBUG : Logger::INFO);
 
 $di = Dependencies::init();
 $server = $di->get('server');

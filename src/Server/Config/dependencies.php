@@ -26,7 +26,6 @@ use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 use Mcustiel\Creature\SingletonLazyCreator;
 use Mcustiel\Phiremock\Server\Actions\CountRequestsAction;
 use Mcustiel\Phiremock\Server\Model\RequestStorage;
-
 use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\RequestAutoStorage;
@@ -35,6 +34,8 @@ use Mcustiel\Phiremock\Server\Config\RouterConfig;
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
 use Mcustiel\Phiremock\Server\Actions\StoreRequestAction;
 use Mcustiel\Phiremock\Server\Actions\ResetRequestsCountAction;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 $di = new DependencyInjectionService();
 
@@ -156,6 +157,14 @@ $di->register('actionFactory', function () use ($di) {
             [$di->get('requestStorage')]
          ),
     ]);
+});
+
+$di->register('logger', function () {
+    // create a log channel
+    $log = new Logger('stdoutLogger');
+    $log->pushHandler(new StreamHandler(STDOUT, LOG_LEVEL));
+
+    return $log;
 });
 
 return $di;
