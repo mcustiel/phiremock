@@ -12,6 +12,7 @@ use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\Phiremock\Common\StringStream;
 
 class Phiremock
 {
@@ -52,7 +53,7 @@ class Phiremock
             ->withUri($uri)
             ->withMethod('post')
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(new Stream("data://text/plain,{$json}"));
+            ->withBody(new StringStream($json));
         $this->checkResponse($this->connection->send($request));
     }
 
@@ -100,7 +101,7 @@ class Phiremock
             ->withUri($uri)
             ->withMethod('post')
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(new Stream("data://text/plain,{$json}"));
+            ->withBody(new StringStream($json));
 
         $response = $this->connection->send($request);
 

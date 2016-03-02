@@ -43,7 +43,7 @@ class BodyConditionCest
     {
         $I->wantTo('create an expectation that checks body using matches');
         $request = new Request();
-        $request->setBody(new Condition('matches', '/tomato pattern/'));
+        $request->setBody(new Condition('matches', '/tomato (\d[^a])+/'));
         $response = new Response();
         $response->setStatusCode(201);
         $expectation = new Expectation();
@@ -51,12 +51,15 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/__phiremock/expectation', $expectation);
 
+        $I->sendPOST('/test', 'tomato 4b4n7c');
+        $I->seeResponseCodeIs(201);
+
         $I->sendGET('/__phiremock/expectation');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":null,"body":{"matches":"\/tomato pattern\/"},"headers":null},'
+            . '"request":{"method":null,"url":null,"body":{"matches":"\/tomato (\\\\d[^a])+\/"},"headers":null},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
         );
     }

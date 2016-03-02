@@ -60,7 +60,7 @@ class CountRequestsAction implements ActionInterface
             $transactionData->setResponse(
                 $transactionData->getResponse()->withStatus(200)
                     ->withHeader('Content-Type', 'application/json')
-                    ->withBody(new Stream('data://text/plain,' . json_encode(['count' => $count])))
+                    ->withBody(new StringStream(json_encode(['count' => $count])))
             );
             return;
         } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
