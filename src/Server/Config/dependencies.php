@@ -39,6 +39,14 @@ use Monolog\Handler\StreamHandler;
 
 $di = new DependencyInjectionService();
 
+$di->register('logger', function () {
+    // create a log channel
+    $log = new Logger('stdoutLogger');
+    $log->pushHandler(new StreamHandler(STDOUT, LOG_LEVEL));
+
+    return $log;
+});
+
 $di->register('config', function () {
     return RouterConfig::get();
 });
@@ -73,10 +81,15 @@ $di->register('requestExpectationComparator', function () use ($di) {
     );
 });
 
-$di->register('requestBuilder', function () {
+$di->register('requestBuilder', function () use ($di) {
+    $cachePath = sys_get_temp_dir() . '/phiremock/cache/requests/';
+    if (!is_dir($cachePath)) {
+        mkdir($cachePath, 0777, true);
+    }
+
     $cacheConfig = new \stdClass();
-    $cacheConfig->path = __DIR__ . '/../../cache/requests/';
-    $cacheConfig->disabled = true;
+    $cacheConfig->path = $cachePath;
+    $cacheConfig->disabled = false;
 
     return new RequestBuilder($cacheConfig);
 });
@@ -166,14 +179,6 @@ $di->register('actionFactory', function () use ($di) {
             [$di->get('requestStorage')]
         ),
     ]);
-});
-
-$di->register('logger', function () {
-    // create a log channel
-    $log = new Logger('stdoutLogger');
-    $log->pushHandler(new StreamHandler(STDOUT, LOG_LEVEL));
-
-    return $log;
 });
 
 return $di;

@@ -115,7 +115,9 @@ class ReactPhpServer implements ServerInterface
             new PsrResponse()
         );
 
-        $this->logger->debug('Processing took ' . ((microtime(true) - $start) / 1000) . ' milliseconds');
+        $this->logger->debug(
+            'Processing took ' . number_format((microtime(true) - $start) * 1000, 3) . ' milliseconds'
+        );
         $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
         $response->end($psrResponse->getBody()->__toString());
     }
