@@ -10,7 +10,6 @@ This project is published in packagist, so you just need to add it as a dependen
 
 ```json
     "require": {
-        // ...
         "mcustiel/phiremock": "*"
     }
 ```
@@ -38,7 +37,7 @@ First of all you need to setup the config for the different environments for you
 Run your phiremock service using it's cli command:
 
 ```bash
-    ./bin/phiremock -p 8088 -i 0.0.0.0
+    ./vendor/bin/phiremock -p 8088 -i 0.0.0.0
 ```
 
 **Cli arguments:** 
