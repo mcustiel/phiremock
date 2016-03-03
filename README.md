@@ -1,4 +1,4 @@
-# phiremock (beta)
+# Phiremock (beta)
 
 Phiremock is a HTTP services mocker and stubber, it allows software developers to setup static responses for expected requests to avoid connecting to real services during development. Also can be used to avoid using real services and to expect always the same response during acceptance tests. Any HTTP service (i.e.: REST services) can be mocked and stubbed.
 
@@ -29,6 +29,7 @@ Run your phiremock service using it's cli command:
 **Cli arguments:** 
 * -i argument specifies in which interface Phiremock should listen for requests. Default is 0.0.0.0
 * -p argument is the port in which Phiremock should listen. Default is 8086
+* -d argument enables debug mode in logger. By default, info logging level is used.
 
 Then, using phiremock's REST interface, expectations can be configured, specifying the response to send for a given request. A REST expectation resource for phiremock looks like this:
 
@@ -110,6 +111,15 @@ To know how much times a request was sent to Phiremock, for instance to verify a
     );
     $this->assertEquals($expectedExecutions, $actualExecutions);
 ```
+
+To reset the requests counter to 0, Phiremock also provides a method: 
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    $phiremock->resetRequestsCounter();
+``` 
 
 Phiremock is heavily inspired by [wiremock](http://wiremock.org/), but does not force you to have a java installation in your PHP development environment. The full functionality of Phiremock is detailed in the following list:
  
