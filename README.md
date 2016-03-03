@@ -1,8 +1,23 @@
 # Phiremock (beta)
 
-Phiremock is a HTTP services mocker and stubber, it allows software developers to setup static responses for expected requests to avoid connecting to real services during development. Also can be used to avoid using real services and to expect always the same response during acceptance tests. Any HTTP service (i.e.: REST services) can be mocked and stubbed.
+Phiremock is a HTTP services mocker and stubber, it allows software developers to setup static responses for expected requests and avoid calling real services during development. Also can be used to setup the responses to expected requests during acceptance testing. Any HTTP service (i.e.: REST services) can be mocked and stubbed with Phiremock.
+
+## Installation
+
+### Composer:
+
+This project is published in packagist, so you just need to add it as a dependency in your composer.json:
+
+```json
+    "require": {
+        // ...
+        "mcustiel/phiremock": "*"
+    }
+```
 
 ## How does it work?
+
+Phiremock will allow you to create a stubbed version of some external service your application needs to communicate to. That can be used to avoid calling the real application during development or to setup responses to expected requests
 
 First of all you need to setup the config for the different environments for your application. For instance:
 
@@ -121,7 +136,7 @@ To reset the requests counter to 0, Phiremock also provides a method:
     $phiremock->resetRequestsCounter();
 ``` 
 
-Phiremock is heavily inspired by [wiremock](http://wiremock.org/), but does not force you to have a java installation in your PHP development environment. The full functionality of Phiremock is detailed in the following list:
+Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not force you to have a java installation in your PHP development environment. The full functionality of Phiremock is detailed in the following list:
  
 * Allows to mock http request based in method, headers, url and body content. 
 * Allows to match expectations using regexp patterns or equality. 
