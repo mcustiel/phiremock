@@ -126,7 +126,7 @@ $di->register('actionFactory', function () use ($di) {
         'listExpectations' => new SingletonLazyCreator(
             ListExpectationsAction::class,
             [$di->get('expectationStorage')]
-         ),
+        ),
         'clearExpectations' => new SingletonLazyCreator(
             ClearExpectationsAction::class,
             [$di->get('expectationStorage')]
@@ -164,7 +164,7 @@ $di->register('actionFactory', function () use ($di) {
         'storeRequest' => new SingletonLazyCreator(
             StoreRequestAction::class,
             [$di->get('requestStorage')]
-         ),
+        ),
     ]);
 });
 

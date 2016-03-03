@@ -39,7 +39,7 @@ class HeadersConditionsFilter implements FilterInterface
         if (!is_array($value)) {
             throw new FilterErrorException(
                 'Error trying to parse headers condition. It should be a collection.'
-                );
+            );
         }
     }
 }

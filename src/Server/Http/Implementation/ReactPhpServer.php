@@ -63,10 +63,12 @@ class ReactPhpServer implements ServerInterface
      */
     public function listen($port, $host)
     {
-        $this->http->on('request',
+        $this->http->on(
+            'request',
             function (ReactRequest $request, ReactResponse $response) {
                 return $this->onRequest($request, $response);
-            });
+            }
+        );
         $this->logger->info("Phiremock http server listening on $host:$port");
 
         $this->socket->listen($port, $host);

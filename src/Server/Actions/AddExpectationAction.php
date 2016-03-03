@@ -81,8 +81,7 @@ class AddExpectationAction implements ActionInterface
 
     private function validateScenarioConfig(Expectation $expectation)
     {
-        if (
-            !$expectation->getScenarioName()
+        if (!$expectation->getScenarioName()
             && ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
         ) {
             $this->logger->error('Scenario name related misconfiguration');

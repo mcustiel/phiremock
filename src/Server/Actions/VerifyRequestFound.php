@@ -94,9 +94,14 @@ class VerifyRequestFound implements ActionInterface
     {
         if ($foundExpectation->getNewScenarioState()) {
             if (! $foundExpectation->getScenarioName()) {
-                throw new \RuntimeException('Expecting scenario state without specifying scenario name');
+                throw new \RuntimeException(
+                    'Expecting scenario state without specifying scenario name'
+                );
             }
-            $this->scenarioStorage->setScenarioState($foundExpectation->getScenarioName(), $foundExpectation->getNewScenarioState());
+            $this->scenarioStorage->setScenarioState(
+                $foundExpectation->getScenarioName(),
+                $foundExpectation->getNewScenarioState()
+            );
         }
     }
 }
