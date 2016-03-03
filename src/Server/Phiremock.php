@@ -5,13 +5,24 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
+use Mcustiel\Phiremock\Common\StringStream;
+use Psr\Log\LoggerInterface;
 
 class Phiremock implements RequestHandlerInterface
 {
+    /**
+     * @var \Mcustiel\PowerRoute\PowerRoute
+     */
     private $router;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
-    public function __construct(PowerRoute $router) {
+    public function __construct(PowerRoute $router, LoggerInterface $logger)
+    {
         $this->router = $router;
+        $this->logger = $logger;
     }
 
     /**
@@ -22,6 +33,12 @@ class Phiremock implements RequestHandlerInterface
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response)
     {
-        return $this->router->start($request, $response);
+        try {
+            return $this->router->start($request, $response);
+        } catch (\Exception $e) {
+            $this->logger->warning('Unexpected exception: ' . $e->getMessage());
+            return $response->withStatus(500)
+                ->withBody(new StringStream($e->getMessage()));
+        }
     }
 }

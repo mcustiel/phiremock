@@ -32,7 +32,6 @@ class ConvertToCondition implements FilterInterface
         }
     }
 
-
     public function setSpecification($specification = null)
     {
     }

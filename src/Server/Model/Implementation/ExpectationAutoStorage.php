@@ -47,7 +47,6 @@ class ExpectationAutoStorage implements ExpectationStorage
      */
     public function clearExpectations()
     {
-        echo "Clearing expectations\n";
         $this->expectations = [];
     }
 }

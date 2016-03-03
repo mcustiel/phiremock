@@ -5,11 +5,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
-use Mcustiel\PowerRoute\InputSources\InputSourceInterface;
-use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
+use Psr\Log\LoggerInterface;
 
 class RequestExpectationComparator
 {
@@ -21,20 +20,25 @@ class RequestExpectationComparator
      * @var \Mcustiel\PowerRoute\Common\Factories\InputSourceFactory
      */
     private $inputSourceFactory;
-
     /**
      * @var \Mcustiel\Phiremock\Server\Model\ScenarioStorage
      */
     private $scenarioStorage;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
     public function __construct(
         MatcherFactory $matcherFactory,
         InputSourceFactory $inputSourceFactory,
-        ScenarioStorage $scenarioStorage
+        ScenarioStorage $scenarioStorage,
+        LoggerInterface $logger
     ) {
         $this->matcherFactory = $matcherFactory;
         $this->inputSourceFactory = $inputSourceFactory;
         $this->scenarioStorage = $scenarioStorage;
+        $this->logger = $logger;
     }
 
     /**
@@ -43,22 +47,19 @@ class RequestExpectationComparator
      */
     public function equals(ServerRequestInterface $httpRequest, Expectation $expectation)
     {
-        echo "Checking if request matches an expectation\n";
+        $this->logger->debug('Checking if request matches an expectation');
         $atLeastOneExecution = false;
 
         if ($expectation->getScenarioStateIs()) {
-            echo "Checking scenario\n";
             if (!$expectation->getScenarioName()) {
-                echo "Scenario misconfiguration\n";
                 throw new \RuntimeException(
                     'Expecting scenario state without specifying scenario name'
                 );
             }
-            echo "Verifying scenario state\n";
+            $this->logger->debug('Checking scenario state again expectation');
             $scenarioState = $this->scenarioStorage->getScenarioState(
                 $expectation->getScenarioName()
             );
-            echo "Comparing $scenarioState with " . $expectation->getScenarioStateIs() . " \n";
             if ($expectation->getScenarioStateIs() != $scenarioState) {
                 return false;
             }
@@ -67,34 +68,28 @@ class RequestExpectationComparator
         $expectedRequest = $expectation->getRequest();
 
         if ($expectedRequest->getMethod()) {
-            echo "Checking request\n";
+            $this->logger->debug('Checking method against expectation');
             if (!$this->requestMethodMatchesExpectation($httpRequest, $expectedRequest)) {
-                echo "Method does not match\n";
                 return false;
             }
             $atLeastOneExecution = true;
-            echo "Method match\n";
         }
         if ($expectedRequest->getUrl()) {
-            echo "Checking URL\n";
+            $this->logger->debug('Checking url against expectation');
             if (!$this->requestUrlMatchesExpectation($httpRequest, $expectedRequest)) {
-                echo "Url does not match\n";
                 return false;
             }
             $atLeastOneExecution = true;
-            echo "Url match\n";
         }
         if ($expectedRequest->getBody()) {
-            echo "Checking body\n";
+            $this->logger->debug('Checking body against expectation');
             if (!$this->requestBodyMatchesExpectation($httpRequest, $expectedRequest)) {
-                echo "Body does not match\n";
                 return false;
             }
             $atLeastOneExecution = true;
-            echo "Body match\n";
         }
         if ($expectedRequest->getHeaders()) {
-            echo "Checking headers\n";
+            $this->logger->debug('Checking headers against expectation');
             return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
         }
         return $atLeastOneExecution;
@@ -127,9 +122,6 @@ class RequestExpectationComparator
         $inputSource = $this->inputSourceFactory->createFromConfig([
             'body' => null
         ]);
-        echo "Input source body is = " . $inputSource->getInstance()->getValue($httpRequest);
-        echo "\nExpected body is = " . $expectedRequest->getBody()->getValue();
-        echo PHP_EOL;
         $matcher = $this->matcherFactory->createFromConfig([
             $expectedRequest->getBody()->getMatcher() => $expectedRequest->getBody()->getValue()
         ]);
@@ -139,7 +131,6 @@ class RequestExpectationComparator
     private function requestHeadersMatchExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         foreach ($expectedRequest->getHeaders() as $header => $headerCondition) {
-            echo "$header => " . var_export($headerCondition) . PHP_EOL;
             $inputSource = $this->inputSourceFactory->createFromConfig([
                 'header' => $header
             ]);
@@ -147,11 +138,9 @@ class RequestExpectationComparator
                 $headerCondition->getMatcher() => $headerCondition->getValue()
             ]);
             if (!$this->evaluate($inputSource, $matcher, $httpRequest)) {
-                echo "Headers do not match\n";
                 return false;
             }
         }
-        echo "Headers match\n";
         return true;
     }
 

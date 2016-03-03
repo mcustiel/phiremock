@@ -10,6 +10,8 @@ use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Mcustiel\Phiremock\Server\Model\RequestStorage;
 use Mcustiel\Phiremock\Common\StringStream;
+use Psr\Log\LoggerInterface;
+use Mcustiel\SimpleRequest\Exception\InvalidRequestException;
 
 class CountRequestsAction implements ActionInterface
 {
@@ -25,15 +27,21 @@ class CountRequestsAction implements ActionInterface
      * @var \Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator
      */
     private $comparator;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
     public function __construct(
         RequestBuilder $requestBuilder,
         RequestStorage $storage,
-        RequestExpectationComparator $comparator
+        RequestExpectationComparator $comparator,
+        LoggerInterface $logger
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->requestsStorage = $storage;
         $this->comparator = $comparator;
+        $this->logger = $logger;
     }
 
     /**
@@ -53,21 +61,22 @@ class CountRequestsAction implements ActionInterface
                 RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
             );
             if ($this->requestIsInvalid($expectation->getRequest())) {
+                $this->logger->warning('Expectation request is invalid');
                 throw new \RuntimeException('Invalid request specified to verify');
             }
             $count = $this->searchForExecutionsCount($expectation);
-            echo "$count requests found\n";
+            $this->logger->debug('Found ' . $count . ' request matching the expectation');
             $transactionData->setResponse(
                 $transactionData->getResponse()->withStatus(200)
                     ->withHeader('Content-Type', 'application/json')
                     ->withBody(new StringStream(json_encode(['count' => $count])))
             );
             return;
-        } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
-            echo "Invalid request: " , $e->__toString();
+        } catch (InvalidRequestException $e) {
+            $this->logger->warning('Invalid request received');
             $listOfErrors = $e->getErrors();
         } catch (\Exception $e) {
-            echo "Exception: " , $e->__toString();
+            $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
             $listOfErrors = [$e->getMessage()];
         }
 

@@ -11,19 +11,39 @@ use React\Http\Request as ReactRequest;
 use React\Http\Response as ReactResponse;
 use Zend\Diactoros\Response as PsrResponse;
 use React\Http\Request;
+use Psr\Log\LoggerInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class ReactPhpServer implements ServerInterface
 {
+    /**
+     * @var \Mcustiel\Phiremock\Server\Http\RequestHandlerInterface
+     */
     private $requestHandler;
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
     private $loop;
+    /**
+     * @var \React\Socket\Server
+     */
     private $socket;
+    /**
+     * @var \React\Http\Server
+     */
     private $http;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
-    public function __construct()
+    public function __construct(LoggerInterface $logger)
     {
         $this->loop = EventLoop::create();
         $this->socket = new ReactSocket($this->loop);
         $this->http = new ReactServer($this->socket, $this->loop);
+        $this->logger = $logger;
     }
 
     /**
@@ -37,13 +57,17 @@ class ReactPhpServer implements ServerInterface
         $this->requestHandler = $handler;
     }
 
+    /**
+     * @param integer $port
+     * @param string  $host
+     */
     public function listen($port, $host)
     {
         $this->http->on('request',
             function (ReactRequest $request, ReactResponse $response) {
                 return $this->onRequest($request, $response);
             });
-        echo "Server running at http://$host:$port\n";
+        $this->logger->info("Phiremock http server listening on $host:$port");
 
         $this->socket->listen($port, $host);
         $this->loop->run();
@@ -79,15 +103,17 @@ class ReactPhpServer implements ServerInterface
 
     private function onRequest(ReactRequest $request, ReactResponse $response)
     {
-        var_export($request->getBody());
-        $psrRequest = $this->convertFromReactToPsrRequest(
-            $request,
-            'data://text/plain;base64,' . base64_encode($request->getBody())
-        );
+        $start = microtime(true);
+
         $psrResponse = $this->requestHandler->execute(
-            $psrRequest,
+            $this->convertFromReactToPsrRequest(
+                $request,
+                'data://text/plain;base64,' . base64_encode($request->getBody())
+            ),
             new PsrResponse()
         );
+
+        $this->logger->debug('Processing took ' . ((microtime(true) - $start) / 1000) . ' milliseconds');
         $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
         $response->end($psrResponse->getBody()->__toString());
     }

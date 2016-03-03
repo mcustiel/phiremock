@@ -23,10 +23,13 @@ $port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $op
 $interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
 $debug = isset($options['d']) ? $options['d'] : false;
 
-define('LOG_LEVEL', $debug? Logger::DEBUG : Logger::INFO);
+define('LOG_LEVEL', $debug? \Monolog\Logger::DEBUG : \Monolog\Logger::INFO);
 
 $di = Dependencies::init();
+$di->get('logger')->info('Starting Phiremock...');
+
 $server = $di->get('server');
+$server->setRequestHandler($di->get('application'));
 
 register_shutdown_function(function () use ($server) {
     $server->shutdown();

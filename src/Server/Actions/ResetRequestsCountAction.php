@@ -3,7 +3,6 @@ namespace Mcustiel\Phiremock\Server\Actions;
 
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Model\RequestStorage;
 
 class ResetRequestsCountAction implements ActionInterface

@@ -44,13 +44,12 @@ $di->register('config', function () {
 });
 
 $di->register('server', function () use ($di) {
-    $server = new ReactPhpServer();
-    $server->setRequestHandler($di->get('application'));
+    $server = new ReactPhpServer($di->get('logger'));
     return $server;
 });
 
 $di->register('application', function () use ($di) {
-    return new Phiremock($di->get('router'));
+    return new Phiremock($di->get('router'), $di->get('logger'));
 });
 
 $di->register('expectationStorage', function () {
@@ -69,7 +68,8 @@ $di->register('requestExpectationComparator', function () use ($di) {
     return new RequestExpectationComparator(
         $di->get('matcherFactory'),
         $di->get('inputSourceFactory'),
-        $di->get('scenarioStorage')
+        $di->get('scenarioStorage'),
+        $di->get('logger')
     );
 });
 
@@ -115,10 +115,14 @@ $di->register('matcherFactory', function() {
 
 $di->register('actionFactory', function () use ($di) {
     return new ActionFactory([
-        'addExpectation' => new SingletonLazyCreator(AddExpectationAction::class, [
-            $di->get('requestBuilder'),
-            $di->get('expectationStorage')
-        ]),
+        'addExpectation' => new SingletonLazyCreator(
+            AddExpectationAction::class,
+            [
+                $di->get('requestBuilder'),
+                $di->get('expectationStorage'),
+                $di->get('logger')
+            ]
+        ),
         'listExpectations' => new SingletonLazyCreator(
             ListExpectationsAction::class,
             [$di->get('expectationStorage')]
@@ -134,11 +138,15 @@ $di->register('actionFactory', function () use ($di) {
         ),
         'checkExpectations' => new SingletonLazyCreator(
             SearchRequestAction::class,
-            [$di->get('expectationStorage'), $di->get('requestExpectationComparator')]
+            [
+                $di->get('expectationStorage'),
+                $di->get('requestExpectationComparator'),
+                $di->get('logger')
+            ]
         ),
         'verifyExpectations' => new SingletonLazyCreator(
             VerifyRequestFound::class,
-            [$di->get('scenarioStorage')]
+            [$di->get('scenarioStorage'), $di->get('logger')]
         ),
         'countRequests' => new SingletonLazyCreator(
             CountRequestsAction::class,
@@ -146,6 +154,7 @@ $di->register('actionFactory', function () use ($di) {
                 $di->get('requestBuilder'),
                 $di->get('requestStorage'),
                 $di->get('requestExpectationComparator'),
+                $di->get('logger')
             ]
         ),
         'resetCount' => new SingletonLazyCreator(

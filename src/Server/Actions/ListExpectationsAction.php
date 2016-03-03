@@ -8,6 +8,9 @@ use Mcustiel\Phiremock\Common\StringStream;
 
 class ListExpectationsAction implements ActionInterface
 {
+    /**
+     * @var \Mcustiel\Phiremock\Server\Model\ExpectationStorage
+     */
     private $storage;
 
     public function __construct(ExpectationStorage $storage)

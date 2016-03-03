@@ -6,8 +6,9 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
-use Zend\Diactoros\Stream;
 use Mcustiel\Phiremock\Common\StringStream;
+use Psr\Log\LoggerInterface;
+use Mcustiel\SimpleRequest\Exception\InvalidRequestException;
 
 class AddExpectationAction implements ActionInterface
 {
@@ -19,11 +20,19 @@ class AddExpectationAction implements ActionInterface
      * @var \Mcustiel\Phiremock\Server\Model\ExpectationStorage
      */
     private $storage;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
-    public function __construct(RequestBuilder $requestBuilder, ExpectationStorage $storage)
-    {
+    public function __construct(
+        RequestBuilder $requestBuilder,
+        ExpectationStorage $storage,
+        LoggerInterface $logger
+    ) {
         $this->requestBuilder = $requestBuilder;
         $this->storage = $storage;
+        $this->logger = $logger;
     }
 
     /**
@@ -42,23 +51,52 @@ class AddExpectationAction implements ActionInterface
                 Expectation::class,
                 RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
             );
-            if ($this->requestIsInvalid($expectation->getRequest())) {
-                throw new \RuntimeException('Invalid request specified in expectation');
-            }
-            if ($this->responseIsInvalid($expectation->getResponse())) {
-                throw new \RuntimeException('Invalid response specified in expectation');
-            }
-            var_export($expectation);
+            $this->validateExpectation($expectation);
+
+            $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
             $this->storage->addExpectation($expectation);
-        } catch (\Mcustiel\SimpleRequest\Exception\InvalidRequestException $e) {
+        } catch (InvalidRequestException $e) {
+            $this->logger->warning('Invalid request received');
             $listOfErrors = $e->getErrors();
         } catch (\Exception $e) {
+            $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
             $listOfErrors = [$e->getMessage()];
         }
 
         $transactionData->setResponse(
             $this->constructResponse($listOfErrors, $transactionData->getResponse())
         );
+    }
+
+    private function validateExpectation(Expectation $expectation)
+    {
+        if ($this->requestIsInvalid($expectation->getRequest())) {
+            throw new \RuntimeException('Invalid request specified in expectation');
+        }
+        if ($this->responseIsInvalid($expectation->getResponse())) {
+            throw new \RuntimeException('Invalid response specified in expectation');
+        }
+        $this->validateScenarioConfig($expectation);
+    }
+
+    private function validateScenarioConfig(Expectation $expectation)
+    {
+        if (
+            !$expectation->getScenarioName()
+            && ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
+        ) {
+            $this->logger->error('Scenario name related misconfiguration');
+            throw new \RuntimeException(
+                'Expecting or trying to set scenario state without specifying scenario name'
+            );
+        }
+
+        if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
+            $this->logger->error('Scenario states misconfiguration');
+            throw new \RuntimeException(
+                'Trying to set scenario state without specifying scenario previous state'
+            );
+        }
     }
 
     private function responseIsInvalid($response)
@@ -86,9 +124,7 @@ class AddExpectationAction implements ActionInterface
 
     private function parseJsonBody($request)
     {
-        var_export($request->getBody()->__toString());
         $bodyJson = @json_decode($request->getBody()->__toString(), true);
-        var_export($bodyJson);
         if (json_last_error() != JSON_ERROR_NONE) {
             throw new \Exception(json_last_error_msg());
         }

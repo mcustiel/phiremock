@@ -32,7 +32,6 @@ class HeadersConditionsFilter implements FilterInterface
 
     public function setSpecification($specification = null)
     {
-        // TODO Auto-generated method stub
     }
 
     private function checkValueIsArrayOrThrowException($value)
