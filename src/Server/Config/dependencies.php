@@ -88,7 +88,7 @@ $di->register('conditionsMatcherFactory', function () use ($di) {
     );
 });
 
-$di->register('inputSourceFactory', function() {
+$di->register('inputSourceFactory', function () {
     return new InputSourceFactory([
         'method' => new SingletonLazyCreator(Method::class),
         'url' => new SingletonLazyCreator(Url::class),
@@ -105,7 +105,7 @@ $di->register('router', function () use ($di) {
     );
 });
 
-$di->register('matcherFactory', function() {
+$di->register('matcherFactory', function () {
     return new MatcherFactory([
         'isEqualTo' => new SingletonLazyCreator(Equals::class),
         'matches' => new SingletonLazyCreator(RegExp::class),

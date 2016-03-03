@@ -7,7 +7,7 @@ use Mcustiel\Phiremock\Domain\Condition;
 
 class DelaySpecificationCest
 {
-public function _before(AcceptanceTester $I)
+    public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
     }

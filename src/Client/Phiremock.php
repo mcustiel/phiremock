@@ -80,7 +80,7 @@ class Phiremock
             $json = json_decode($response->getBody()->__toString());
             $builder = new SimpleRequestBuilder();
             $return = [];
-            foreach($json as $expectationArray) {
+            foreach ($json as $expectationArray) {
                 $return[] = $builder->parseRequest($expectationArray, Expectation::class);
             }
             return $return;

@@ -23,7 +23,6 @@ class ClientCest
 
     public function _after(AcceptanceTester $I)
     {
-
     }
 
     // tests
