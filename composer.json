@@ -8,10 +8,10 @@
 		"tests"
 	],
 	"authors" : [{
-        "name" : "Mariano Custiel",
-        "email" : "jmcustiel@gmail.com",
-        "homepage" : "https://github.com/mcustiel",
-        "role" : "Developer"
+	        "name" : "Mariano Custiel",
+	        "email" : "jmcustiel@gmail.com",
+	        "homepage" : "https://github.com/mcustiel",
+	        "role" : "Developer"
         }
     ],
 	"autoload" : {
