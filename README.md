@@ -44,11 +44,17 @@ Run your phiremock service using it's cli command:
     ./vendor/bin/phiremock -p 8088 -i 0.0.0.0
 ```
 
+or
+
+```bash
+    ./phiremock.phar -p 8088 -i 0.0.0.0
+```
+
 **Cli arguments:** 
-* -i argument specifies in which interface Phiremock should listen for requests. Default is 0.0.0.0
-* -p argument is the port in which Phiremock should listen. Default is 8086
-* -d argument enables debug mode in logger. By default, info logging level is used.
-* -e argument specifies a directory to search for json files defining expectations to load by default. Default is ~/.phiremock/expectations
+* -i argument: specifies in which interface Phiremock should listen for requests. Default is 0.0.0.0
+* -p argument: is the port in which Phiremock should listen. Default is 8086
+* -d argument: enables debug mode in logger. By default, info logging level is used.
+* -e argument: specifies a directory to search for json files defining expectations to load by default. Default is ~/.phiremock/expectations
 
 Then, using phiremock's REST interface, expectations can be configured, specifying the response to send for a given request. A REST expectation resource for phiremock looks like this:
 
