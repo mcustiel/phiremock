@@ -36,6 +36,8 @@ use Mcustiel\Phiremock\Server\Actions\StoreRequestAction;
 use Mcustiel\Phiremock\Server\Actions\ResetRequestsCountAction;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Mcustiel\Phiremock\Server\Utils\HomePathService;
+use Mcustiel\Phiremock\Server\Utils\FileExpectationsLoader;
 
 $di = new DependencyInjectionService();
 
@@ -49,6 +51,10 @@ $di->register('logger', function () {
 
 $di->register('config', function () {
     return RouterConfig::get();
+});
+
+$di->register('homePathService', function() {
+    return new HomePathService();
 });
 
 $di->register('server', function () use ($di) {
@@ -92,6 +98,14 @@ $di->register('requestBuilder', function () use ($di) {
     $cacheConfig->disabled = false;
 
     return new RequestBuilder($cacheConfig);
+});
+
+$di->register('fileExpectationsLoader', function() use ($di) {
+    return new FileExpectationsLoader(
+        $di->get('requestBuilder'),
+        $di->get('expectationStorage'),
+        $di->get('logger')
+    );
 });
 
 $di->register('conditionsMatcherFactory', function () use ($di) {

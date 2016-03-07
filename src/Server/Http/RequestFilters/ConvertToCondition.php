@@ -45,7 +45,9 @@ class ConvertToCondition implements FilterInterface
     {
         if (!is_array($value) || count($value) != 1) {
             throw new FilterErrorException(
-                'Condition parsing failed it should be something like: "isEqualTo" : "a value"'
+                'Condition parsing failed for "'
+                . var_export($value, true)
+                . '" it should be something like: "isEqualTo" : "a value"'
             );
         }
     }
