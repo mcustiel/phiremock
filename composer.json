@@ -26,11 +26,11 @@
 	"require" : {
 		"php" : ">=5.5",
 		"react/http" : "dev-master",
-		"mcustiel/php-simple-request" : "~2.1",
-		"mcustiel/power-route" : "~2.0",
-		"mcustiel/php-simple-di" : "1.2.1",
-		"guzzlehttp/guzzle": "~6.0",
-		"monolog/monolog" : "~1.17.2",
+		"mcustiel/php-simple-request" : "^2.1",
+		"mcustiel/power-route" : "^2.0",
+		"mcustiel/php-simple-di" : "^1.2.1",
+		"guzzlehttp/guzzle": "^6.0",
+		"monolog/monolog" : "^1.17.2",
 		"pwfisher/command-line-php" : "dev-master"
 	},
 	"require-dev" : {
