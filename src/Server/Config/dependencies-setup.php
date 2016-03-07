@@ -53,7 +53,7 @@ $di->register('config', function () {
     return RouterConfig::get();
 });
 
-$di->register('homePathService', function() {
+$di->register('homePathService', function () {
     return new HomePathService();
 });
 
@@ -100,7 +100,7 @@ $di->register('requestBuilder', function () use ($di) {
     return new RequestBuilder($cacheConfig);
 });
 
-$di->register('fileExpectationsLoader', function() use ($di) {
+$di->register('fileExpectationsLoader', function () use ($di) {
     return new FileExpectationsLoader(
         $di->get('requestBuilder'),
         $di->get('expectationStorage'),
