@@ -54,7 +54,7 @@ class FileExpectationsLoader
     public function loadExpectationsFromDirectory($directory)
     {
         $this->logger->info("Loading expectations from directory $directory");
-        $iterator = new RecursiveDirectoryIterator(
+        $iterator = new \RecursiveDirectoryIterator(
             $directory,
             \RecursiveDirectoryIterator::FOLLOW_SYMLINKS
         );

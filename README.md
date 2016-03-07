@@ -14,6 +14,10 @@ This project is published in packagist, so you just need to add it as a dependen
     }
 ```
 
+### Phar:
+
+You can also download the standalone phar application from [here](./phiremock.phar).
+
 ## How does it work?
 
 Phiremock will allow you to create a stubbed version of some external service your application needs to communicate to. That can be used to avoid calling the real application during development or to setup responses to expected requests
@@ -160,4 +164,3 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 * Priorizable expectations for cases in which more than one matches the request. If more than one expectation matches the request and no priorities were set, the first match is returned.
 * Allows to verify the amount of times a request was done.
 * Allows to load default expectations from json files in a directory.
-
