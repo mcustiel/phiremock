@@ -1,6 +1,16 @@
 # Phiremock (beta)
 
 Phiremock is a HTTP services mocker and stubber, it allows software developers to mock HTTP requests and setup static responses to avoid calling real services during development. Also can be used to setup the responses to expected requests during acceptance testing. Any HTTP service (i.e.: REST services) can be mocked and stubbed with Phiremock.
+Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not force you to have a java installation in your PHP development environment. The full functionality of Phiremock is detailed in the following list:
+ 
+* Allows to mock http request based in method, headers, url and body content. 
+* Allows to match expectations using regexp patterns or equality. 
+* REST interface to setup.
+* Stateful and stateless mocking.
+* Network latency simulation.
+* Priorizable expectations for cases in which more than one matches the request. If more than one expectation matches the request and no priorities were set, the first match is returned.
+* Allows to verify the amount of times a request was done.
+* Allows to load default expectations from json files in a directory.
 
 ## Installation
 
@@ -89,8 +99,12 @@ Then, using phiremock's REST interface, expectations can be configured, specifyi
 The same format can be used in expectation files saved in the directory specified by the -e argument of the CLI. For Phiremock to be able to load them, each file should have `.json` extension.
 
 ## Phiremock Client 
+Phiremock also provides a handy client object to simplify communication with the server in a fluent way.
 
-Phiremock provides a handy client object to simplify communication with the server. To create previous response from code the following should be used:
+## Fatures
+
+### Create an expectation 
+To create previous response from code the following should be used:
 
 ```php
     use Mcustiel\Phiremock\Client\Phiremock;
@@ -106,6 +120,7 @@ Phiremock provides a handy client object to simplify communication with the serv
     $phiremock->createExpectation($expectation);
 ```
 
+### Clear expectations
 After a test runs, all previously configured expectations can be deleted so they don't affect the execution of the next test:
 
 ```php
@@ -115,6 +130,7 @@ After a test runs, all previously configured expectations can be deleted so they
     $phiremock->clearExpectations();
 ``` 
 
+### List all expectations
 If you want, for some reason, list all created expectations. A convenient method is provided:
 
 ```php
@@ -128,17 +144,7 @@ If you want, for some reason, list all created expectations. A convenient method
     }
 ``` 
 
-```php
-    use Mcustiel\Phiremock\Client\Phiremock;
-
-    $phiremock = new Phiremock('phiremock.server', '8080');
-    $expectations = $phiremock->listExpectations();
-    
-    foreach ($expectations as $expectation) {
-        var_export($expectation);
-    }
-``` 
-
+### Verify requests
 To know how much times a request was sent to Phiremock, for instance to verify after a feature execution in a test, there is a helper method too:
 
 ```php
@@ -151,6 +157,7 @@ To know how much times a request was sent to Phiremock, for instance to verify a
     $this->assertEquals($expectedExecutions, $actualExecutions);
 ```
 
+### Reset requests log
 To reset the requests counter to 0, Phiremock also provides a method: 
 
 ```php
@@ -160,13 +167,101 @@ To reset the requests counter to 0, Phiremock also provides a method:
     $phiremock->resetRequestsCounter();
 ``` 
 
-Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not force you to have a java installation in your PHP development environment. The full functionality of Phiremock is detailed in the following list:
- 
-* Allows to mock http request based in method, headers, url and body content. 
-* Allows to match expectations using regexp patterns or equality. 
-* REST interface to setup.
-* Stateful and stateless mocking.
-* Network latency simulation.
-* Priorizable expectations for cases in which more than one matches the request. If more than one expectation matches the request and no priorities were set, the first match is returned.
-* Allows to verify the amount of times a request was done.
-* Allows to load default expectations from json files in a directory.
+## Cool stuff
+
+### Priorities
+Phiremock accepts multiple expectations that can match the same request. If no priorities are set, it will match the first expectation created but, if you need to give high priority to some request, you can do it easily.
+
+ ```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $expectation = Phiremock::on(
+        A::getRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+    )->then(
+        Respond::withStatusCode(200)
+            ->andBody('<resource id="1" description="I am a resource"/>')
+            ->andHeader('Content-Type', 'text/xml')
+    );
+    $phiremock->createExpectation($expectation);
+    
+    $expectation = Phiremock::on(
+        A::getRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+            ->andHeader('Accept', 'application/json')
+            ->andPriority(1)
+    )->then(
+        Respond::withStatusCode(200)
+            ->andBody('{"id": 1, "description": "I am a resource"}')
+            ->andHeader('Content-Type', 'application/json')
+    );
+    $phiremock->createExpectation($expectation);
+```
+
+In the previous example, both expectations will match a request with url equal to: `/example_service/some/resource` and Accept header equal to `application/json`. But Phiremock will give higher priority to the one with Accept header.
+Default priority for an expectation is 0. 
+
+### Stateful behaviour
+If you want to simulate a behaviour of the service in which a response depends of a state that was set in a previous request. You can use scenarios to create a stateful behaviour.
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $expectation = Phiremock::on(
+        A::posttRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+            ->andBody('{"id": "1", "name" : "resource"}')
+            ->andHeader('Content-Type', 'application/json')
+            ->andScenarioState('saved', 'Scenario.START')
+    )->then(
+        Respond::withStatusCode(201)
+            ->andBody('{"id": "1", "name" : "resource"}')
+            ->andHeader('Content-Type', 'application/json')
+            ->andSetScenarioStateTo('RESOURCE_SAVED')
+    );
+    $phiremock->createExpectation($expectation);
+    
+    $expectation = Phiremock::on(
+        A::getRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+            ->andBody('{"id": "1", "name" : "resource"}')
+            ->andHeader('Content-Type', 'application/json')
+            ->andScenarioState('saved', 'RESOURCE_SAVED')
+    )->then(
+        Respond::withStatusCode(409)
+            ->andBody('Resource with id = 1 was already created')
+    );
+    $phiremock->createExpectation($expectation);
+```
+
+In this case, Phiremock will execute the first expectation for the first call, and the second one for the second call even when both requests matchers are exactly the same.
+If you want after the second call, to go back to the initial state just add `->andSetScenarioStateTo('Scenario.START')` to the response.
+
+To reset all scenarios to the initial state (Scenario.START) use this simple method from the client: 
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $phiremock->resetScenarios();
+```
+
+### Netwok latency simulation
+If you want to test how your application behaves on, for instance, a timeout; you can make Phiremock to delay the response of your request as follows.
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $expectation = Phiremock::on(
+        A::posttRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+            ->andBody('{"id": "1", "name" : "resource"}')
+            ->andHeader('Content-Type', 'application/json')
+    )->then(
+        Respond::withStatusCode(200)->andDelayInMillis(30000)
+    );
+    $phiremock->createExpectation($expectation);
+```
+This will wait 30 seconds before sending the response.
