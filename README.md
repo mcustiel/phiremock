@@ -106,11 +106,12 @@ The same format can be used in expectation files saved in the directory specifie
 ## Phiremock Client 
 Phiremock also provides a handy client object to simplify communication with the server in a fluent way.
 
-## Fatures
+## Features
 
 ### Create an expectation 
 To create previous response from code the following should be used:
 
+#### Phiremock client
 ```php
     use Mcustiel\Phiremock\Client\Phiremock;
 
@@ -124,6 +125,28 @@ To create previous response from code the following should be used:
     );
     $phiremock->createExpectation($expectation);
 ```
+#### API call:
+```
+POST /__phiremock/expectations HTTP/1.1
+Host: your.phiremock.host
+Content-Type: application/json
+
+{
+    "request": {
+        "method": "GET",
+        "url": {
+            "isEqualTo" : "/example_service/some/resource"
+        }
+    },
+    "response": {
+        "statusCode": 200,
+        "body": "{\"id\": 1, \"description\": \"I am a resource\"}",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}
+```
 
 ### Clear expectations
 After a test runs, all previously configured expectations can be deleted so they don't affect the execution of the next test:
@@ -134,6 +157,12 @@ After a test runs, all previously configured expectations can be deleted so they
     $phiremock = new Phiremock('phiremock.server', '8080');
     $phiremock->clearExpectations();
 ``` 
+#### API call:
+```
+DELETE /__phiremock/expectations HTTP/1.1
+Host: your.phiremock.host
+
+```
 
 ### List all expectations
 If you want, for some reason, list all created expectations. A convenient method is provided:
@@ -147,7 +176,13 @@ If you want, for some reason, list all created expectations. A convenient method
     foreach ($expectations as $expectation) {
         var_export($expectation);
     }
-``` 
+```  
+#### API call:
+```
+GET /__phiremock/expectations HTTP/1.1
+Host: your.phiremock.host
+
+```
 
 ### Verify requests
 To know how much times a request was sent to Phiremock, for instance to verify after a feature execution in a test, there is a helper method too:
@@ -161,6 +196,22 @@ To know how much times a request was sent to Phiremock, for instance to verify a
     );
     $this->assertEquals($expectedExecutions, $actualExecutions);
 ```
+#### API call:
+```
+POST /__phiremock/executions HTTP/1.1
+Host: your.phiremock.host
+Content-Type: application/json
+
+{
+    "request": {
+        "method": "GET",
+        "url": {
+            "isEqualTo" : "/example_service/some/resource"
+        }
+    },
+    "response": {}
+}
+```
 
 ### Reset requests log
 To reset the requests counter to 0, Phiremock also provides a method: 
@@ -170,7 +221,12 @@ To reset the requests counter to 0, Phiremock also provides a method:
 
     $phiremock = new Phiremock('phiremock.server', '8080');
     $phiremock->resetRequestsCounter();
-``` 
+```
+#### API call:
+```
+DELETE /__phiremock/executions HTTP/1.1
+Host: your.phiremock.host
+```
 
 ## Cool stuff
 
@@ -250,6 +306,11 @@ To reset all scenarios to the initial state (Scenario.START) use this simple met
     $phiremock = new Phiremock('phiremock.server', '8080');
     
     $phiremock->resetScenarios();
+```
+#### API call:
+```
+DELETE /__phiremock/scenarios HTTP/1.1
+Host: your.phiremock.host
 ```
 
 ### Netwok latency simulation
