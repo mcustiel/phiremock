@@ -44,5 +44,8 @@
         "phploc/phploc" : "^2.1.1",
         "phpdocumentor/phpdocumentor" : "^2.8.5"
 	},
+	"suggest": {
+        "ext-pcntl": "Allows phiremock to handle system signals"
+    }
 	"bin": ["bin/phiremock"]
 }
