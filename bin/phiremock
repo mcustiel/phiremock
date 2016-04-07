@@ -28,6 +28,16 @@ define('LOG_LEVEL', $debug? \Monolog\Logger::DEBUG : \Monolog\Logger::INFO);
 $di = Dependencies::init();
 $di->get('logger')->info('Starting Phiremock...');
 
+$expectationsDir = isset($options['e']) 
+    ? realpath($options['e']) 
+    : $di->get('homePathService')->getHomePath() . DIRECTORY_SEPARATOR . '.phiremock/expectations';
+
+$di->get('logger')->debug("Phiremock's expectation dir: $expectationsDir");
+
+if (is_dir($expectationsDir)) {
+    $di->get('fileExpectationsLoader')->loadExpectationsFromDirectory($expectationsDir);
+}
+
 $server = $di->get('server');
 $server->setRequestHandler($di->get('application'));
 

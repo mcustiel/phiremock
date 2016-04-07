@@ -98,7 +98,7 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    ['scenariosMethodIsDelete' => null],
+                    ['goto' => 'scenariosMethodIsDelete'],
                 ],
                 'else' => [
                     ['goto' => 'verifyUrl'],

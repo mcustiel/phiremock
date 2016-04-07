@@ -5,6 +5,6 @@ class Dependencies
 {
     public static function init()
     {
-        return require __DIR__ . '/dependencies.php';
+        return require __DIR__ . '/dependencies-setup.php';
     }
 }
