@@ -42,7 +42,7 @@ if (is_dir($expectationsDir)) {
 $server = $di->get('server');
 $server->setRequestHandler($di->get('application'));
 
-$handleTermination = function ($signal = 0) use ($server, $$logger) {
+$handleTermination = function ($signal = 0) use ($server, $logger) {
 	$logger->info('Stopping Phiremock...');
     $server->shutdown();
     $logger->info('Bye bye');
