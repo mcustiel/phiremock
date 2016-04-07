@@ -26,13 +26,14 @@ $debug = isset($options['d']) ? $options['d'] : false;
 define('LOG_LEVEL', $debug? \Monolog\Logger::DEBUG : \Monolog\Logger::INFO);
 
 $di = Dependencies::init();
-$di->get('logger')->info('Starting Phiremock...');
+$logger = $di->get('logger');
+$logger->info('Starting Phiremock...');
 
 $expectationsDir = isset($options['e']) 
     ? realpath($options['e']) 
     : $di->get('homePathService')->getHomePath() . DIRECTORY_SEPARATOR . '.phiremock/expectations';
 
-$di->get('logger')->debug("Phiremock's expectation dir: $expectationsDir");
+$logger->debug("Phiremock's expectation dir: $expectationsDir");
 
 if (is_dir($expectationsDir)) {
     $di->get('fileExpectationsLoader')->loadExpectationsFromDirectory($expectationsDir);
@@ -41,10 +42,17 @@ if (is_dir($expectationsDir)) {
 $server = $di->get('server');
 $server->setRequestHandler($di->get('application'));
 
-register_shutdown_function(function () use ($server, $di) {
-	$di->get('logger')->info('Stopping Phiremock...');
+$handleTermination = function ($signal = 0) use ($server, $$logger) {
+	$logger->info('Stopping Phiremock...');
     $server->shutdown();
-    $di->get('logger')->info('Bye bye');
-});
+    $logger->info('Bye bye');
+};
+
+register_shutdown_function($handleTermination);
+
+if (function_exists('pcntl_signal')) {
+	pcntl_signal(SIGTERM, $handleTermination);
+	pcntl_signal(SIGABRT, $handleTermination);
+}
 
 $server->listen($port, $interface);
