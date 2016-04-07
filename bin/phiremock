@@ -31,8 +31,10 @@ $di->get('logger')->info('Starting Phiremock...');
 $server = $di->get('server');
 $server->setRequestHandler($di->get('application'));
 
-register_shutdown_function(function () use ($server) {
+register_shutdown_function(function () use ($server, $di) {
+	$di->get('logger')->info('Stopping Phiremock...');
     $server->shutdown();
+    $di->get('logger')->info('Bye bye');
 });
 
 $server->listen($port, $interface);
