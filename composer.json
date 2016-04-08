@@ -45,7 +45,7 @@
         "phpdocumentor/phpdocumentor" : "^2.8.5"
 	},
 	"suggest": {
-        "ext-pcntl": "Allows phiremock to handle system signals"
-    }
+	    "ext-pcntl": "Allows phiremock to handle system signals"
+	},
 	"bin": ["bin/phiremock"]
 }
