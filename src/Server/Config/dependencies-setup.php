@@ -1,4 +1,5 @@
 <?php
+
 use Mcustiel\DependencyInjection\DependencyInjectionService;
 use Mcustiel\PowerRoute\PowerRoute;
 use Mcustiel\PowerRoute\Common\Factories\ActionFactory;

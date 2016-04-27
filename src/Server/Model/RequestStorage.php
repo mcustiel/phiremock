@@ -13,7 +13,7 @@ interface RequestStorage
 
     /**
      *
-     * @var \Mcustiel\Phiremock\Domain\Expectation[]
+     * @return \Psr\Http\Message\ServerRequestInterface[]
      */
     public function listRequests();
 
