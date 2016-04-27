@@ -9,6 +9,8 @@ modules:
     enabled:
         - Asserts
         - REST:
-           depends: PhpBrowser
-           url: 'http://127.0.0.1:8086'
         - \Helper\Acceptance
+    config:
+        REST:
+            depends: PhpBrowser
+            url: 'http://127.0.0.1:8086'

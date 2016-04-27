@@ -17,10 +17,15 @@ tools:
         enabled: true
         excluded_dirs: [vendor, test]
 build:
+    project_setup:
+        before:
+            -
+                command: ./bin/phiremock -p 8080
+                background: true
     environment:
         php:
             version: 5.6.9
     tests:
         override:
             -
-                command: './run-tests.sh'
+                command: ./vendor/bin/codecept run -c tests --env scrutinizer
