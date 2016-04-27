@@ -8,7 +8,7 @@ class RequestAutoStorage implements RequestStorage
 {
     /**
      *
-     * @var \Mcustiel\Phiremock\Domain\Expectation[]
+     * @var \Psr\Http\Message\ServerRequestInterface[]
      */
     private $requests;
 

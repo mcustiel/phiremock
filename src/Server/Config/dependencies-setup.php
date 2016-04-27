@@ -14,7 +14,7 @@ use Mcustiel\PowerRoute\InputSources\Header;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Matchers\Equals;
 use Mcustiel\PowerRoute\Matchers\CaseInsensitiveEquals;
-use Mcustiel\PowerRoute\Matchers\RegExp;
+use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
 use Mcustiel\Phiremock\Server\Actions\VerifyRequestFound;
 use Mcustiel\PowerRoute\InputSources\Body;
@@ -135,7 +135,7 @@ $di->register('router', function () use ($di) {
 $di->register('matcherFactory', function () {
     return new MatcherFactory([
         'isEqualTo'    => new SingletonLazyCreator(Equals::class),
-        'matches'      => new SingletonLazyCreator(RegExp::class),
+        'matches'      => new SingletonLazyCreator(RegExpMatcher::class),
         'isSameString' => new SingletonLazyCreator(CaseInsensitiveEquals::class),
     ]);
 });

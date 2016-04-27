@@ -42,8 +42,8 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface  $httpRequest
-     * @param \Mcustiel\Phiremock\Domain\Request $expectedRequest
+     * @param \Psr\Http\Message\ServerRequestInterface $httpRequest
+     * @param \Mcustiel\Phiremock\Domain\Expectation   $expectation
      */
     public function equals(ServerRequestInterface $httpRequest, Expectation $expectation)
     {

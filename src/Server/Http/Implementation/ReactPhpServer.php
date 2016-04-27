@@ -40,7 +40,7 @@ class ReactPhpServer implements ServerInterface
     {
         $this->loop = EventLoop::create();
         $this->socket = new ReactSocket($this->loop);
-        $this->http = new ReactServer($this->socket, $this->loop);
+        $this->http = new ReactServer($this->socket);
         $this->logger = $logger;
     }
 
