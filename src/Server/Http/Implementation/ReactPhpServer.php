@@ -95,9 +95,7 @@ class ReactPhpServer implements ServerInterface
             $this->getUriFromRequest($request),
             $request->getMethod(),
             $body,
-            $request->getHeaders(),
-            [],
-            $request->getQuery()
+            $request->getHeaders()
         );
     }
 
