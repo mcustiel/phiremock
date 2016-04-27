@@ -45,9 +45,9 @@ class HeadersSpecificationCest
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
         $response->setHeaders([
-            'Location' => '/potato.php',
+            'Location'      => '/potato.php',
             'Cache-Control' => 'private, max-age=0, no-cache',
-            'Pragma' => 'no-cache'
+            'Pragma'        => 'no-cache'
         ]);
         $specification = new Expectation();
         $specification->setRequest($request)->setResponse($response);

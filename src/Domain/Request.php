@@ -110,9 +110,9 @@ class Request implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'method' => $this->method,
-            'url' => $this->url,
-            'body' => $this->body,
+            'method'  => $this->method,
+            'url'     => $this->url,
+            'body'    => $this->body,
             'headers' => $this->headers,
         ];
     }

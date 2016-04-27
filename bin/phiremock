@@ -12,9 +12,7 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 }
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
 use Mcustiel\Phiremock\Server\Config\Dependencies;
-use Mcustiel\DependencyInjection\DependencyInjectionService;
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 $options = CommandLine::parseArgs($argv);
@@ -29,8 +27,8 @@ $di = Dependencies::init();
 $logger = $di->get('logger');
 $logger->info('Starting Phiremock...');
 
-$expectationsDir = isset($options['e']) 
-    ? realpath($options['e']) 
+$expectationsDir = isset($options['e'])
+    ? realpath($options['e'])
     : $di->get('homePathService')->getHomePath() . DIRECTORY_SEPARATOR . '.phiremock/expectations';
 
 $logger->debug("Phiremock's expectation dir: $expectationsDir");
@@ -43,7 +41,7 @@ $server = $di->get('server');
 $server->setRequestHandler($di->get('application'));
 
 $handleTermination = function ($signal = 0) use ($server, $logger) {
-	$logger->info('Stopping Phiremock...');
+    $logger->info('Stopping Phiremock...');
     $server->shutdown();
     $logger->info('Bye bye');
 };
@@ -51,8 +49,8 @@ $handleTermination = function ($signal = 0) use ($server, $logger) {
 register_shutdown_function($handleTermination);
 
 if (function_exists('pcntl_signal')) {
-	pcntl_signal(SIGTERM, $handleTermination);
-	pcntl_signal(SIGABRT, $handleTermination);
+    pcntl_signal(SIGTERM, $handleTermination);
+    pcntl_signal(SIGABRT, $handleTermination);
 }
 
 $server->listen($port, $interface);

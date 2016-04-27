@@ -5,7 +5,6 @@ use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 
 class FileExpectationsLoader
 {

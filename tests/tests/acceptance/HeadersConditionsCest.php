@@ -106,8 +106,8 @@ class HeadersConditionsCest
         $I->wantTo('create an expectation that checks more than one header');
         $request = new Request();
         $request->setHeaders([
-            'Content-Type' => new Condition('matches', '/application/'),
-            'Content-Length' => new Condition('isEqualTo', '25611'),
+            'Content-Type'     => new Condition('matches', '/application/'),
+            'Content-Length'   => new Condition('isEqualTo', '25611'),
             'Content-Encoding' => new Condition('isEqualTo', 'gzip'),
         ]);
         $response = new Response();
@@ -159,8 +159,8 @@ class HeadersConditionsCest
         $request = new Request();
         $request->setHeaders([
             'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
-            'X-Potato' => new Condition('matches', '/.*tomato.*/'),
-            'X-Tomato' => new Condition('isSameString', 'PoTaTo')
+            'X-Potato'     => new Condition('matches', '/.*tomato.*/'),
+            'X-Tomato'     => new Condition('isSameString', 'PoTaTo')
         ]);
         $response = new Response();
         $response->setBody('Found');

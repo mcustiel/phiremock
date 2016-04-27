@@ -12,8 +12,6 @@ use React\Http\Response as ReactResponse;
 use Zend\Diactoros\Response as PsrResponse;
 use React\Http\Request;
 use Psr\Log\LoggerInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 class ReactPhpServer implements ServerInterface
 {
@@ -90,7 +88,7 @@ class ReactPhpServer implements ServerInterface
     {
         return new ServerRequest(
             [
-                'REMOTE_ADDR' => $request->getRemoteAddress(),
+                'REMOTE_ADDR'  => $request->getRemoteAddress(),
                 'HTTP_VERSION' => $request->getHttpVersion()
             ],
             [],

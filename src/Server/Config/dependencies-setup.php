@@ -118,9 +118,9 @@ $di->register('conditionsMatcherFactory', function () use ($di) {
 $di->register('inputSourceFactory', function () {
     return new InputSourceFactory([
         'method' => new SingletonLazyCreator(Method::class),
-        'url' => new SingletonLazyCreator(Url::class),
+        'url'    => new SingletonLazyCreator(Url::class),
         'header' => new SingletonLazyCreator(Header::class),
-        'body' => new SingletonLazyCreator(Body::class)
+        'body'   => new SingletonLazyCreator(Body::class)
     ]);
 });
 
@@ -134,8 +134,8 @@ $di->register('router', function () use ($di) {
 
 $di->register('matcherFactory', function () {
     return new MatcherFactory([
-        'isEqualTo' => new SingletonLazyCreator(Equals::class),
-        'matches' => new SingletonLazyCreator(RegExp::class),
+        'isEqualTo'    => new SingletonLazyCreator(Equals::class),
+        'matches'      => new SingletonLazyCreator(RegExp::class),
         'isSameString' => new SingletonLazyCreator(CaseInsensitiveEquals::class),
     ]);
 });
@@ -158,7 +158,7 @@ $di->register('actionFactory', function () use ($di) {
             ClearExpectationsAction::class,
             [$di->get('expectationStorage')]
         ),
-        'serverError' => new SingletonLazyCreator(ServerError::class),
+        'serverError'    => new SingletonLazyCreator(ServerError::class),
         'clearScenarios' => new SingletonLazyCreator(
             ClearScenariosAction::class,
             [$di->get('scenarioStorage')]

@@ -92,9 +92,9 @@ class Response implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'statusCode' => $this->statusCode,
-            'body' => $this->body,
-            'headers' => $this->headers,
+            'statusCode'  => $this->statusCode,
+            'body'        => $this->body,
+            'headers'     => $this->headers,
             'delayMillis' => $this->delayMillis,
         ];
     }

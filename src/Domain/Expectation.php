@@ -127,11 +127,11 @@ class Expectation implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'scenarioName' => $this->scenarioName,
-            'scenarioStateIs' => $this->scenarioStateIs,
+            'scenarioName'     => $this->scenarioName,
+            'scenarioStateIs'  => $this->scenarioStateIs,
             'newScenarioState' => $this->newScenarioState,
-            'request' => $this->request,
-            'response' => $this->response,
+            'request'          => $this->request,
+            'response'         => $this->response,
         ];
     }
 

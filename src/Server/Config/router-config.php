@@ -10,7 +10,7 @@ return [
                 'one-of' => [
                     [
                         'input-source' => ['url' => 'path'],
-                        'matcher' => [
+                        'matcher'      => [
                             'matches' => '/\\_\\_phiremock\/expectations\/?$/'
                         ],
                     ],
@@ -30,11 +30,11 @@ return [
                 'all-of' => [
                     [
                         'input-source' => ['method' => null],
-                        'matcher' => ['isEqualTo' => 'POST'],
+                        'matcher'      => ['isEqualTo' => 'POST'],
                     ],
                     [
                         'input-source' => ['header' => 'Content-Type'],
-                        'matcher' => ['isEqualTo' => 'application/json'],
+                        'matcher'      => ['isEqualTo' => 'application/json'],
                     ],
                 ],
             ],
@@ -52,7 +52,7 @@ return [
                 'one-of' => [
                     [
                         'input-source' => ['method' => null],
-                        'matcher' => ['isEqualTo' => 'GET'],
+                        'matcher'      => ['isEqualTo' => 'GET'],
                     ],
                 ],
             ],
@@ -70,7 +70,7 @@ return [
                 'one-of' => [
                     [
                         'input-source' => ['method' => null],
-                        'matcher' => ['isEqualTo' => 'DELETE'],
+                        'matcher'      => ['isEqualTo' => 'DELETE'],
                     ],
                 ],
             ],
@@ -90,7 +90,7 @@ return [
                 'one-of' => [
                     [
                         'input-source' => ['url' => 'path'],
-                        'matcher' => [
+                        'matcher'      => [
                             'matches' => '/\\_\\_phiremock\/scenarios\/?$/'
                         ],
                     ],
@@ -110,7 +110,7 @@ return [
                 'one-of' => [
                     [
                         'input-source' => ['method' => null],
-                        'matcher' => ['isEqualTo' => 'DELETE'],
+                        'matcher'      => ['isEqualTo' => 'DELETE'],
                     ],
                 ],
             ],
@@ -131,7 +131,7 @@ return [
                 'one-of' => [
                     [
                         'input-source' => ['url' => 'path'],
-                        'matcher' => [
+                        'matcher'      => [
                             'matches' => '/\\_\\_phiremock\/executions\/?$/'
                         ],
                     ],
@@ -151,11 +151,11 @@ return [
                 'all-of' => [
                     [
                         'input-source' => ['method' => null],
-                        'matcher' => ['isEqualTo' => 'POST'],
+                        'matcher'      => ['isEqualTo' => 'POST'],
                     ],
                     [
                         'input-source' => ['header' => 'Content-Type'],
-                        'matcher' => ['isEqualTo' => 'application/json'],
+                        'matcher'      => ['isEqualTo' => 'application/json'],
                     ],
                 ],
             ],
@@ -173,7 +173,7 @@ return [
                 'all-of' => [
                     [
                         'input-source' => ['method' => null],
-                        'matcher' => ['isEqualTo' => 'DELETE'],
+                        'matcher'      => ['isEqualTo' => 'DELETE'],
                     ]
                 ],
             ],
@@ -190,7 +190,7 @@ return [
 // -------------------------------- API: error happened ---------------------------
         'apiError' => [
             'condition' => [],
-            'actions' => [
+            'actions'   => [
                 'if-matches' => [
                     ['serverError' => null],
                 ],
@@ -201,10 +201,10 @@ return [
 // ---------------------------- Verify configured expectations -----------------------
         'default' => [
             'condition' => [],
-            'actions' => [
+            'actions'   => [
                 'if-matches' => [
                     ['storeRequest' => null],
-                    ['checkExpectations' => null],
+                    ['checkExpectations'  => null],
                     ['verifyExpectations' => null],
                 ],
                 'else' => [],

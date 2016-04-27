@@ -145,7 +145,7 @@ class ExpectationCreationCest
 
         $expectation = [
             'response' => ['statusCode' => 200],
-            'request' => ['potato' => 'tomato']
+            'request'  => ['potato' => 'tomato']
         ];
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -162,7 +162,7 @@ class ExpectationCreationCest
 
         $expectation = [
             'response' => 'response',
-            'request' => ['url' => ['isEqualTo' => '/tomato']]
+            'request'  => ['url' => ['isEqualTo' => '/tomato']]
         ];
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -183,8 +183,8 @@ class ExpectationCreationCest
             ->setBody(new Condition('isEqualTo', 'the body'))
             ->setMethod('get')
             ->setHeaders([
-                'Content-Type' => new Condition('matches', '/json/'),
-                'Accepts' => new Condition('isEqualTo', 'application/json'),
+                'Content-Type'         => new Condition('matches', '/json/'),
+                'Accepts'              => new Condition('isEqualTo', 'application/json'),
                 'X-Some-Random-Header' => new Condition('isEqualTo', 'random value'),
             ]);
 
@@ -194,7 +194,7 @@ class ExpectationCreationCest
             ->setDelayMillis(5000)
             ->setHeaders([
                 'X-Special-Header' => 'potato',
-                'Location' => 'href://potato.tmt',
+                'Location'         => 'href://potato.tmt',
             ]);
 
         $expectation = (new Expectation())
