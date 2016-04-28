@@ -86,14 +86,14 @@ class FileExpectationsLoader
             $this->logger->error('Scenario name related misconfiguration');
             throw new \RuntimeException(
                 'Expecting or trying to set scenario state without specifying scenario name'
-                );
+            );
         }
 
         if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
             $this->logger->error('Scenario states misconfiguration');
             throw new \RuntimeException(
                 'Trying to set scenario state without specifying scenario previous state'
-                );
+            );
         }
     }
 
