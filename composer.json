@@ -47,5 +47,7 @@
 	"suggest": {
 	    "ext-pcntl": "Allows phiremock to handle system signals"
 	},
-	"bin": ["bin/phiremock"]
+	"bin": ["bin/phiremock"],
+	"minimum-stability": "dev",
+    "prefer-stable": true
 }
