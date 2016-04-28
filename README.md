@@ -12,6 +12,9 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 * Allows to verify the amount of times a request was done.
 * Allows to load default expectations from json files in a directory.
 
+[![Build Status](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/?branch=master)
+
 ## Installation
 
 ### Composer:
