@@ -12,6 +12,7 @@ use React\Http\Response as ReactResponse;
 use Zend\Diactoros\Response as PsrResponse;
 use React\Http\Request;
 use Psr\Log\LoggerInterface;
+use Zend\Diactoros\Stream;
 
 class ReactPhpServer implements ServerInterface
 {
@@ -84,7 +85,7 @@ class ReactPhpServer implements ServerInterface
         return 'http://localhost/' . $request->getPath() . (empty($query) ? '' : "?{$query}");
     }
 
-    private function convertFromReactToPsrRequest(Request $request, $body)
+    private function convertFromReactToPsrRequest(ReactRequest $request)
     {
         return new ServerRequest(
             [
@@ -94,9 +95,16 @@ class ReactPhpServer implements ServerInterface
             [],
             $this->getUriFromRequest($request),
             $request->getMethod(),
-            $body,
+            $this->getBodyStreamFromReact($request),
             $request->getHeaders()
         );
+    }
+
+    private function getBodyStreamFromReact(ReactRequest $request)
+    {
+        $bodyStream = new Stream('php://temp', 'rw');
+        $bodyStream->write($request->getBody());
+        return $bodyStream;
     }
 
     private function onRequest(ReactRequest $request, ReactResponse $response)
@@ -105,8 +113,7 @@ class ReactPhpServer implements ServerInterface
 
         $psrResponse = $this->requestHandler->execute(
             $this->convertFromReactToPsrRequest(
-                $request,
-                'data://text/plain;base64,' . base64_encode($request->getBody())
+                $request
             ),
             new PsrResponse()
         );
