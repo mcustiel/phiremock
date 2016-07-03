@@ -17,9 +17,9 @@ tools:
         enabled: true
         excluded_dirs: [vendor, test]
 build:
-  dependencies:
-    before:
-        - pecl install pcntl
+    dependencies:
+        before:
+            - pecl install pcntl
     environment:
         php:
             version: 5.6.9
