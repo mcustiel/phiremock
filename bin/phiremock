@@ -1,5 +1,6 @@
 #!/usr/bin/php
 <?php
+declare(ticks = 1);
 
 if (PHP_SAPI != 'cli') {
     throw new \Exception('This is a standalone CLI application');
@@ -46,11 +47,14 @@ $handleTermination = function ($signal = 0) use ($server, $logger) {
     $logger->info('Bye bye');
 };
 
+$logger->debug('Registering shutdown function');
 register_shutdown_function($handleTermination);
 
 if (function_exists('pcntl_signal')) {
+    $logger->debug('PCNTL present: Installing signal handlers');
     pcntl_signal(SIGTERM, $handleTermination);
     pcntl_signal(SIGABRT, $handleTermination);
+    pcntl_signal(SIGINT, $handleTermination);
 }
 
 $server->listen($port, $interface);

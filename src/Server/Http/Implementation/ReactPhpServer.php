@@ -10,7 +10,6 @@ use Zend\Diactoros\ServerRequest;
 use React\Http\Request as ReactRequest;
 use React\Http\Response as ReactResponse;
 use Zend\Diactoros\Response as PsrResponse;
-use React\Http\Request;
 use Psr\Log\LoggerInterface;
 use Zend\Diactoros\Stream;
 
@@ -71,6 +70,13 @@ class ReactPhpServer implements ServerInterface
         $this->logger->info("Phiremock http server listening on $host:$port");
 
         $this->socket->listen($port, $host);
+
+        // Dispatch pending signals periodically
+        if (function_exists('pcntl_signal_dispatch')) {
+            $this->loop->addPeriodicTimer(0.5, function () {
+                pcntl_signal_dispatch();
+            });
+        }
         $this->loop->run();
     }
 
@@ -79,7 +85,7 @@ class ReactPhpServer implements ServerInterface
         $this->loop->stop();
     }
 
-    private function getUriFromRequest(Request $request)
+    private function getUriFromRequest(ReactRequest $request)
     {
         $query = $request->getQuery();
         return 'http://localhost/' . $request->getPath() . (empty($query) ? '' : "?{$query}");
