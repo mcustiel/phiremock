@@ -1,4 +1,4 @@
-# Phiremock (beta)
+# Phiremock
 
 Phiremock is a HTTP services mocker and stubber, it allows software developers to mock HTTP requests and setup static responses to avoid calling real services during development. Also can be used to setup the responses to expected requests during acceptance testing. Any HTTP service (i.e.: REST services) can be mocked and stubbed with Phiremock.
 Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not force you to have a java installation in your PHP development environment. The full functionality of Phiremock is detailed in the following list:
@@ -12,8 +12,10 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 * Allows to verify the amount of times a request was done.
 * Allows to load default expectations from json files in a directory.
 
+[![Latest Stable Version](https://poser.pugx.org/mcustiel/phiremock/v/stable)](https://packagist.org/packages/mcustiel/phiremock)
 [![Build Status](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/?branch=master)
+[![Monthly Downloads](https://poser.pugx.org/mcustiel/phiremock/d/monthly)](https://packagist.org/packages/mcustiel/phiremock)
 
 ## Installation
 
