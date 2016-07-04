@@ -20,7 +20,3 @@ build:
     environment:
         php:
             version: 5.6.9
-    tests:
-        override:
-            -
-                command: ./vendor/bin/codecept run -c tests acceptance
