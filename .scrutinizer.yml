@@ -23,4 +23,4 @@ build:
     tests:
         override:
             -
-                command: ./vendor/bin/codecept build && ./vendor/bin/codecept run -c tests acceptance
+                command: ./vendor/bin/codecept build -c tests && ./vendor/bin/codecept run acceptance -c tests
