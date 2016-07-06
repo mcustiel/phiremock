@@ -16,7 +16,7 @@ trait ExpectationValidator
             $logger->error('Invalid response specified in expectation');
             throw new \RuntimeException('Invalid response specified in expectation');
         }
-        $this->validateScenarioConfig($expectation, $logger);
+        $this->validateScenarioConfigOrThrowException($expectation, $logger);
     }
 
     private function responseIsInvalid($response)
@@ -30,7 +30,23 @@ trait ExpectationValidator
         && empty($request->getMethod()) && empty($request->getUrl());
     }
 
-    private function validateScenarioConfig(Expectation $expectation, LoggerInterface $logger)
+    private function validateScenarioConfigOrThrowException(Expectation $expectation, LoggerInterface $logger)
+    {
+        $this->validateScenarioNameOrThrowException($expectation, $logger);
+        $this->validateScenarioStateOrThrowException($expectation, $logger);
+    }
+
+    private function validateScenarioStateOrThrowException($expectation, $logger)
+    {
+        if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
+            $logger->error('Scenario states misconfiguration');
+            throw new \RuntimeException(
+                'Trying to set scenario state without specifying scenario previous state'
+            );
+        }
+    }
+
+    private function validateScenarioNameOrThrowException($expectation, $logger)
     {
         if (!$expectation->getScenarioName()
             && ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
@@ -38,13 +54,6 @@ trait ExpectationValidator
             $logger->error('Scenario name related misconfiguration');
             throw new \RuntimeException(
                 'Expecting or trying to set scenario state without specifying scenario name'
-            );
-        }
-
-        if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
-            $logger->error('Scenario states misconfiguration');
-            throw new \RuntimeException(
-                'Trying to set scenario state without specifying scenario previous state'
             );
         }
     }

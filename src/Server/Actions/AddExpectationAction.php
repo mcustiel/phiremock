@@ -44,7 +44,6 @@ class AddExpectationAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        $listOfErrors = [];
         try {
             /**
              * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
@@ -58,17 +57,20 @@ class AddExpectationAction implements ActionInterface
 
             $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
             $this->storage->addExpectation($expectation);
+            $transactionData->setResponse(
+                $this->constructResponse([], $transactionData->getResponse())
+            );
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
-            $listOfErrors = $e->getErrors();
+            $transactionData->setResponse(
+                $this->constructResponse($e->getErrors(), $transactionData->getResponse())
+            );
         } catch (\Exception $e) {
             $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
-            $listOfErrors = [$e->getMessage()];
+            $transactionData->setResponse(
+                $this->constructResponse([$e->getMessage()], $transactionData->getResponse())
+            );
         }
-
-        $transactionData->setResponse(
-            $this->constructResponse($listOfErrors, $transactionData->getResponse())
-        );
     }
 
     private function constructResponse($listOfErrors, $response)

@@ -57,19 +57,37 @@ class VerifyRequestFound implements ActionInterface
     private function generateResponse(TransactionData $transactionData, Response $foundResponse)
     {
         $response = $transactionData->getResponse();
-        if ($foundResponse->getBody()) {
-            $response = $response->withBody(new StringStream($foundResponse->getBody()));
-        }
-        if ($foundResponse->getStatusCode()) {
-            $response = $response->withStatus($foundResponse->getStatusCode());
-        }
+        $response = $this->getResponseWithBody($foundResponse, $response);
+        $response = $this->getResponseWithStatusCode($foundResponse, $response);
+        $response = $this->getResponseWithHeaders($foundResponse, $response);
+        $this->processDelay($foundResponse);
+
+        return $response;
+    }
+
+    private function getResponseWithHeaders($foundResponse, $response)
+    {
         if ($foundResponse->getHeaders()) {
             foreach ($foundResponse->getHeaders() as $name => $value) {
                 $response = $response->withHeader($name, $value);
             }
         }
-        $this->processDelay($foundResponse);
+        return $response;
+    }
 
+    private function getResponseWithStatusCode($foundResponse, $response)
+    {
+        if ($foundResponse->getStatusCode()) {
+            $response = $response->withStatus($foundResponse->getStatusCode());
+        }
+        return $response;
+    }
+
+    private function getResponseWithBody($foundResponse, $response)
+    {
+        if ($foundResponse->getBody()) {
+            $response = $response->withBody(new StringStream($foundResponse->getBody()));
+        }
         return $response;
     }
 

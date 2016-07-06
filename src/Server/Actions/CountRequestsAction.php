@@ -70,7 +70,6 @@ class CountRequestsAction implements ActionInterface
                     ->withHeader('Content-Type', 'application/json')
                     ->withBody(new StringStream(json_encode(['count' => $count])))
             );
-            return;
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
             $transactionData->setResponse(
