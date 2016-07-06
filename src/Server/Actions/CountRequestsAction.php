@@ -12,9 +12,12 @@ use Mcustiel\Phiremock\Server\Model\RequestStorage;
 use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Log\LoggerInterface;
 use Mcustiel\SimpleRequest\Exception\InvalidRequestException;
+use Mcustiel\Phiremock\Server\Utils\Traits\ExpectationValidator;
 
 class CountRequestsAction implements ActionInterface
 {
+    use ExpectationValidator;
+
     /**
      * @var \Mcustiel\SimpleRequest\RequestBuilder
      */
@@ -59,10 +62,7 @@ class CountRequestsAction implements ActionInterface
                 Expectation::class,
                 RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
             );
-            if ($this->requestIsInvalid($expectation->getRequest())) {
-                $this->logger->warning('Expectation request is invalid');
-                throw new \RuntimeException('Invalid request specified to verify');
-            }
+            $this->validateRequestOrThrowException($expectation, $this->logger);
             $count = $this->searchForExecutionsCount($expectation);
             $this->logger->debug('Found ' . $count . ' request matching the expectation');
             $transactionData->setResponse(
@@ -93,12 +93,6 @@ class CountRequestsAction implements ActionInterface
         }
 
         return $count;
-    }
-
-    private function requestIsInvalid($request)
-    {
-        return empty($request->getBody()) && empty($request->getHeaders())
-            && empty($request->getMethod()) && empty($request->getUrl());
     }
 
     private function constructErrorResponse($listOfErrors, $response)

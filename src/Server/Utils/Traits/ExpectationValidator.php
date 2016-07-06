@@ -8,15 +8,25 @@ trait ExpectationValidator
 {
     private function validateExpectation(Expectation $expectation, LoggerInterface $logger)
     {
-        if ($this->requestIsInvalid($expectation->getRequest())) {
-            $logger->error('Invalid request specified in expectation');
-            throw new \RuntimeException('Invalid request specified in expectation');
-        }
+        $this->validateRequestOrThrowException($expectation, $logger);
+        $this->validateResponseOrThrowException($expectation, $logger);
+        $this->validateScenarioConfigOrThrowException($expectation, $logger);
+    }
+
+    private function validateResponseOrThrowException(Expectation $expectation, LoggerInterface $logger)
+    {
         if ($this->responseIsInvalid($expectation->getResponse())) {
             $logger->error('Invalid response specified in expectation');
             throw new \RuntimeException('Invalid response specified in expectation');
         }
-        $this->validateScenarioConfigOrThrowException($expectation, $logger);
+    }
+
+    private function validateRequestOrThrowException(Expectation $expectation, LoggerInterface $logger)
+    {
+        if ($this->requestIsInvalid($expectation->getRequest())) {
+            $logger->error('Invalid request specified in expectation');
+            throw new \RuntimeException('Invalid request specified in expectation');
+        }
     }
 
     private function responseIsInvalid($response)

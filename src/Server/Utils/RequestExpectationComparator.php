@@ -48,7 +48,6 @@ class RequestExpectationComparator
     public function equals(ServerRequestInterface $httpRequest, Expectation $expectation)
     {
         $this->logger->debug('Checking if request matches an expectation');
-        $atLeastOneExecution = false;
 
         if (!$this->isExpectedScenarioState($expectation)) {
             return false;
@@ -56,6 +55,18 @@ class RequestExpectationComparator
 
         $expectedRequest = $expectation->getRequest();
 
+        $atLeastOneExecution = $this->compareRequestParts($httpRequest, $expectedRequest);
+
+        if ($expectedRequest->getHeaders()) {
+            $this->logger->debug('Checking headers against expectation');
+            return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
+        }
+        return $atLeastOneExecution;
+    }
+
+    private function compareRequestParts($httpRequest, $expectedRequest)
+    {
+        $atLeastOneExecution = false;
         $requestParts = ['Method', 'Url', 'Body'];
 
         foreach ($requestParts as $requestPart) {
@@ -68,11 +79,6 @@ class RequestExpectationComparator
                 }
                 $atLeastOneExecution = true;
             }
-        }
-
-        if ($expectedRequest->getHeaders()) {
-            $this->logger->debug('Checking headers against expectation');
-            return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
         }
         return $atLeastOneExecution;
     }
