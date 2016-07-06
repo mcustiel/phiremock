@@ -5,9 +5,12 @@ use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Psr\Log\LoggerInterface;
+use Mcustiel\Phiremock\Server\Utils\Traits\ExpectationValidator;
 
 class FileExpectationsLoader
 {
+	use ExpectationValidator;
+
     /**
      * @var \Mcustiel\SimpleRequest\RequestBuilder
      */
@@ -44,7 +47,7 @@ class FileExpectationsLoader
             Expectation::class,
             RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
         );
-        $this->validateExpectation($expectation);
+        $this->validateExpectation($expectation, $this->logger);
 
         $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
         $this->storage->addExpectation($expectation);
@@ -65,46 +68,5 @@ class FileExpectationsLoader
                 }
             }
         }
-    }
-
-    private function validateExpectation(Expectation $expectation)
-    {
-        if ($this->requestIsInvalid($expectation->getRequest())) {
-            throw new \RuntimeException('Invalid request specified in expectation');
-        }
-        if ($this->responseIsInvalid($expectation->getResponse())) {
-            throw new \RuntimeException('Invalid response specified in expectation');
-        }
-        $this->validateScenarioConfig($expectation);
-    }
-
-    private function validateScenarioConfig(Expectation $expectation)
-    {
-        if (!$expectation->getScenarioName()
-            && ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
-        ) {
-            $this->logger->error('Scenario name related misconfiguration');
-            throw new \RuntimeException(
-                'Expecting or trying to set scenario state without specifying scenario name'
-            );
-        }
-
-        if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
-            $this->logger->error('Scenario states misconfiguration');
-            throw new \RuntimeException(
-                'Trying to set scenario state without specifying scenario previous state'
-            );
-        }
-    }
-
-    private function responseIsInvalid($response)
-    {
-        return empty($response->getStatusCode());
-    }
-
-    private function requestIsInvalid($request)
-    {
-        return empty($request->getBody()) && empty($request->getHeaders())
-        && empty($request->getMethod()) && empty($request->getUrl());
     }
 }
