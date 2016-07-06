@@ -50,19 +50,8 @@ class RequestExpectationComparator
         $this->logger->debug('Checking if request matches an expectation');
         $atLeastOneExecution = false;
 
-        if ($expectation->getScenarioStateIs()) {
-            if (!$expectation->getScenarioName()) {
-                throw new \RuntimeException(
-                    'Expecting scenario state without specifying scenario name'
-                );
-            }
-            $this->logger->debug('Checking scenario state again expectation');
-            $scenarioState = $this->scenarioStorage->getScenarioState(
-                $expectation->getScenarioName()
-            );
-            if ($expectation->getScenarioStateIs() != $scenarioState) {
-                return false;
-            }
+        if (!$this->isExpectedScenarioState($expectation)) {
+            return false;
         }
 
         $expectedRequest = $expectation->getRequest();
@@ -93,6 +82,31 @@ class RequestExpectationComparator
             return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
         }
         return $atLeastOneExecution;
+    }
+
+    private function isExpectedScenarioState($expectation)
+    {
+        if ($expectation->getScenarioStateIs()) {
+            $this->checkScenarioNameOrThrowException($expectation);
+            $this->logger->debug('Checking scenario state again expectation');
+            $scenarioState = $this->scenarioStorage->getScenarioState(
+                $expectation->getScenarioName()
+            );
+            if ($expectation->getScenarioStateIs() != $scenarioState) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private function checkScenarioNameOrThrowException($expectation)
+    {
+        if (!$expectation->getScenarioName()) {
+            throw new \RuntimeException(
+                'Expecting scenario state without specifying scenario name'
+            );
+        }
     }
 
     private function requestMethodMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)

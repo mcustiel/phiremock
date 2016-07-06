@@ -6,7 +6,6 @@ use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Domain\Response;
 use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Client\Phiremock;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
 use Mcustiel\Phiremock\Client\Utils\Respond;
@@ -45,7 +44,7 @@ class ClientCest
 
     public function shouldCreateAnExpectationTestWithFluentInterface(AcceptanceTester $I)
     {
-        $expectation = Phiremock::on(
+        $expectation = PhiremockClient::on(
             A::postRequest()->andUrl(Is::equalTo('/potato'))
                 ->andHeader('X-Potato', Is::sameStringAs('bAnaNa'))
                 ->andScenarioState('PotatoScenario', 'Scenario.START')
@@ -58,7 +57,7 @@ class ClientCest
         );
         $this->phiremock->createExpectation($expectation);
 
-        $expectation = Phiremock::on(
+        $expectation = PhiremockClient::on(
             A::postRequest()->andUrl(Is::equalTo('/potato'))
                 ->andHeader('X-Potato', Is::sameStringAs('bAnaNa'))
                 ->andScenarioState('PotatoScenario', 'visited')
