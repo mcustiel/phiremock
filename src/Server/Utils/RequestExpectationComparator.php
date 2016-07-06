@@ -59,15 +59,15 @@ class RequestExpectationComparator
         $requestParts = ['Method', 'Url', 'Body'];
 
         foreach ($requestParts as $requestPart) {
-        	$getter = "get{$requestPart}";
-        	$matcher = "request{$requestPart}MatchesExpectation";
-        	if ($expectedRequest->{$getter}()) {
-        		$this->logger->debug("Checking {$requestPart} against expectation");
-        		if (!$this->{$matcher}($httpRequest, $expectedRequest)) {
-        			return false;
-        		}
-        		$atLeastOneExecution = true;
-        	}
+            $getter = "get{$requestPart}";
+            $matcher = "request{$requestPart}MatchesExpectation";
+            if ($expectedRequest->{$getter}()) {
+                $this->logger->debug("Checking {$requestPart} against expectation");
+                if (!$this->{$matcher}($httpRequest, $expectedRequest)) {
+                    return false;
+                }
+                $atLeastOneExecution = true;
+            }
         }
 
         if ($expectedRequest->getHeaders()) {
