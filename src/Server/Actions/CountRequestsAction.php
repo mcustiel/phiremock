@@ -50,7 +50,6 @@ class CountRequestsAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        $listOfErrors = [];
         try {
             /**
              * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
@@ -74,15 +73,15 @@ class CountRequestsAction implements ActionInterface
             return;
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
-            $listOfErrors = $e->getErrors();
+            $transactionData->setResponse(
+            	$this->constructErrorResponse($e->getErrors(), $transactionData->getResponse())
+           	);
         } catch (\Exception $e) {
             $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
-            $listOfErrors = [$e->getMessage()];
+            $transactionData->setResponse(
+            	$this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse())
+            );
         }
-
-        $transactionData->setResponse(
-            $this->constructErrorResponse($listOfErrors, $transactionData->getResponse())
-        );
     }
 
     private function searchForExecutionsCount(Expectation $expectation)
