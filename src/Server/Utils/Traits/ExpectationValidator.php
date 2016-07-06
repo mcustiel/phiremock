@@ -9,11 +9,11 @@ trait ExpectationValidator
     private function validateExpectation(Expectation $expectation, LoggerInterface $logger)
     {
         if ($this->requestIsInvalid($expectation->getRequest())) {
-        	$logger->error('Invalid request specified in expectation');
+            $logger->error('Invalid request specified in expectation');
             throw new \RuntimeException('Invalid request specified in expectation');
         }
         if ($this->responseIsInvalid($expectation->getResponse())) {
-        	$logger->error('Invalid response specified in expectation');
+            $logger->error('Invalid response specified in expectation');
             throw new \RuntimeException('Invalid response specified in expectation');
         }
         $this->validateScenarioConfig($expectation, $logger);
@@ -33,19 +33,19 @@ trait ExpectationValidator
     private function validateScenarioConfig(Expectation $expectation, LoggerInterface $logger)
     {
         if (!$expectation->getScenarioName()
-			&& ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
-		) {
-        	$logger->error('Scenario name related misconfiguration');
+            && ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
+        ) {
+            $logger->error('Scenario name related misconfiguration');
             throw new \RuntimeException(
-            	'Expecting or trying to set scenario state without specifying scenario name'
-			);
+                'Expecting or trying to set scenario state without specifying scenario name'
+            );
         }
 
         if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
-        	$logger->error('Scenario states misconfiguration');
+            $logger->error('Scenario states misconfiguration');
             throw new \RuntimeException(
-            	'Trying to set scenario state without specifying scenario previous state'
+                'Trying to set scenario state without specifying scenario previous state'
             );
-		}
+        }
     }
 }

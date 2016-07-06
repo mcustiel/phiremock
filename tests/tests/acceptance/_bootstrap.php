@@ -8,7 +8,7 @@ echo 'Running ' . $command . PHP_EOL;
 $process = new Process($command);
 
 register_shutdown_function(function () use ($process) {
-	echo 'Terminating phiremock' . PHP_EOL;
+    echo 'Terminating phiremock' . PHP_EOL;
     $process->stop(10, SIGTERM);
 });
 

@@ -13,7 +13,7 @@ use Mcustiel\Phiremock\Server\Utils\Traits\ExpectationValidator;
 
 class AddExpectationAction implements ActionInterface
 {
-	use ExpectationValidator;
+    use ExpectationValidator;
 
     /**
      * @var \Mcustiel\SimpleRequest\RequestBuilder

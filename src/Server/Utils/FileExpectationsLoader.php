@@ -9,7 +9,7 @@ use Mcustiel\Phiremock\Server\Utils\Traits\ExpectationValidator;
 
 class FileExpectationsLoader
 {
-	use ExpectationValidator;
+    use ExpectationValidator;
 
     /**
      * @var \Mcustiel\SimpleRequest\RequestBuilder
