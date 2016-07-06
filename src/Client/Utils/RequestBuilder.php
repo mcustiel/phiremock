@@ -61,13 +61,23 @@ class RequestBuilder
         }
         $expectation = new Expectation();
         $expectation->setRequest($this->request);
+        $this->setScenario($expectation);
+        $this->setPriority($expectation);
+        return $expectation;
+    }
+
+    private function setPriority($expectation)
+    {
+        if ($this->priority) {
+            $expectation->setPriority((integer) $this->priority);
+        }
+    }
+
+    private function setScenario($expectation)
+    {
         if ($this->scenarioName && $this->scenarioIs) {
             $expectation->setScenarioName($this->scenarioName)
                 ->setScenarioStateIs($this->scenarioIs);
         }
-        if ($this->priority) {
-            $expectation->setPriority((integer) $this->priority);
-        }
-        return $expectation;
     }
 }

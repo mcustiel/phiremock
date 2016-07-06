@@ -74,12 +74,12 @@ class CountRequestsAction implements ActionInterface
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
             $transactionData->setResponse(
-            	$this->constructErrorResponse($e->getErrors(), $transactionData->getResponse())
-           	);
+                $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse())
+               );
         } catch (\Exception $e) {
             $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
             $transactionData->setResponse(
-            	$this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse())
+                $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse())
             );
         }
     }
