@@ -47,7 +47,7 @@ class FileExpectationsLoader
             Expectation::class,
             RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
         );
-        $this->validateExpectation($expectation, $this->logger);
+        $this->validateExpectationOrThrowException($expectation, $this->logger);
 
         $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
         $this->storage->addExpectation($expectation);
