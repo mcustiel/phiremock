@@ -44,33 +44,40 @@ class AddExpectationAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
-        try {
-            /**
-             * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
-             */
-            $expectation = $this->requestBuilder->parseRequest(
-                $this->parseJsonBody($transactionData->getRequest()),
-                Expectation::class,
-                RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
-            );
-            $this->validateExpectation($expectation, $this->logger);
+        $transactionData->setResponse(
+            $this->processAndGetResponse($transactionData)
+        );
+    }
 
-            $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
-            $this->storage->addExpectation($expectation);
-            $transactionData->setResponse(
-                $this->constructResponse([], $transactionData->getResponse())
-            );
+    private function processAndGetResponse(TransactionData $transactionData)
+    {
+        try {
+            return $this->addExpectationAndGetResponse($transactionData);
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
-            $transactionData->setResponse(
-                $this->constructResponse($e->getErrors(), $transactionData->getResponse())
-            );
+            return $this->constructResponse($e->getErrors(), $transactionData->getResponse());
         } catch (\Exception $e) {
             $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
-            $transactionData->setResponse(
-                $this->constructResponse([$e->getMessage()], $transactionData->getResponse())
-            );
+            return $this->constructResponse([$e->getMessage()], $transactionData->getResponse());
         }
+    }
+
+    private function addExpectationAndGetResponse(TransactionData $transactionData)
+    {
+        /**
+         * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
+         */
+        $expectation = $this->requestBuilder->parseRequest(
+            $this->parseJsonBody($transactionData->getRequest()),
+            Expectation::class,
+            RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
+        );
+        $this->validateExpectation($expectation, $this->logger);
+
+        $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
+        $this->storage->addExpectation($expectation);
+
+        return $this->constructResponse([], $transactionData->getResponse());
     }
 
     private function constructResponse($listOfErrors, $response)
