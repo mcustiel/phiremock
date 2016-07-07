@@ -8,34 +8,23 @@ use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Log\LoggerInterface;
-use Mcustiel\SimpleRequest\Exception\InvalidRequestException;
-use Mcustiel\Phiremock\Server\Utils\Traits\ExpectationValidator;
+use Mcustiel\Phiremock\Server\Actions\Base\AbstractRequestAction;
+use Psr\Http\Message\ResponseInterface;
 
-class AddExpectationAction implements ActionInterface
+class AddExpectationAction extends AbstractRequestAction implements ActionInterface
 {
-    use ExpectationValidator;
-
-    /**
-     * @var \Mcustiel\SimpleRequest\RequestBuilder
-     */
-    private $requestBuilder;
     /**
      * @var \Mcustiel\Phiremock\Server\Model\ExpectationStorage
      */
     private $storage;
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $logger;
 
     public function __construct(
         RequestBuilder $requestBuilder,
         ExpectationStorage $storage,
         LoggerInterface $logger
     ) {
-        $this->requestBuilder = $requestBuilder;
+        parent::__construct($requestBuilder, $logger);
         $this->storage = $storage;
-        $this->logger = $logger;
     }
 
     /**
@@ -45,59 +34,22 @@ class AddExpectationAction implements ActionInterface
     public function execute(TransactionData $transactionData, $argument = null)
     {
         $transactionData->setResponse(
-            $this->processAndGetResponse($transactionData)
+            $this->processAndGetResponse(
+                $transactionData,
+                function (TransactionData $transaction, Expectation $expectation) {
+                    $this->validateExpectationOrThrowException($expectation, $this->logger);
+                    $this->storage->addExpectation($expectation);
+                    return $this->constructResponse([], $transaction->getResponse());
+                }
+            )
         );
     }
 
-    private function processAndGetResponse(TransactionData $transactionData)
-    {
-        try {
-            return $this->addExpectationAndGetResponse($transactionData);
-        } catch (InvalidRequestException $e) {
-            $this->logger->warning('Invalid request received');
-            return $this->constructResponse($e->getErrors(), $transactionData->getResponse());
-        } catch (\Exception $e) {
-            $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
-            return $this->constructResponse([$e->getMessage()], $transactionData->getResponse());
-        }
-    }
-
-    private function addExpectationAndGetResponse(TransactionData $transactionData)
-    {
-        /**
-         * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
-         */
-        $expectation = $this->requestBuilder->parseRequest(
-            $this->parseJsonBody($transactionData->getRequest()),
-            Expectation::class,
-            RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
-        );
-        $this->validateExpectation($expectation, $this->logger);
-
-        $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
-        $this->storage->addExpectation($expectation);
-
-        return $this->constructResponse([], $transactionData->getResponse());
-    }
-
-    private function constructResponse($listOfErrors, $response)
+    private function constructResponse(array $listOfErrors, ResponseInterface $response)
     {
         if (empty($listOfErrors)) {
-            $statusCode = 201;
-            $body = '{"result" : "OK"}';
-        } else {
-            $statusCode = 500;
-            $body = '{"result" : "ERROR", "details" : ' . json_encode($listOfErrors) . '}';
+            return $response->withStatus(201)->withBody(new StringStream('{"result" : "OK"}'));
         }
-        return $response->withStatus($statusCode)->withBody(new StringStream($body));
-    }
-
-    private function parseJsonBody($request)
-    {
-        $bodyJson = @json_decode($request->getBody()->__toString(), true);
-        if (json_last_error() != JSON_ERROR_NONE) {
-            throw new \Exception(json_last_error_msg());
-        }
-        return $bodyJson;
+        return $this->constructErrorResponse($listOfErrors, $response);
     }
 }

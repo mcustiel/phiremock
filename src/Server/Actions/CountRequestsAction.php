@@ -5,23 +5,15 @@ use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
-use Zend\Diactoros\Stream;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Mcustiel\Phiremock\Server\Model\RequestStorage;
 use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Log\LoggerInterface;
-use Mcustiel\SimpleRequest\Exception\InvalidRequestException;
-use Mcustiel\Phiremock\Server\Utils\Traits\ExpectationValidator;
+use Mcustiel\Phiremock\Server\Actions\Base\AbstractRequestAction;
 
-class CountRequestsAction implements ActionInterface
+class CountRequestsAction extends AbstractRequestAction implements ActionInterface
 {
-    use ExpectationValidator;
-
-    /**
-     * @var \Mcustiel\SimpleRequest\RequestBuilder
-     */
-    private $requestBuilder;
     /**
      * @var \Mcustiel\Phiremock\Server\Model\RequestStorage
      */
@@ -30,10 +22,6 @@ class CountRequestsAction implements ActionInterface
      * @var \Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator
      */
     private $comparator;
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $logger;
 
     public function __construct(
         RequestBuilder $requestBuilder,
@@ -41,10 +29,9 @@ class CountRequestsAction implements ActionInterface
         RequestExpectationComparator $comparator,
         LoggerInterface $logger
     ) {
-        $this->requestBuilder = $requestBuilder;
+        parent::__construct($requestBuilder, $logger);
         $this->requestsStorage = $storage;
         $this->comparator = $comparator;
-        $this->logger = $logger;
     }
 
     /**
@@ -53,41 +40,20 @@ class CountRequestsAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
-    	$transactionData->setResponse(
-    		$this->processAndGetResponse($transactionData)
-    	);
-    }
-
-    private function processAndGetResponse(TransactionData $transactionData)
-    {
-        try {
-            return $this->getCountResponse($transactionData);
-        } catch (InvalidRequestException $e) {
-            $this->logger->warning('Invalid request received');
-            return $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse());
-        } catch (\Exception $e) {
-            $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
-            return $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse());
-        }
-    }
-
-    private function getCountResponse($transactionData)
-    {
-        /**
-         * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
-         */
-        $expectation = $this->requestBuilder->parseRequest(
-            $this->parseJsonBody($transactionData->getRequest()),
-            Expectation::class,
-            RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
-            );
-        $this->validateRequestOrThrowException($expectation, $this->logger);
-        $count = $this->searchForExecutionsCount($expectation);
-        $this->logger->debug('Found ' . $count . ' request matching the expectation');
-        return $transactionData->getResponse()
-            ->withStatus(200)
-            ->withHeader('Content-Type', 'application/json')
-            ->withBody(new StringStream(json_encode(['count' => $count])));
+        $transactionData->setResponse(
+            $this->processAndGetResponse(
+                $transactionData,
+                function (TransactionData $transaction, Expectation $expectation) {
+                    $this->validateRequestOrThrowException($expectation, $this->logger);
+                    $count = $this->searchForExecutionsCount($expectation);
+                    $this->logger->debug('Found ' . $count . ' request matching the expectation');
+                    return $transaction->getResponse()
+                        ->withStatus(200)
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withBody(new StringStream(json_encode(['count' => $count])));
+                }
+            )
+        );
     }
 
     private function searchForExecutionsCount(Expectation $expectation)
@@ -99,21 +65,5 @@ class CountRequestsAction implements ActionInterface
             }
         }
         return $count;
-    }
-
-    private function constructErrorResponse($listOfErrors, $response)
-    {
-        $statusCode = 500;
-        $body = '{"result" : "ERROR", "details" : ' . json_encode($listOfErrors) . '}';
-        return $response->withStatus($statusCode)->withBody(new Stream("data://text/plain,{$body}"));
-    }
-
-    private function parseJsonBody($request)
-    {
-        $bodyJson = @json_decode($request->getBody()->__toString(), true);
-        if (json_last_error() != JSON_ERROR_NONE) {
-            throw new \Exception(json_last_error_msg());
-        }
-        return $bodyJson;
     }
 }
