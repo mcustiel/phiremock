@@ -53,34 +53,41 @@ class CountRequestsAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
+    	$transactionData->setResponse(
+    		$this->processAndGetResponse($transactionData)
+    	);
+    }
+
+    private function processAndGetResponse(TransactionData $transactionData)
+    {
         try {
-            /**
-             * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
-             */
-            $expectation = $this->requestBuilder->parseRequest(
-                $this->parseJsonBody($transactionData->getRequest()),
-                Expectation::class,
-                RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
-            );
-            $this->validateRequestOrThrowException($expectation, $this->logger);
-            $count = $this->searchForExecutionsCount($expectation);
-            $this->logger->debug('Found ' . $count . ' request matching the expectation');
-            $transactionData->setResponse(
-                $transactionData->getResponse()->withStatus(200)
-                    ->withHeader('Content-Type', 'application/json')
-                    ->withBody(new StringStream(json_encode(['count' => $count])))
-            );
+            return $this->getCountResponse($transactionData);
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
-            $transactionData->setResponse(
-                $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse())
-               );
+            return $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse());
         } catch (\Exception $e) {
             $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
-            $transactionData->setResponse(
-                $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse())
-            );
+            return $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse());
         }
+    }
+
+    private function getCountResponse($transactionData)
+    {
+        /**
+         * @var \Mcustiel\Phiremock\Domain\Expectation $expectation
+         */
+        $expectation = $this->requestBuilder->parseRequest(
+            $this->parseJsonBody($transactionData->getRequest()),
+            Expectation::class,
+            RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
+            );
+        $this->validateRequestOrThrowException($expectation, $this->logger);
+        $count = $this->searchForExecutionsCount($expectation);
+        $this->logger->debug('Found ' . $count . ' request matching the expectation');
+        return $transactionData->getResponse()
+            ->withStatus(200)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(new StringStream(json_encode(['count' => $count])));
     }
 
     private function searchForExecutionsCount(Expectation $expectation)
@@ -91,7 +98,6 @@ class CountRequestsAction implements ActionInterface
                 $count++;
             }
         }
-
         return $count;
     }
 
@@ -99,7 +105,6 @@ class CountRequestsAction implements ActionInterface
     {
         $statusCode = 500;
         $body = '{"result" : "ERROR", "details" : ' . json_encode($listOfErrors) . '}';
-
         return $response->withStatus($statusCode)->withBody(new Stream("data://text/plain,{$body}"));
     }
 
