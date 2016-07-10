@@ -42,7 +42,8 @@ class ExpectationListCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 }

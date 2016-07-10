@@ -24,6 +24,15 @@ class Expectation implements \JsonSerializable
      * @var string
      *
      * @SRV\OneOf({
+     *      @SRV\Not(@SRV\NotEmpty),
+     *      @SRV\Uri
+     * })
+     */
+    private $proxyTo;
+    /**
+     * @var string
+     *
+     * @SRV\OneOf({
      *      @SRV\Type("null"),
      *      @SRV\AllOf({
      *          @SRV\Type("string"),
@@ -69,28 +78,45 @@ class Expectation implements \JsonSerializable
      */
     private $priority = 0;
 
+    /**
+     * @return \Mcustiel\Phiremock\Domain\Request
+     */
     public function getRequest()
     {
         return $this->request;
     }
 
-    public function setRequest(Request $request)
+    /**
+     * @param \Mcustiel\Phiremock\Domain\Request $request
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
+    public function setRequest($request)
     {
         $this->request = $request;
         return $this;
     }
 
+    /**
+     * @return \Mcustiel\Phiremock\Domain\Response
+     */
     public function getResponse()
     {
         return $this->response;
     }
 
-    public function setResponse(Response $response)
+    /**
+     * @param \Mcustiel\Phiremock\Domain\Response $response
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
+    public function setResponse($response)
     {
         $this->response = $response;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getScenarioName()
     {
         return $this->scenarioName;
@@ -102,6 +128,9 @@ class Expectation implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getScenarioStateIs()
     {
         return $this->scenarioStateIs;
@@ -113,6 +142,9 @@ class Expectation implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getNewScenarioState()
     {
         return $this->newScenarioState;
@@ -132,9 +164,14 @@ class Expectation implements \JsonSerializable
             'newScenarioState' => $this->newScenarioState,
             'request'          => $this->request,
             'response'         => $this->response,
+            'proxyTo'          => $this->proxyTo,
+            'priority'         => $this->priority,
         ];
     }
 
+    /**
+     * @return number
+     */
     public function getPriority()
     {
         return $this->priority;
@@ -143,6 +180,20 @@ class Expectation implements \JsonSerializable
     public function setPriority($priority)
     {
         $this->priority = $priority;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProxyTo()
+    {
+        return $this->proxyTo;
+    }
+
+    public function setProxyTo($proxyTo)
+    {
+        $this->proxyTo = $proxyTo;
         return $this;
     }
 }

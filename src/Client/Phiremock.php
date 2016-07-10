@@ -2,11 +2,11 @@
 namespace Mcustiel\Phiremock\Client;
 
 use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Client\Http\RemoteConnectionInterface;
+use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
 use Zend\Diactoros\Request as PsrRequest;
 use Zend\Diactoros\Uri;
 use Mcustiel\SimpleRequest\RequestBuilder as SimpleRequestBuilder;
-use Mcustiel\Phiremock\Client\Http\Implementation\GuzzleConnection;
+use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;

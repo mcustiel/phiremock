@@ -39,6 +39,11 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Mcustiel\Phiremock\Server\Utils\HomePathService;
 use Mcustiel\Phiremock\Server\Utils\FileExpectationsLoader;
+use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
+use Mcustiel\Phiremock\Server\Utils\Strategies\HttpResponseStrategy;
+use Mcustiel\Phiremock\Server\Utils\Strategies\ProxyResponseStrategy;
+use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
+use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 
 $di = new DependencyInjectionService();
 
@@ -48,6 +53,25 @@ $di->register('logger', function () {
     $log->pushHandler(new StreamHandler(STDOUT, LOG_LEVEL));
 
     return $log;
+});
+
+$di->register(RemoteConnectionInterface::class, function () use ($di) {
+    return new GuzzleConnection(new GuzzleHttp\Client());
+});
+
+$di->register(HttpResponseStrategy::class, function () use ($di) {
+    return new HttpResponseStrategy($di->get('logger'));
+});
+
+$di->register(ProxyResponseStrategy::class, function () use ($di) {
+    return new ProxyResponseStrategy(
+        $di->get(RemoteConnectionInterface::class),
+        $di->get('logger')
+    );
+});
+
+$di->register('responseStrategyFactory', function () use ($di) {
+    return new ResponseStrategyFactory($di);
 });
 
 $di->register('config', function () {
@@ -174,7 +198,11 @@ $di->register('actionFactory', function () use ($di) {
         ),
         'verifyExpectations' => new SingletonLazyCreator(
             VerifyRequestFound::class,
-            [$di->get('scenarioStorage'), $di->get('logger')]
+            [
+                $di->get('scenarioStorage'),
+                $di->get('logger'),
+                $di->get('responseStrategyFactory'),
+            ]
         ),
         'countRequests' => new SingletonLazyCreator(
             CountRequestsAction::class,

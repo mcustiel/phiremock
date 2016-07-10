@@ -34,7 +34,8 @@ class ExpectationCreationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 
@@ -56,8 +57,9 @@ class ExpectationCreationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":"post","url":null,"body":null,"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
-            );
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
+        );
     }
 
     public function creationWithOnlyValidBodyConditionTest(AcceptanceTester $I)
@@ -78,8 +80,9 @@ class ExpectationCreationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":null,"body":{"matches":"potato"},"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
-            );
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
+        );
     }
 
     public function creationWithOnlyValidHeadersConditionTest(AcceptanceTester $I)
@@ -100,8 +103,9 @@ class ExpectationCreationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":null,"body":null,"headers":{"Accept":{"matches":"potato"}}},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
-            );
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
+        );
     }
 
     public function creationFailWhenEmptyRequestTest(AcceptanceTester $I)
@@ -158,7 +162,7 @@ class ExpectationCreationCest
 
     public function creationFailWhenAnythingSentAsResponseTest(AcceptanceTester $I)
     {
-        $I->wantTo('See if creation fails when anything sent as request');
+        $I->wantTo('See if creation fails when anything sent as response');
 
         $expectation = [
             'response' => 'response',
@@ -224,7 +228,8 @@ class ExpectationCreationCest
             . '"statusCode":201,"body":"Response body","headers":{'
             . '"X-Special-Header":"potato",'
             . '"Location":"href:\/\/potato.tmt"},'
-            . '"delayMillis":5000}}]'
+            . '"delayMillis":5000},'
+            . '"proxyTo":null,"priority":3}]'
         );
     }
 }

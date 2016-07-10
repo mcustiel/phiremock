@@ -57,11 +57,11 @@ class RequestExpectationComparator
 
         $atLeastOneExecution = $this->compareRequestParts($httpRequest, $expectedRequest);
 
-        if ($expectedRequest->getHeaders()) {
+        if ($atLeastOneExecution !== null && $expectedRequest->getHeaders()) {
             $this->logger->debug('Checking headers against expectation');
             return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
         }
-        return $atLeastOneExecution;
+        return (boolean) $atLeastOneExecution;
     }
 
     private function compareRequestParts($httpRequest, $expectedRequest)
@@ -75,7 +75,7 @@ class RequestExpectationComparator
             if ($expectedRequest->{$getter}()) {
                 $this->logger->debug("Checking {$requestPart} against expectation");
                 if (!$this->{$matcher}($httpRequest, $expectedRequest)) {
-                    return false;
+                    return;
                 }
                 $atLeastOneExecution = true;
             }
@@ -150,6 +150,7 @@ class RequestExpectationComparator
             $matcher = $this->matcherFactory->createFromConfig([
                 $headerCondition->getMatcher() => $headerCondition->getValue()
             ]);
+
             if (!$this->evaluate($inputSource, $matcher, $httpRequest)) {
                 return false;
             }

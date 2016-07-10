@@ -35,7 +35,8 @@ class BodyConditionCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":null,"body":{"isEqualTo":"Potato body"},"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 
@@ -60,13 +61,14 @@ class BodyConditionCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":null,"body":{"matches":"\/tomato (\\\\d[^a])+\/"},"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null}}]'
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 
     public function failWhenInvalidMatcherSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation that checks body using matches');
+        $I->wantTo('see if request fails when an invalida matcher is specified');
         $request = new Request();
         $request->setBody(new Condition('potato', '/some pattern/'));
         $response = new Response();
@@ -83,7 +85,7 @@ class BodyConditionCest
 
     public function failWhenInvalidValueSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation that checks body using matches');
+        $I->wantTo('check if the request fails when and invalid value is specified');
         $request = new Request();
         $request->setBody(new Condition('isEqualTo', null));
         $response = new Response();
