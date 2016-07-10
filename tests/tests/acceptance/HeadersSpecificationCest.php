@@ -34,7 +34,8 @@ class HeadersSpecificationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":200,"body":null,"headers":{"Location":"\/potato.php"},"delayMillis":null}}]'
+            . '"response":{"statusCode":200,"body":null,"headers":{"Location":"\/potato.php"},"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 
@@ -62,7 +63,8 @@ class HeadersSpecificationCest
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
             . '"response":{"statusCode":200,"body":null,"headers":{'
             . '"Location":"\/potato.php","Cache-Control":"private, max-age=0, no-cache",'
-            . '"Pragma":"no-cache"},"delayMillis":null}}]'
+            . '"Pragma":"no-cache"},"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 
@@ -83,7 +85,8 @@ class HeadersSpecificationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null}}]'
+            . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 

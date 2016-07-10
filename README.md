@@ -336,3 +336,23 @@ If you want to test how your application behaves on, for instance, a timeout; yo
     $phiremock->createExpectation($expectation);
 ```
 This will wait 30 seconds before sending the response.
+
+### Proxy
+It could be the case a mock is not needed for certain call. For this specific case, Phiremock provides a proxy feature that will pass the received request unmodified to a configured URI. It can be used as folows:
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $expectation = Phiremock::on(
+        A::posttRequest()->andUrl(Is::equalTo('/example_service/proxy/me'))
+            ->andBody('{"id": "1", "name" : "resource"}')
+            ->andHeader('Content-Type', 'application/json')
+    )->proxyTo(
+        'http://your.real.service/some/path/script.php'
+    );
+    $phiremock->createExpectation($expectation);
+```
+In this case, Phiremock will POST `http://your.real.service/some/path/script.php` with the configured body and header and return it's response.
+ 

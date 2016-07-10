@@ -16,15 +16,21 @@ class ExpectationBuilder
     public function then(ResponseBuilder $responseBuilder)
     {
         $responseBuilderValue = $responseBuilder->build();
-        $this->expectation->setNewScenarioState($responseBuilderValue[0]);
-        $this->expectation->setResponse($responseBuilderValue[1]);
-        return $this->expectation;
+        return $this->expectation
+            ->setNewScenarioState($responseBuilderValue[0])
+            ->setResponse($responseBuilderValue[1]);
+    }
+
+    public function proxyTo($url)
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+            throw new \Exception('Invalid proxy url');
+        }
+        return $this->noResponse()->setProxyTo($url);
     }
 
     public function noResponse()
     {
-        $this->expectation->setResponse(new Response());
-
-        return $this->expectation;
+        return $this->expectation->setResponse(new Response());
     }
 }

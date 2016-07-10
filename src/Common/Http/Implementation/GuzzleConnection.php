@@ -1,12 +1,15 @@
 <?php
-namespace Mcustiel\Phiremock\Client\Http\Implementation;
+namespace Mcustiel\Phiremock\Common\Http\Implementation;
 
-use Mcustiel\Phiremock\Client\Http\RemoteConnectionInterface;
+use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Client as GuzzleClient;
 
 class GuzzleConnection implements RemoteConnectionInterface
 {
+    /**
+     * @var \GuzzleHttp\Client
+     */
     private $client;
 
     public function __construct(GuzzleClient $client = null)

@@ -9,6 +9,7 @@ use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Http\Message\ResponseInterface;
 use Mcustiel\Phiremock\Domain\Response;
 use Psr\Log\LoggerInterface;
+use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
 
 class VerifyRequestFound implements ActionInterface
 {
@@ -21,11 +22,19 @@ class VerifyRequestFound implements ActionInterface
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
+    /**
+     * @var \Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory
+     */
+    private $responseStrategyFactory;
 
-    public function __construct(ScenarioStorage $scenarioStorage, LoggerInterface $logger)
-    {
+    public function __construct(
+        ScenarioStorage $scenarioStorage,
+        LoggerInterface $logger,
+        ResponseStrategyFactory $responseStrategyFactory
+    ) {
         $this->scenarioStorage = $scenarioStorage;
         $this->logger = $logger;
+        $this->responseStrategyFactory = $responseStrategyFactory;
     }
 
     public function execute(TransactionData $transactionData, $argument = null)
@@ -41,9 +50,13 @@ class VerifyRequestFound implements ActionInterface
         }
 
         $this->processScenario($foundExpectation);
-        $foundResponse = $foundExpectation->getResponse();
+        //$foundResponse = $foundExpectation->getResponse();
 
-        $response = $this->generateResponse($transactionData, $foundResponse);
+        $response = $this->responseStrategyFactory
+            ->getStrategyForExpectation($foundExpectation)
+            ->createResponse($foundExpectation, $transactionData);
+
+        //$response = $this->generateResponse($transactionData, $foundResponse);
         $this->logger->debug('Responding: ' . $this->getLoggableResponse($response));
         $transactionData->setResponse($response);
     }

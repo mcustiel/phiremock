@@ -18,7 +18,7 @@ class StatusCodeSpecificationCest
 
     public function createExpectationWithStatusCodeTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation with a valid status code');
+        $I->wantTo('create a specificationwith a valid status code');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -34,13 +34,14 @@ class StatusCodeSpecificationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":401,"body":null,"headers":null,"delayMillis":null}}]'
+            . '"response":{"statusCode":401,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 
     public function createExpectationWithDefaultStatusCodeTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation with a default status code');
+        $I->wantTo('create a specificationwith a default status code');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -55,7 +56,8 @@ class StatusCodeSpecificationCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null}}]'
+            . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
         );
     }
 
