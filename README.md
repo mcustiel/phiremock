@@ -11,6 +11,9 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 * Priorizable expectations for cases in which more than one matches the request. If more than one expectation matches the request and no priorities were set, the first match is returned.
 * Allows to verify the amount of times a request was done.
 * Allows to load default expectations from json files in a directory.
+* Proxy requests to another URL as they are received.
+* Client with fluent interface to configure Phiremock.
+* Integration to codeception through[phiremock-codeception-extension](https://github.com/mcustiel/phiremock-codeception-extension).
 
 [![Latest Stable Version](https://poser.pugx.org/mcustiel/phiremock/v/stable)](https://packagist.org/packages/mcustiel/phiremock)
 [![Build Status](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/build-status/master)
