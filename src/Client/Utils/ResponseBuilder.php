@@ -17,35 +17,59 @@ class ResponseBuilder
         $this->response->setStatusCode($statusCode);
     }
 
+    /**
+     * @param integer $statusCode
+     * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
+     */
     public static function create($statusCode)
     {
         return new static($statusCode);
     }
 
+    /**
+     * @param string $body
+     * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
+     */
     public function andBody($body)
     {
         $this->response->setBody($body);
         return $this;
     }
 
+    /**
+     * @param string $header
+     * @param string $value
+     * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
+     */
     public function andHeader($header, $value)
     {
         $this->headers[$header] = $value;
         return $this;
     }
 
+    /**
+     * @param integer $delay
+     * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
+     */
     public function andDelayInMillis($delay)
     {
         $this->response->setDelayMillis($delay);
         return $this;
     }
 
+    /**
+     * @param string $scenarioState
+     * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
+     */
     public function andSetScenarioStateTo($scenarioState)
     {
         $this->scenarioState = $scenarioState;
         return $this;
     }
 
+    /**
+     * @return string[]|\Mcustiel\Phiremock\Domain\Response[]
+     */
     public function build()
     {
         if (!empty($this->headers)) {

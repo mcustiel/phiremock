@@ -19,29 +19,51 @@ class RequestBuilder
         $this->request->setMethod($method);
     }
 
+    /**
+     * @param string $method
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
+     */
     public static function create($method)
     {
         return new static($method);
     }
 
+    /**
+     * @param \Mcustiel\Phiremock\Domain\Condition $condition
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
+     */
     public function andBody(Condition $condition)
     {
         $this->request->setBody($condition);
         return $this;
     }
 
+    /**
+     * @param string $header
+     * @param \Mcustiel\Phiremock\Domain\Condition $condition
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
+     */
     public function andHeader($header, Condition $condition)
     {
         $this->headers[$header] = $condition;
         return $this;
     }
 
+    /**
+     * @param \Mcustiel\Phiremock\Domain\Condition $condition
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
+     */
     public function andUrl(Condition $condition)
     {
         $this->request->setUrl($condition);
         return $this;
     }
 
+    /**
+     * @param string $scenario
+     * @param string $scenarioState
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
+     */
     public function andScenarioState($scenario, $scenarioState)
     {
         $this->scenarioName = $scenario;
@@ -49,6 +71,9 @@ class RequestBuilder
         return $this;
     }
 
+    /**
+     * @param integer $priority
+     */
     public function andPriority($priority)
     {
         $this->priority = $priority;

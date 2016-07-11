@@ -13,6 +13,10 @@ class ExpectationBuilder
         $this->expectation = $requestBuilder->build();
     }
 
+    /**
+     * @param \Mcustiel\Phiremock\Domain\Response $responseBuilder
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function then(ResponseBuilder $responseBuilder)
     {
         $responseBuilderValue = $responseBuilder->build();
@@ -21,6 +25,11 @@ class ExpectationBuilder
             ->setResponse($responseBuilderValue[1]);
     }
 
+    /**
+     * @param string $url
+     * @throws \Exception
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function proxyTo($url)
     {
         if (filter_var($url, FILTER_VALIDATE_URL) === false) {
@@ -29,6 +38,9 @@ class ExpectationBuilder
         return $this->noResponse()->setProxyTo($url);
     }
 
+    /**
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function noResponse()
     {
         return $this->expectation->setResponse(new Response());
