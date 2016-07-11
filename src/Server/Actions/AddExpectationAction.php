@@ -29,6 +29,7 @@ class AddExpectationAction extends AbstractRequestAction implements ActionInterf
 
     /**
      * {@inheritDoc}
+     *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
     public function execute(TransactionData $transactionData, $argument = null)

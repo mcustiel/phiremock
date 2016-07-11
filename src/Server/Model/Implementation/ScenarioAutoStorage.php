@@ -42,6 +42,7 @@ class ScenarioAutoStorage implements ScenarioStorage
 
     /**
      * {@inheritDoc}
+     *
      * @see \Mcustiel\Phiremock\Server\Model\ScenarioStorage::clearScenarios()
      */
     public function clearScenarios()

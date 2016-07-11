@@ -45,6 +45,7 @@ class Request implements \JsonSerializable
 
     /**
      * @param string $method
+     *
      * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setMethod($method)
@@ -63,6 +64,7 @@ class Request implements \JsonSerializable
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Condition $url
+     *
      * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setUrl($url)
@@ -81,6 +83,7 @@ class Request implements \JsonSerializable
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Condition $body
+     *
      * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setBody($body)
@@ -98,7 +101,8 @@ class Request implements \JsonSerializable
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Domain\Condition[]  $headers
+     * @param \Mcustiel\Phiremock\Domain\Condition[] $headers
+     *
      * @return \Mcustiel\Phiremock\Domain\Request
      */
     public function setHeaders($headers)

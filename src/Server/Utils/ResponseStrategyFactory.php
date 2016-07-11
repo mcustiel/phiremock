@@ -9,7 +9,7 @@ use Mcustiel\DependencyInjection\DependencyInjectionService;
 class ResponseStrategyFactory
 {
     /**
-     * @var \Mcustiel\DependencyInjection\DependencyContainer
+     * @var \Mcustiel\DependencyInjection\DependencyInjectionService
      */
     private $diService;
 
@@ -20,6 +20,7 @@ class ResponseStrategyFactory
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
+     *
      * @return \Mcustiel\Phiremock\Server\Utils\Strategies\ResponseStrategyInterface
      */
     public function getStrategyForExpectation(Expectation $expectation)

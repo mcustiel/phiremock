@@ -11,7 +11,7 @@ class Response implements \JsonSerializable
      *      @SRV\Not(@SRV\NotNull)
      * })
      *
-     * @var integer
+     * @var int
      */
     private $statusCode = 200;
     /**
@@ -41,10 +41,13 @@ class Response implements \JsonSerializable
      *      @SRV\Not(@SRV\NotNull)
      * })
      *
-     * @var integer
+     * @var int
      */
     private $delayMillis;
 
+    /**
+     * @return int
+     */
     public function getStatusCode()
     {
         return $this->statusCode;
@@ -56,6 +59,9 @@ class Response implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getBody()
     {
         return $this->body;
@@ -67,6 +73,9 @@ class Response implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getHeaders()
     {
         return $this->headers;
@@ -78,6 +87,9 @@ class Response implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getDelayMillis()
     {
         return $this->delayMillis;

@@ -36,6 +36,7 @@ class CountRequestsAction extends AbstractRequestAction implements ActionInterfa
 
     /**
      * {@inheritDoc}
+     *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
     public function execute(TransactionData $transactionData, $argument = null)

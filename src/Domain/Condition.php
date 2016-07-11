@@ -18,6 +18,9 @@ class Condition implements \JsonSerializable
         $this->value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function getMatcher()
     {
         return $this->matcher;
@@ -29,6 +32,9 @@ class Condition implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getValue()
     {
         return $this->value;

@@ -40,7 +40,6 @@ class VerifyRequestFound implements ActionInterface
     public function execute(TransactionData $transactionData, $argument = null)
     {
         /**
-         *
          * @var \Mcustiel\Phiremock\Domain\Expectation $foundExpectation
          */
         $foundExpectation = $transactionData->get('foundExpectation');
@@ -50,13 +49,11 @@ class VerifyRequestFound implements ActionInterface
         }
 
         $this->processScenario($foundExpectation);
-        //$foundResponse = $foundExpectation->getResponse();
 
         $response = $this->responseStrategyFactory
             ->getStrategyForExpectation($foundExpectation)
             ->createResponse($foundExpectation, $transactionData);
 
-        //$response = $this->generateResponse($transactionData, $foundResponse);
         $this->logger->debug('Responding: ' . $this->getLoggableResponse($response));
         $transactionData->setResponse($response);
     }
@@ -67,59 +64,9 @@ class VerifyRequestFound implements ActionInterface
             . preg_replace('|\s+|', ' ', $response->getBody()->__toString());
     }
 
-    private function generateResponse(TransactionData $transactionData, Response $foundResponse)
-    {
-        $response = $transactionData->getResponse();
-        $response = $this->getResponseWithBody($foundResponse, $response);
-        $response = $this->getResponseWithStatusCode($foundResponse, $response);
-        $response = $this->getResponseWithHeaders($foundResponse, $response);
-        $this->processDelay($foundResponse);
-
-        return $response;
-    }
-
-    private function getResponseWithHeaders($foundResponse, $response)
-    {
-        if ($foundResponse->getHeaders()) {
-            foreach ($foundResponse->getHeaders() as $name => $value) {
-                $response = $response->withHeader($name, $value);
-            }
-        }
-        return $response;
-    }
-
-    private function getResponseWithStatusCode($foundResponse, $response)
-    {
-        if ($foundResponse->getStatusCode()) {
-            $response = $response->withStatus($foundResponse->getStatusCode());
-        }
-        return $response;
-    }
-
-    private function getResponseWithBody($foundResponse, $response)
-    {
-        if ($foundResponse->getBody()) {
-            $response = $response->withBody(new StringStream($foundResponse->getBody()));
-        }
-        return $response;
-    }
-
-    /**
-     * @param $foundResponse
-     */
-    private function processDelay($foundResponse)
-    {
-        if ($foundResponse->getDelayMillis()) {
-            $this->logger->debug(
-                'Delaying the response for ' . $foundResponse->getDelayMillis() . ' milliseconds'
-            );
-            usleep($foundResponse->getDelayMillis() * 1000);
-        }
-    }
-
     /**
      *
-     * @param $foundExpectation
+     * @param \Mcustiel\Phiremock\Domain\Expectation $foundExpectation
      */
     private function processScenario($foundExpectation)
     {

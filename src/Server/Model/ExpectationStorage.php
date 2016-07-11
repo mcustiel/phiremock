@@ -7,6 +7,7 @@ interface ExpectationStorage
 {
     /**
      * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
+     *
      * @return void
      */
     public function addExpectation(Expectation $expectation);

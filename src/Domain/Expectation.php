@@ -67,7 +67,7 @@ class Expectation implements \JsonSerializable
     private $newScenarioState;
 
     /**
-     * @var integer
+     * @var int
      * @SRV\OneOf({
      *      @SRV\Type("null"),
      *      @SRV\AllOf({
@@ -88,6 +88,7 @@ class Expectation implements \JsonSerializable
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Request $request
+     *
      * @return \Mcustiel\Phiremock\Domain\Expectation
      */
     public function setRequest($request)
@@ -106,6 +107,7 @@ class Expectation implements \JsonSerializable
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Response $response
+     *
      * @return \Mcustiel\Phiremock\Domain\Expectation
      */
     public function setResponse($response)

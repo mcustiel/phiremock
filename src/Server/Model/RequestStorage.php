@@ -7,6 +7,7 @@ interface RequestStorage
 {
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return void
      */
     public function addRequest(ServerRequestInterface $request);

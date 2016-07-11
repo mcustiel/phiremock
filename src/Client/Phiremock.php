@@ -20,10 +20,16 @@ class Phiremock
     const API_SCENARIOS_URL = '/__phiremock/scenarios';
 
     /**
-     * @var \Mcustiel\Phiremock\Client\Http\RemoteConnectionInterface
+     * @var \Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface
      */
     private $connection;
+    /**
+     * @var string
+     */
     private $host;
+    /**
+     * @var int
+     */
     private $port;
 
     public function __construct(
@@ -40,7 +46,10 @@ class Phiremock
     }
 
     /**
+     * Creates an expectation with a response for a given request.
+     *
      * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
+     *
      * @return void
      */
     public function createExpectation(Expectation $expectation)
@@ -57,6 +66,8 @@ class Phiremock
     }
 
     /**
+     * Clears all the currently configured expectations.
+     *
      * @return void
      */
     public function clearExpectations()
@@ -68,6 +79,8 @@ class Phiremock
     }
 
     /**
+     * Lists all currently configured expectations.
+     *
      * @return \Mcustiel\Phiremock\Domain\Expectation[]
      */
     public function listExpectations()
@@ -89,6 +102,13 @@ class Phiremock
         $this->checkErrorResponse($response);
     }
 
+    /**
+     * Counts the amount of times a request was executed in phiremock.
+     *
+     * @param \Mcustiel\Phiremock\Client\Utils\RequestBuilder $requestBuilder
+     *
+     * @return int
+     */
     public function countExecutions(RequestBuilder $requestBuilder)
     {
         $expectation = $requestBuilder->build();
@@ -112,6 +132,11 @@ class Phiremock
         $this->checkErrorResponse($response);
     }
 
+    /**
+     * Resets all the scenarios to start state.
+     *
+     * @return void
+     */
     public function resetScenarios()
     {
         $uri = $this->createBaseUri()->withPath(self::API_SCENARIOS_URL);
@@ -120,6 +145,11 @@ class Phiremock
         $this->checkResponse($this->connection->send($request));
     }
 
+    /**
+     * Resets all the requests counters to 0.
+     *
+     * @return void
+     */
     public function resetRequestsCounter()
     {
         $uri = $this->createBaseUri()->withPath(self::API_EXECUTIONS_URL);
@@ -128,6 +158,13 @@ class Phiremock
         $this->checkResponse($this->connection->send($request));
     }
 
+    /**
+     * Inits the fluent interface to create an expectation.
+     *
+     * @param \Mcustiel\Phiremock\Client\Utils\RequestBuilder $requestBuilder
+     *
+     * @return \Mcustiel\Phiremock\Client\Utils\ExpectationBuilder
+     */
     public static function on(RequestBuilder $requestBuilder)
     {
         return new ExpectationBuilder($requestBuilder);

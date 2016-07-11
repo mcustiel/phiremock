@@ -56,8 +56,8 @@ class ReactPhpServer implements ServerInterface
     }
 
     /**
-     * @param integer $port
-     * @param string  $host
+     * @param int    $port
+     * @param string $host
      */
     public function listen($port, $host)
     {
