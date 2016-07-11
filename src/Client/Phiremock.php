@@ -34,7 +34,7 @@ class Phiremock
 
     public function __construct(
         $host = 'localhost',
-        $port = '8080',
+        $port = 8080,
         RemoteConnectionInterface $remoteConnection = null
     ) {
         if (!$remoteConnection) {
