@@ -105,7 +105,9 @@ Then, using phiremock's REST interface, expectations can be configured, specifyi
             "Content-Type": "application/json"
         },
         "delayMillis": 3000
-    }
+    },
+    "proxyTo": null,
+    "priority" : 0
 }
 ```
 
