@@ -13,7 +13,7 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 * Allows to load default expectations from json files in a directory.
 * Proxy requests to another URL as they are received.
 * Client with fluent interface to configure Phiremock.
-* Integration to codeception through[phiremock-codeception-extension](https://github.com/mcustiel/phiremock-codeception-extension).
+* Integration to codeception through [phiremock-codeception-extension](https://github.com/mcustiel/phiremock-codeception-extension).
 
 [![Latest Stable Version](https://poser.pugx.org/mcustiel/phiremock/v/stable)](https://packagist.org/packages/mcustiel/phiremock)
 [![Build Status](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/build-status/master)
