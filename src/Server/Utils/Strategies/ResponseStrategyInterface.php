@@ -1,7 +1,6 @@
 <?php
 namespace Mcustiel\Phiremock\Server\Utils\Strategies;
 
-use Psr\Http\Message\ResponseInterface;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\PowerRoute\Common\TransactionData;
 

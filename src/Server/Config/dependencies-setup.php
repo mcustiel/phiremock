@@ -22,11 +22,8 @@ use Mcustiel\PowerRoute\InputSources\Body;
 use Mcustiel\Phiremock\Server\Actions\ListExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearScenariosAction;
-use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
-use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 use Mcustiel\Creature\SingletonLazyCreator;
 use Mcustiel\Phiremock\Server\Actions\CountRequestsAction;
-use Mcustiel\Phiremock\Server\Model\RequestStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\RequestAutoStorage;
@@ -55,7 +52,7 @@ $di->register('logger', function () {
     return $log;
 });
 
-$di->register(RemoteConnectionInterface::class, function () use ($di) {
+$di->register(RemoteConnectionInterface::class, function () {
     return new GuzzleConnection(new GuzzleHttp\Client());
 });
 
@@ -112,7 +109,7 @@ $di->register('requestExpectationComparator', function () use ($di) {
     );
 });
 
-$di->register('requestBuilder', function () use ($di) {
+$di->register('requestBuilder', function () {
     $cachePath = sys_get_temp_dir() . '/phiremock/cache/requests/';
     if (!is_dir($cachePath)) {
         mkdir($cachePath, 0777, true);

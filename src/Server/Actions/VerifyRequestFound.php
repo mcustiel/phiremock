@@ -5,9 +5,7 @@ use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\PowerRoute\Actions\NotFound;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
-use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Http\Message\ResponseInterface;
-use Mcustiel\Phiremock\Domain\Response;
 use Psr\Log\LoggerInterface;
 use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
 

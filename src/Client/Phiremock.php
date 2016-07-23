@@ -7,7 +7,6 @@ use Zend\Diactoros\Request as PsrRequest;
 use Zend\Diactoros\Uri;
 use Mcustiel\SimpleRequest\RequestBuilder as SimpleRequestBuilder;
 use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
-use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Domain\Response;

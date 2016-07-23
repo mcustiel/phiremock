@@ -1,7 +1,6 @@
 <?php
 namespace Mcustiel\Phiremock\Client\Utils;
 
-use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Response;
 
 class ExpectationBuilder
