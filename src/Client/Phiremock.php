@@ -12,6 +12,7 @@ use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Domain\Response;
 use Mcustiel\Phiremock\Common\StringStream;
+use Psr\Http\Message\ResponseInterface;
 
 class Phiremock
 {
@@ -178,7 +179,10 @@ class Phiremock
             ->withPort($this->port);
     }
 
-    private function checkResponse($response)
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     */
+    private function checkResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() === 201) {
             return;
@@ -187,7 +191,11 @@ class Phiremock
         $this->checkErrorResponse($response);
     }
 
-    private function checkErrorResponse($response)
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @throws \RuntimeException
+     */
+    private function checkErrorResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() >= 500) {
             $error = json_decode($response->getBody()->__toString())['details'];

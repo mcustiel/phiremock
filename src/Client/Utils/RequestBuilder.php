@@ -91,14 +91,20 @@ class RequestBuilder
         return $expectation;
     }
 
-    private function setPriority($expectation)
+    /**
+     * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
+     */
+    private function setPriority(Expectation $expectation)
     {
         if ($this->priority) {
             $expectation->setPriority((integer) $this->priority);
         }
     }
 
-    private function setScenario($expectation)
+    /**
+     * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
+     */
+    private function setScenario(Expectation $expectation)
     {
         if ($this->scenarioName && $this->scenarioIs) {
             $expectation->setScenarioName($this->scenarioName)

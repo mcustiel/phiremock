@@ -3,6 +3,8 @@ namespace Mcustiel\Phiremock\Server\Utils\Traits;
 
 use Mcustiel\Phiremock\Domain\Expectation;
 use Psr\Log\LoggerInterface;
+use Mcustiel\Phiremock\Domain\Request;
+use Mcustiel\Phiremock\Domain\Response;
 
 trait ExpectationValidator
 {
@@ -29,25 +31,29 @@ trait ExpectationValidator
         }
     }
 
-    protected function responseIsInvalid($response)
+    protected function responseIsInvalid(Response $response)
     {
         return empty($response->getStatusCode());
     }
 
-    protected function requestIsInvalid($request)
+    protected function requestIsInvalid(Request $request)
     {
         return empty($request->getBody()) && empty($request->getHeaders())
         && empty($request->getMethod()) && empty($request->getUrl());
     }
 
-    protected function validateScenarioConfigOrThrowException(Expectation $expectation, LoggerInterface $logger)
-    {
+    protected function validateScenarioConfigOrThrowException(
+        Expectation $expectation,
+        LoggerInterface $logger
+    ) {
         $this->validateScenarioNameOrThrowException($expectation, $logger);
         $this->validateScenarioStateOrThrowException($expectation, $logger);
     }
 
-    protected function validateScenarioStateOrThrowException($expectation, $logger)
-    {
+    protected function validateScenarioStateOrThrowException(
+        Expectation $expectation,
+        LoggerInterface $logger
+    ) {
         if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
             $logger->error('Scenario states misconfiguration');
             throw new \RuntimeException(
@@ -56,8 +62,10 @@ trait ExpectationValidator
         }
     }
 
-    protected function validateScenarioNameOrThrowException($expectation, $logger)
-    {
+    protected function validateScenarioNameOrThrowException(
+        Expectation $expectation,
+        LoggerInterface $logger
+    ) {
         if (!$expectation->getScenarioName()
             && ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
         ) {

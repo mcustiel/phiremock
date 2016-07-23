@@ -64,7 +64,12 @@ class RequestExpectationComparator
         return (boolean) $atLeastOneExecution;
     }
 
-    private function compareRequestParts($httpRequest, $expectedRequest)
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $httpRequest
+     * @param \Mcustiel\Phiremock\Domain\Request       $expectedRequest
+     * @return null|boolean
+     */
+    private function compareRequestParts(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $atLeastOneExecution = false;
         $requestParts = ['Method', 'Url', 'Body'];
@@ -75,7 +80,7 @@ class RequestExpectationComparator
             if ($expectedRequest->{$getter}()) {
                 $this->logger->debug("Checking {$requestPart} against expectation");
                 if (!$this->{$matcher}($httpRequest, $expectedRequest)) {
-                    return;
+                    return null;
                 }
                 $atLeastOneExecution = true;
             }
@@ -83,7 +88,7 @@ class RequestExpectationComparator
         return $atLeastOneExecution;
     }
 
-    private function isExpectedScenarioState($expectation)
+    private function isExpectedScenarioState(Expectation $expectation)
     {
         if ($expectation->getScenarioStateIs()) {
             $this->checkScenarioNameOrThrowException($expectation);
@@ -99,7 +104,7 @@ class RequestExpectationComparator
     }
 
 
-    private function checkScenarioNameOrThrowException($expectation)
+    private function checkScenarioNameOrThrowException(Expectation $expectation)
     {
         if (!$expectation->getScenarioName()) {
             throw new \RuntimeException(
