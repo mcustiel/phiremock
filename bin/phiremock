@@ -16,11 +16,13 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Mcustiel\Phiremock\Server\Config\Dependencies;
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-$options = CommandLine::parseArgs($argv);
+//$options = CommandLine::parseArgs($argv);
+
+$options = getopt('p:i:d', ['port:', 'ip:', 'debug']);
 
 $port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $options['p'] : '8086');
 $interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
-$debug = isset($options['d']) ? $options['d'] : false;
+$debug = isset($options['debug']) ? $options['debug'] : (isset($options['d']) ? $options['d'] : false);
 
 define('LOG_LEVEL', $debug? \Monolog\Logger::DEBUG : \Monolog\Logger::INFO);
 
