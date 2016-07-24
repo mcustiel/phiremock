@@ -192,6 +192,7 @@ class Phiremock
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
+     *
      * @throws \RuntimeException
      */
     private function checkErrorResponse(ResponseInterface $response)

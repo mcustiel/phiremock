@@ -14,6 +14,7 @@ class ExpectationBuilder
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Response $responseBuilder
+     *
      * @return \Mcustiel\Phiremock\Domain\Expectation
      */
     public function then(ResponseBuilder $responseBuilder)
@@ -26,7 +27,9 @@ class ExpectationBuilder
 
     /**
      * @param string $url
+     *
      * @throws \Exception
+     *
      * @return \Mcustiel\Phiremock\Domain\Expectation
      */
     public function proxyTo($url)

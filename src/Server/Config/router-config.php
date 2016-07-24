@@ -11,7 +11,7 @@ return [
                     [
                         'input-source' => ['url' => 'path'],
                         'matcher'      => [
-                            'matches' => '/\\_\\_phiremock\/expectations\/?$/'
+                            'matches' => '/\\_\\_phiremock\/expectations\/?$/',
                         ],
                     ],
                 ],
@@ -91,7 +91,7 @@ return [
                     [
                         'input-source' => ['url' => 'path'],
                         'matcher'      => [
-                            'matches' => '/\\_\\_phiremock\/scenarios\/?$/'
+                            'matches' => '/\\_\\_phiremock\/scenarios\/?$/',
                         ],
                     ],
                 ],
@@ -132,7 +132,7 @@ return [
                     [
                         'input-source' => ['url' => 'path'],
                         'matcher'      => [
-                            'matches' => '/\\_\\_phiremock\/executions\/?$/'
+                            'matches' => '/\\_\\_phiremock\/executions\/?$/',
                         ],
                     ],
                 ],
@@ -174,7 +174,7 @@ return [
                     [
                         'input-source' => ['method' => null],
                         'matcher'      => ['isEqualTo' => 'DELETE'],
-                    ]
+                    ],
                 ],
             ],
             'actions' => [

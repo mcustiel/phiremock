@@ -27,7 +27,8 @@
     "require" : {
         "php" : ">=5.5",
         "react/http" : "dev-master",
-        "mcustiel/php-simple-request" : "^2.1",
+        "mcustiel/php-simple-request" : "^3.1",
+        "symfony/cache": "^3.1",
         "mcustiel/power-route" : "^2.0",
         "mcustiel/php-simple-di" : "^1.2.1",
         "guzzlehttp/guzzle" : "^6.0",

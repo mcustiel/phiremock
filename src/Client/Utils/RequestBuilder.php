@@ -21,6 +21,7 @@ class RequestBuilder
 
     /**
      * @param string $method
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public static function create($method)
@@ -30,6 +31,7 @@ class RequestBuilder
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Condition $condition
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public function andBody(Condition $condition)
@@ -39,8 +41,9 @@ class RequestBuilder
     }
 
     /**
-     * @param string $header
+     * @param string                               $header
      * @param \Mcustiel\Phiremock\Domain\Condition $condition
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public function andHeader($header, Condition $condition)
@@ -51,6 +54,7 @@ class RequestBuilder
 
     /**
      * @param \Mcustiel\Phiremock\Domain\Condition $condition
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public function andUrl(Condition $condition)
@@ -62,6 +66,7 @@ class RequestBuilder
     /**
      * @param string $scenario
      * @param string $scenarioState
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public function andScenarioState($scenario, $scenarioState)
@@ -72,7 +77,7 @@ class RequestBuilder
     }
 
     /**
-     * @param integer $priority
+     * @param int $priority
      */
     public function andPriority($priority)
     {

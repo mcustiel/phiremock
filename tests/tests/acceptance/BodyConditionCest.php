@@ -7,7 +7,6 @@ use Mcustiel\Phiremock\Domain\Condition;
 
 class BodyConditionCest
 {
-
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');

@@ -20,7 +20,7 @@ class HeadersConditionsCest
         $I->wantTo('create an expectation that checks one header using isEqualTo');
         $request = new Request();
         $request->setHeaders([
-            'Content-Type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded')
+            'Content-Type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
         ]);
         $response = new Response();
         $response->setStatusCode(201);
@@ -45,7 +45,7 @@ class HeadersConditionsCest
         $I->wantTo('create an expectation that checks one header using matches');
         $request = new Request();
         $request->setHeaders([
-            'Content-Type' => new Condition('matches', '/application/')
+            'Content-Type' => new Condition('matches', '/application/'),
         ]);
         $response = new Response();
         $response->setStatusCode(201);
@@ -70,7 +70,7 @@ class HeadersConditionsCest
         $I->wantTo('fail when the matcher is invalid');
         $request = new Request();
         $request->setHeaders([
-            'Content-Type' => new Condition('potato', '/application/')
+            'Content-Type' => new Condition('potato', '/application/'),
         ]);
         $response = new Response();
         $response->setStatusCode(201);
@@ -89,7 +89,7 @@ class HeadersConditionsCest
         $I->wantTo('fail when the value is null');
         $request = new Request();
         $request->setHeaders([
-            'Content-Type' => new Condition('matches', null)
+            'Content-Type' => new Condition('matches', null),
         ]);
         $response = new Response();
         $response->setStatusCode(201);
@@ -138,7 +138,7 @@ class HeadersConditionsCest
         $I->wantTo('see if mocking based in one request header works');
         $request = new Request();
         $request->setHeaders([
-            'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded')
+            'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
         ]);
         $response = new Response();
         $response->setBody('Found');
@@ -163,7 +163,7 @@ class HeadersConditionsCest
         $request->setHeaders([
             'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
             'X-Potato'     => new Condition('matches', '/.*tomato.*/'),
-            'X-Tomato'     => new Condition('isSameString', 'PoTaTo')
+            'X-Tomato'     => new Condition('isSameString', 'PoTaTo'),
         ]);
         $response = new Response();
         $response->setBody('Found');
