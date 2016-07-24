@@ -61,7 +61,7 @@ class StatusCodeSpecificationCest
         );
     }
 
-    public function failWhenNoStatusCodeIsSetTest(AcceptanceTester $I)
+    public function useDefaultWhenNoStatusCodeIsSetTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when the status code is not set');
         $request = new Request();
@@ -71,9 +71,16 @@ class StatusCodeSpecificationCest
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->seeResponseCodeIs(201);
 
-        $I->seeResponseCodeIs(500);
+        $I->sendGET('/__phiremock/expectations');
+        $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid response specified in expectation"]}');
+        $I->seeResponseEquals(
+            '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
+            . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
+            . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
+            );
     }
 }

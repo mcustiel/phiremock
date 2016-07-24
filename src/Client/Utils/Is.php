@@ -7,6 +7,7 @@ class Is
 {
     /**
      * @param mixed $value
+     *
      * @return \Mcustiel\Phiremock\Domain\Condition
      */
     public static function equalTo($value)
@@ -16,6 +17,7 @@ class Is
 
     /**
      * @param string $value
+     *
      * @return \Mcustiel\Phiremock\Domain\Condition
      */
     public static function matching($value)
@@ -25,6 +27,7 @@ class Is
 
     /**
      * @param string $value
+     *
      * @return \Mcustiel\Phiremock\Domain\Condition
      */
     public static function sameStringAs($value)

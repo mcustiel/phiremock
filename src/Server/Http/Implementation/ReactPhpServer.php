@@ -96,7 +96,7 @@ class ReactPhpServer implements ServerInterface
         return new ServerRequest(
             [
                 'REMOTE_ADDR'  => $request->getRemoteAddress(),
-                'HTTP_VERSION' => $request->getHttpVersion()
+                'HTTP_VERSION' => $request->getHttpVersion(),
             ],
             [],
             $this->getUriFromRequest($request),

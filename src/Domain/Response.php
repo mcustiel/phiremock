@@ -2,10 +2,12 @@
 namespace Mcustiel\Phiremock\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
+use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 
 class Response implements \JsonSerializable
 {
     /**
+     * @SRF\DefaultValue(200)
      * @SRV\OneOf({
      *      @SRV\Type("integer"),
      *      @SRV\Not(@SRV\NotNull)

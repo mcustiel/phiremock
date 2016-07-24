@@ -4,7 +4,8 @@ namespace Mcustiel\Phiremock\Client\Utils;
 class Respond
 {
     /**
-     * @param integer $status
+     * @param int $status
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
      */
     public static function withStatusCode($status)

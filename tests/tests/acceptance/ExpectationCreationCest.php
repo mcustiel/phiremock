@@ -125,22 +125,27 @@ class ExpectationCreationCest
         );
     }
 
-    public function creationFailWhenEmptyResponseTest(AcceptanceTester $I)
+    public function useDefaultWhenEmptyResponseTest(AcceptanceTester $I)
     {
-        $I->wantTo('See if creation fails when response is empty');
+        $I->wantTo('When response is empty in request, default should be used');
         $request = new Request();
-        $request->setHeaders(['Accept' => new Condition('matches', 'potato')]);
+        $request->setMethod('get');
 
         $expectation = new Expectation();
         $expectation->setRequest($request);
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->seeResponseCodeIs('201');
 
-        $I->seeResponseCodeIs('500');
+        $I->sendGET('/__phiremock/expectations');
+        $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
-            '{"result" : "ERROR", "details" : {"response":"Field response, was set with invalid value: NULL"}}'
-        );
+            '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
+            . '"request":{"method":"get","url":null,"body":null,"headers":null},'
+            . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
+            );
     }
 
     public function creationFailWhenAnythingSentAsRequestTest(AcceptanceTester $I)
@@ -149,7 +154,7 @@ class ExpectationCreationCest
 
         $expectation = [
             'response' => ['statusCode' => 200],
-            'request'  => ['potato' => 'tomato']
+            'request'  => ['potato' => 'tomato'],
         ];
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -166,7 +171,7 @@ class ExpectationCreationCest
 
         $expectation = [
             'response' => 'response',
-            'request'  => ['url' => ['isEqualTo' => '/tomato']]
+            'request'  => ['url' => ['isEqualTo' => '/tomato']],
         ];
 
         $I->haveHttpHeader('Content-Type', 'application/json');

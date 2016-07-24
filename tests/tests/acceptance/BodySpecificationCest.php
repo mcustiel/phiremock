@@ -61,21 +61,4 @@ class BodySpecificationCest
             . '"proxyTo":null,"priority":0}]'
             );
     }
-
-    public function failWithEmptyBodyWhenEmptyStatusCodeTest(AcceptanceTester $I)
-    {
-        $I->wantTo('fail when creating expectation with an empty body and empty statusCode');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setBody(null)->setStatusCode(null);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
-
-        $I->seeResponseCodeIs('500');
-        $I->seeResponseIsJson();
-        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid response specified in expectation"]}');
-    }
 }

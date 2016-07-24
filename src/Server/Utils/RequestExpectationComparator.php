@@ -67,7 +67,8 @@ class RequestExpectationComparator
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $httpRequest
      * @param \Mcustiel\Phiremock\Domain\Request       $expectedRequest
-     * @return null|boolean
+     *
+     * @return null|bool
      */
     private function compareRequestParts(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
@@ -116,10 +117,10 @@ class RequestExpectationComparator
     private function requestMethodMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
-            'method' => null
+            'method' => null,
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
-            'isSameString' => $expectedRequest->getMethod()
+            'isSameString' => $expectedRequest->getMethod(),
         ]);
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
@@ -127,10 +128,10 @@ class RequestExpectationComparator
     private function requestUrlMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
-            'url' => 'path'
+            'url' => 'path',
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
-            $expectedRequest->getUrl()->getMatcher() => $expectedRequest->getUrl()->getValue()
+            $expectedRequest->getUrl()->getMatcher() => $expectedRequest->getUrl()->getValue(),
         ]);
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
@@ -138,10 +139,10 @@ class RequestExpectationComparator
     private function requestBodyMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
-            'body' => null
+            'body' => null,
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
-            $expectedRequest->getBody()->getMatcher() => $expectedRequest->getBody()->getValue()
+            $expectedRequest->getBody()->getMatcher() => $expectedRequest->getBody()->getValue(),
         ]);
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
@@ -150,10 +151,10 @@ class RequestExpectationComparator
     {
         foreach ($expectedRequest->getHeaders() as $header => $headerCondition) {
             $inputSource = $this->inputSourceFactory->createFromConfig([
-                'header' => $header
+                'header' => $header,
             ]);
             $matcher = $this->matcherFactory->createFromConfig([
-                $headerCondition->getMatcher() => $headerCondition->getValue()
+                $headerCondition->getMatcher() => $headerCondition->getValue(),
             ]);
 
             if (!$this->evaluate($inputSource, $matcher, $httpRequest)) {

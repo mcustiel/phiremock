@@ -103,6 +103,6 @@ class DelaySpecificationCest
         $start = microtime(true);
         $I->sendGET('/the/request/url');
         $I->seeResponseCodeIs(200);
-        $I->assertGreaterThan(2000, (microtime(true)-$start)*1000);
+        $I->assertGreaterThan(2000, (microtime(true) - $start) * 1000);
     }
 }

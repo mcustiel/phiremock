@@ -18,7 +18,8 @@ class ResponseBuilder
     }
 
     /**
-     * @param integer $statusCode
+     * @param int $statusCode
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
      */
     public static function create($statusCode)
@@ -28,6 +29,7 @@ class ResponseBuilder
 
     /**
      * @param string $body
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
      */
     public function andBody($body)
@@ -39,6 +41,7 @@ class ResponseBuilder
     /**
      * @param string $header
      * @param string $value
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
      */
     public function andHeader($header, $value)
@@ -48,7 +51,8 @@ class ResponseBuilder
     }
 
     /**
-     * @param integer $delay
+     * @param int $delay
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
      */
     public function andDelayInMillis($delay)
@@ -59,6 +63,7 @@ class ResponseBuilder
 
     /**
      * @param string $scenarioState
+     *
      * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
      */
     public function andSetScenarioStateTo($scenarioState)

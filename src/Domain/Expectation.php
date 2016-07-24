@@ -2,6 +2,7 @@
 namespace Mcustiel\Phiremock\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
+use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\ParseAs;
 
 class Expectation implements \JsonSerializable
@@ -16,7 +17,7 @@ class Expectation implements \JsonSerializable
     /**
      * @var Response
      *
-     * @SRV\NotNull
+     * @SRF\CustomFilter(class="\Mcustiel\Phiremock\Common\Filters\ResponseAsDefault")
      * @ParseAs("\Mcustiel\Phiremock\Domain\Response")
      */
     private $response;

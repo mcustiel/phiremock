@@ -41,6 +41,11 @@ use Mcustiel\Phiremock\Server\Utils\Strategies\HttpResponseStrategy;
 use Mcustiel\Phiremock\Server\Utils\Strategies\ProxyResponseStrategy;
 use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
 use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter as Psr6CacheAdapter;
+use Mcustiel\SimpleRequest\ParserGenerator;
+use Mcustiel\SimpleRequest\Services\DoctrineAnnotationService;
+use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
+use Mcustiel\SimpleRequest\Services\PhpReflectionService;
 
 $di = new DependencyInjectionService();
 
@@ -110,16 +115,20 @@ $di->register('requestExpectationComparator', function () use ($di) {
 });
 
 $di->register('requestBuilder', function () {
-    $cachePath = sys_get_temp_dir() . '/phiremock/cache/requests/';
-    if (!is_dir($cachePath)) {
-        mkdir($cachePath, 0777, true);
-    }
+    $cache = new Psr6CacheAdapter(
+        'phiremock',
+        3600,
+        sys_get_temp_dir() . '/phiremock/cache/requests/'
+    );
 
-    $cacheConfig = new \stdClass();
-    $cacheConfig->path = $cachePath;
-    $cacheConfig->disabled = false;
-
-    return new RequestBuilder($cacheConfig);
+    return new RequestBuilder(
+        $cache,
+        new ParserGenerator(
+            new DoctrineAnnotationService(),
+            new AnnotationParserFactory(),
+            new PhpReflectionService()
+        )
+    );
 });
 
 $di->register('fileExpectationsLoader', function () use ($di) {
@@ -142,7 +151,7 @@ $di->register('inputSourceFactory', function () {
         'method' => new SingletonLazyCreator(Method::class),
         'url'    => new SingletonLazyCreator(Url::class),
         'header' => new SingletonLazyCreator(Header::class),
-        'body'   => new SingletonLazyCreator(Body::class)
+        'body'   => new SingletonLazyCreator(Body::class),
     ]);
 });
 
@@ -169,7 +178,7 @@ $di->register('actionFactory', function () use ($di) {
             [
                 $di->get('requestBuilder'),
                 $di->get('expectationStorage'),
-                $di->get('logger')
+                $di->get('logger'),
             ]
         ),
         'listExpectations' => new SingletonLazyCreator(
@@ -190,7 +199,7 @@ $di->register('actionFactory', function () use ($di) {
             [
                 $di->get('expectationStorage'),
                 $di->get('requestExpectationComparator'),
-                $di->get('logger')
+                $di->get('logger'),
             ]
         ),
         'verifyExpectations' => new SingletonLazyCreator(
@@ -207,7 +216,7 @@ $di->register('actionFactory', function () use ($di) {
                 $di->get('requestBuilder'),
                 $di->get('requestStorage'),
                 $di->get('requestExpectationComparator'),
-                $di->get('logger')
+                $di->get('logger'),
             ]
         ),
         'resetCount' => new SingletonLazyCreator(
