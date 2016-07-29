@@ -32,8 +32,7 @@
         "mcustiel/power-route" : "^2.0",
         "mcustiel/php-simple-di" : "^1.2.1",
         "guzzlehttp/guzzle" : "^6.0",
-        "monolog/monolog" : "^1.17.2",
-        "pwfisher/command-line-php" : "dev-master"
+        "monolog/monolog" : "^1.17.2"
     },
     "require-dev" : {
         "codeception/codeception" : "^2.1",

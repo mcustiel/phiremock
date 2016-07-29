@@ -16,22 +16,25 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Mcustiel\Phiremock\Server\Config\Dependencies;
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-//$options = CommandLine::parseArgs($argv);
 
-$options = getopt('p:i:d', ['port:', 'ip:', 'debug']);
-
+$options = getopt('p:i:e:d', ['port:', 'ip:', 'debug', 'expectations-dir:']);
+var_export($options);
 $port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $options['p'] : '8086');
 $interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
-$debug = isset($options['debug']) ? $options['debug'] : (isset($options['d']) ? $options['d'] : false);
+$debug = isset($options['debug']) || isset($options['d']);
 
 define('LOG_LEVEL', $debug? \Monolog\Logger::DEBUG : \Monolog\Logger::INFO);
 
 $di = Dependencies::init();
 $logger = $di->get('logger');
-$logger->info('Starting Phiremock...');
+$logger->info('Starting Phiremock' . ($debug ? ' in debug mode' : '') . '...');
 
-$expectationsDir = isset($options['e'])
-    ? realpath($options['e'])
+$expectationsDirParam = isset($options['expectations-dir'])
+    ? $options['expectations-dir']
+    : (isset($options['e']) ? $options['e'] : false);
+
+$expectationsDir = isset($expectationsDirParam)
+    ? realpath($expectationsDirParam)
     : $di->get('homePathService')->getHomePath() . DIRECTORY_SEPARATOR . '.phiremock/expectations';
 
 $logger->debug("Phiremock's expectation dir: $expectationsDir");
