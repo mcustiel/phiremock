@@ -18,7 +18,7 @@ use Mcustiel\Phiremock\Server\Config\Dependencies;
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
 $options = getopt('p:i:e:d', ['port:', 'ip:', 'debug', 'expectations-dir:']);
-var_export($options);
+
 $port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $options['p'] : '8086');
 $interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
 $debug = isset($options['debug']) || isset($options['d']);
