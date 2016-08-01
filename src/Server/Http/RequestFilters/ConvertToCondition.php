@@ -4,6 +4,7 @@ namespace Mcustiel\Phiremock\Server\Http\RequestFilters;
 use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 use Mcustiel\SimpleRequest\Exception\FilterErrorException;
 use Mcustiel\Phiremock\Domain\Condition;
+use Mcustiel\Phiremock\Server\Config\Matchers;
 
 class ConvertToCondition implements FilterInterface
 {
@@ -38,7 +39,7 @@ class ConvertToCondition implements FilterInterface
 
     private function isValidCondition($matcherName)
     {
-        return $matcherName == 'isEqualTo' || $matcherName == 'matches' || $matcherName == 'isSameString';
+        return $matcherName == Matchers::EQUAL_TO || $matcherName == Matchers::MATCHES || $matcherName == Matchers::SAME_STRING;
     }
 
     private function checkValueIsValidOrThrowException($value)

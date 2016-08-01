@@ -6,6 +6,7 @@ use Mcustiel\Phiremock\Common\StringStream;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Psr\Http\Message\ServerRequestInterface;
+use Mcustiel\Phiremock\Server\Config\Matchers;
 
 class RegexResponseStrategy extends AbstractResponse implements ResponseStrategyInterface
 {
@@ -35,7 +36,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
 
     private function fillWithBodyMatches($expectation, $httpRequest, $responseBody)
     {
-        if ($expectation->getRequest()->getBody() && $expectation->getRequest()->getBody()->getMatcher() == 'matches') {
+        if ($expectation->getRequest()->getBody() && $expectation->getRequest()->getBody()->getMatcher() == Matchers::MATCHES) {
             $responseBody = preg_replace('/\$\{body\.(\d+)\}/', '\$$1', $responseBody);
             return preg_replace(
                 $expectation->getRequest()->getBody()->getValue(),
@@ -48,7 +49,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
 
     private function fillWithUrlMatches($expectation, $httpRequest, $responseBody)
     {
-        if ($expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() == 'matches') {
+        if ($expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() == Matchers::MATCHES) {
             $responseBody = preg_replace('/\$\{url\.(\d+)\}/', '\$$1', $responseBody);
             return preg_replace(
                 $expectation->getRequest()->getUrl()->getValue(),
