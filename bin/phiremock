@@ -14,6 +14,7 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Mcustiel\Phiremock\Server\Config\Dependencies;
+use Mcustiel\Phiremock\Common\Utils\FileSystem;
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
@@ -32,9 +33,8 @@ $logger->info('Starting Phiremock' . ($debug ? ' in debug mode' : '') . '...');
 $expectationsDirParam = isset($options['expectations-dir'])
     ? $options['expectations-dir']
     : (isset($options['e']) ? $options['e'] : null);
-
-$expectationsDir = isset($expectationsDirParam)
-    ? realpath($expectationsDirParam)
+$expectationsDir = $expectationsDirParam
+    ? (new FileSystem)->getRealPath($expectationsDirParam)
     : $di->get('homePathService')->getHomePath() . DIRECTORY_SEPARATOR . '.phiremock/expectations';
 
 $logger->debug("Phiremock's expectation dir: $expectationsDir");
