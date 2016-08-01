@@ -36,7 +36,7 @@ class ResponseStrategyFactory
         return $this->diService->get(HttpResponseStrategy::class);
     }
 
-    private function requestBodyOrUrlAreRegexp($expectation)
+    private function requestBodyOrUrlAreRegexp(Expectation $expectation)
     {
         return $expectation->getRequest()->getBody()
             && $expectation->getRequest()->getBody()->getMatcher() == Matchers::MATCHES
