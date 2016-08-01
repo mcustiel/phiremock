@@ -6,7 +6,6 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Psr\Log\LoggerInterface;
-use Psr\Http\Message\RequestInterface;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Psr\Http\Message\ServerRequestInterface;
 
