@@ -5,19 +5,19 @@ class FileSystem
 {
     public function getRealPath($path)
     {
-        $path = $this->normalizePath($path);
+        $existentPath = $this->normalizePath($path);
         $tail = [];
 
-        while (!file_exists($path)) {
-            $path = explode('/', $path);
-            array_unshift($tail, array_pop($path));
-            $path = implode('/', $path);
+        $pathArray = explode('/', $existentPath);
+        while (!file_exists($existentPath)) {
+            array_unshift($tail, array_pop($pathArray));
+            $existentPath = implode('/', $pathArray);
         }
 
         return str_replace(
             DIRECTORY_SEPARATOR,
             '/',
-            $path . '/' . implode(DIRECTORY_SEPARATOR, $tail)
+            $existentPath . '/' . implode(DIRECTORY_SEPARATOR, $tail)
         );
     }
 
