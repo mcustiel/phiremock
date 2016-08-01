@@ -88,7 +88,9 @@ class ReactPhpServer implements ServerInterface
     private function getUriFromRequest(ReactRequest $request)
     {
         $query = $request->getQuery();
-        return 'http://localhost/' . $request->getPath() . (empty($query) ? '' : "?{$query}");
+        return 'http://localhost/'
+            . $request->getPath()
+            . (empty($query) ? '' : ('?' . http_build_query($query)));
     }
 
     private function convertFromReactToPsrRequest(ReactRequest $request)

@@ -46,6 +46,7 @@ use Mcustiel\SimpleRequest\ParserGenerator;
 use Mcustiel\SimpleRequest\Services\DoctrineAnnotationService;
 use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
 use Mcustiel\SimpleRequest\Services\PhpReflectionService;
+use Mcustiel\Phiremock\Server\Utils\Strategies\RegexResponseStrategy;
 
 $di = new DependencyInjectionService();
 
@@ -63,6 +64,10 @@ $di->register(RemoteConnectionInterface::class, function () {
 
 $di->register(HttpResponseStrategy::class, function () use ($di) {
     return new HttpResponseStrategy($di->get('logger'));
+});
+
+$di->register(RegexResponseStrategy::class, function () use ($di) {
+    return new RegexResponseStrategy($di->get('logger'));
 });
 
 $di->register(ProxyResponseStrategy::class, function () use ($di) {

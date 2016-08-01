@@ -128,12 +128,20 @@ class RequestExpectationComparator
     private function requestUrlMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
-            'url' => 'path',
+            'url' => $this->getUrlPartFromMatcher($expectedRequest->getUrl()->getMatcher()),
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
             $expectedRequest->getUrl()->getMatcher() => $expectedRequest->getUrl()->getValue(),
         ]);
         return $this->evaluate($inputSource, $matcher, $httpRequest);
+    }
+
+    private function getUrlPartFromMatcher($matcher)
+    {
+        if ($matcher == 'matches') {
+            return 'full';
+        }
+        return 'path';
     }
 
     private function requestBodyMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
