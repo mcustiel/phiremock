@@ -261,7 +261,7 @@ Phiremock accepts multiple expectations that can match the same request. If no p
     
     $expectation = Phiremock::on(
         A::getRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
-            ->andHeader('Accept', 'application/json')
+            ->andHeader('Accept', Is::equalTo('application/json'))
             ->andPriority(1)
     )->then(
         Respond::withStatusCode(200)
@@ -284,8 +284,8 @@ If you want to simulate a behaviour of the service in which a response depends o
     
     $expectation = Phiremock::on(
         A::posttRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
-            ->andBody('{"id": "1", "name" : "resource"}')
-            ->andHeader('Content-Type', 'application/json')
+            ->andBody(Is::equalTo('{"id": "1", "name" : "resource"}'))
+            ->andHeader('Content-Type', Is::equalTo('application/json'))
             ->andScenarioState('saved', 'Scenario.START')
     )->then(
         Respond::withStatusCode(201)
@@ -297,8 +297,8 @@ If you want to simulate a behaviour of the service in which a response depends o
     
     $expectation = Phiremock::on(
         A::getRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
-            ->andBody('{"id": "1", "name" : "resource"}')
-            ->andHeader('Content-Type', 'application/json')
+            ->andBody(Is::equalTo('{"id": "1", "name" : "resource"}'))
+            ->andHeader('Content-Type', Is::equalTo('application/json'))
             ->andScenarioState('saved', 'RESOURCE_SAVED')
     )->then(
         Respond::withStatusCode(409)
@@ -335,8 +335,8 @@ If you want to test how your application behaves on, for instance, a timeout; yo
     
     $expectation = Phiremock::on(
         A::posttRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
-            ->andBody('{"id": "1", "name" : "resource"}')
-            ->andHeader('Content-Type', 'application/json')
+            ->andBody(Is::equalTo('{"id": "1", "name" : "resource"}'))
+            ->andHeader('Content-Type', Is::equalTo('application/json'))
     )->then(
         Respond::withStatusCode(200)->andDelayInMillis(30000)
     );
@@ -354,12 +354,33 @@ It could be the case a mock is not needed for certain call. For this specific ca
     
     $expectation = Phiremock::on(
         A::posttRequest()->andUrl(Is::equalTo('/example_service/proxy/me'))
-            ->andBody('{"id": "1", "name" : "resource"}')
-            ->andHeader('Content-Type', 'application/json')
+            ->andBody(Is::equalTo('{"id": "1", "name" : "resource"}'))
+            ->andHeader('Content-Type', Is::equalTo('application/json'))
     )->proxyTo(
         'http://your.real.service/some/path/script.php'
     );
     $phiremock->createExpectation($expectation);
 ```
 In this case, Phiremock will POST `http://your.real.service/some/path/script.php` with the configured body and header and return it's response.
- 
+
+### Generate response body based in request data
+It could happen that you want to make your response dependent on data you receive in your request. For this cases
+you can use regexp matching for request url and/or body, and access the submatches from your response body specification
+using `${body.matchIndex}` or `${url.matchIndex}` notation.
+
+#### Example:
+
+```
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $expectation = Phiremock::on(
+        A::posttRequest()->andUrl(Is::matching('~/example_service/(\w+)/?id=(\d+)~'))
+            ->andBody(Is::matching('~{"name" : "([^"])"}~'))
+            ->andHeader('Content-Type', Is::equalTo('application/json'))
+    )->then(
+        Respond::withStatusCode(200)->andBody('The resource is ${url.1}, the id is ${url.2) and the name is ${body.1}')
+    );
+    $phiremock->createExpectation($expectation);
+```
