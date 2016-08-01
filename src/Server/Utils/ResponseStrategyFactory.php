@@ -30,10 +30,17 @@ class ResponseStrategyFactory
         if (!empty($expectation->getProxyTo())) {
             return $this->diService->get(ProxyResponseStrategy::class);
         }
-        if ($expectation->getRequest()->getBody() && $expectation->getRequest()->getBody()->getMatcher() == Matchers::MATCHES
-            || $expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() == Matchers::MATCHES) {
+        if ($this->requestBodyOrUrlAreRegexp($expectation)) {
             return $this->diService->get(RegexResponseStrategy::class);
         }
         return $this->diService->get(HttpResponseStrategy::class);
+    }
+
+    private function requestBodyOrUrlAreRegexp($expectation)
+    {
+        return $expectation->getRequest()->getBody()
+            && $expectation->getRequest()->getBody()->getMatcher() == Matchers::MATCHES
+            || $expectation->getRequest()->getUrl()
+            && $expectation->getRequest()->getUrl()->getMatcher() == Matchers::MATCHES;
     }
 }
