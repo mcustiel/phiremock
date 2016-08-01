@@ -31,7 +31,7 @@ $logger->info('Starting Phiremock' . ($debug ? ' in debug mode' : '') . '...');
 
 $expectationsDirParam = isset($options['expectations-dir'])
     ? $options['expectations-dir']
-    : (isset($options['e']) ? $options['e'] : false);
+    : (isset($options['e']) ? $options['e'] : null);
 
 $expectationsDir = isset($expectationsDirParam)
     ? realpath($expectationsDirParam)
