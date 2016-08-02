@@ -35,6 +35,7 @@ class ConvertToCondition implements FilterInterface
 
     /**
      * {@inheritDoc}
+     *
      * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
      * @SuppressWarnings("unused")
      */
@@ -46,7 +47,8 @@ class ConvertToCondition implements FilterInterface
     {
         return $matcherName == Matchers::EQUAL_TO
             || $matcherName == Matchers::MATCHES
-            || $matcherName == Matchers::SAME_STRING;
+            || $matcherName == Matchers::SAME_STRING
+            || $matcherName == Matchers::CONTAINS;
     }
 
     private function checkValueIsValidOrThrowException($value)

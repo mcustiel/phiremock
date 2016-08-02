@@ -34,6 +34,7 @@ class AddExpectationAction extends AbstractRequestAction implements ActionInterf
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
+        $this->logger->debug('Adding expectation');
         $transactionData->setResponse(
             $this->processAndGetResponse(
                 $transactionData,

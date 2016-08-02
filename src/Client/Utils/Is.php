@@ -34,4 +34,14 @@ class Is
     {
         return new Condition('isSameString', $value);
     }
+
+    /**
+     * @param string $value
+     *
+     * @return \Mcustiel\Phiremock\Domain\Condition
+     */
+    public static function containing($value)
+    {
+        return new Condition('contains', $value);
+    }
 }

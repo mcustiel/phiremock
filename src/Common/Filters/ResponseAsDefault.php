@@ -16,6 +16,7 @@ class ResponseAsDefault implements FilterInterface
 
     /**
      * {@inheritDoc}
+     *
      * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
      * @SuppressWarnings("unused")
      */

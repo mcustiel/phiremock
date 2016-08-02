@@ -42,6 +42,7 @@ class SearchRequestAction implements ActionInterface
      */
     public function execute(TransactionData $transactionData, $argument = null)
     {
+        $this->logger->debug('Searching matching expectation for request');
         $request = $transactionData->getRequest();
         $this->logger->info('Request received: ' . $this->getLoggableRequest($request));
         $foundExpectation = $this->searchForMatchingExpectation($request);
