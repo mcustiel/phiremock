@@ -32,6 +32,7 @@ class HeadersConditionsFilter implements FilterInterface
 
     /**
      * {@inheritDoc}
+     *
      * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
      * @SuppressWarnings("unused")
      */

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2d9b75199549a408803b31fc67223390",
-    "content-hash": "619c9c5b2695949a13da3846f50f5da0",
+    "hash": "d0d0789a7d32de81ad118e0c4e9223fa",
+    "content-hash": "e09c284a25529d3925572fae68dd1d11",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -566,16 +566,16 @@
         },
         {
             "name": "mcustiel/power-route",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcustiel/PowerRoute.git",
-                "reference": "b1be9646f4a3bd9722a8317f831d50db6bfdb64a"
+                "reference": "c364de9aa7b580d059ee66dc5023531210994595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mcustiel/PowerRoute/zipball/b1be9646f4a3bd9722a8317f831d50db6bfdb64a",
-                "reference": "b1be9646f4a3bd9722a8317f831d50db6bfdb64a",
+                "url": "https://api.github.com/repos/mcustiel/PowerRoute/zipball/c364de9aa7b580d059ee66dc5023531210994595",
+                "reference": "c364de9aa7b580d059ee66dc5023531210994595",
                 "shasum": ""
             },
             "require": {
@@ -610,7 +610,7 @@
                 "extensible",
                 "router"
             ],
-            "time": "2016-04-27 09:26:33"
+            "time": "2016-08-02 16:35:39"
         },
         {
             "name": "monolog/monolog",

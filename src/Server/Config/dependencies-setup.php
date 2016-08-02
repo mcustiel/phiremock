@@ -13,6 +13,7 @@ use Mcustiel\PowerRoute\InputSources\Url;
 use Mcustiel\PowerRoute\InputSources\Header;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Matchers\Equals;
+use Mcustiel\PowerRoute\Matchers\Contains;
 use Mcustiel\PowerRoute\Matchers\CaseInsensitiveEquals;
 use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
@@ -43,6 +44,7 @@ use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Server\Utils\Strategies\RegexResponseStrategy;
 use Mcustiel\Phiremock\Server\Config\Matchers;
 use Mcustiel\Phiremock\Common\Utils\RequestBuilderFactory;
+use Mcustiel\Phiremock\Server\Http\InputSources\UrlFromPath;
 
 $di = new DependencyInjectionService();
 
@@ -137,7 +139,7 @@ $di->register('conditionsMatcherFactory', function () use ($di) {
 $di->register('inputSourceFactory', function () {
     return new InputSourceFactory([
         'method' => new SingletonLazyCreator(Method::class),
-        'url'    => new SingletonLazyCreator(Url::class),
+        'url'    => new SingletonLazyCreator(UrlFromPath::class),
         'header' => new SingletonLazyCreator(Header::class),
         'body'   => new SingletonLazyCreator(Body::class),
     ]);
@@ -154,8 +156,9 @@ $di->register('router', function () use ($di) {
 $di->register('matcherFactory', function () {
     return new MatcherFactory([
         Matchers::EQUAL_TO    => new SingletonLazyCreator(Equals::class),
-        Matchers::MATCHES      => new SingletonLazyCreator(RegExpMatcher::class),
+        Matchers::MATCHES     => new SingletonLazyCreator(RegExpMatcher::class),
         Matchers::SAME_STRING => new SingletonLazyCreator(CaseInsensitiveEquals::class),
+        Matchers::CONTAINS    => new SingletonLazyCreator(Contains::class),
     ]);
 });
 

@@ -23,10 +23,6 @@ class ClientCest
         $this->phiremock = new PhiremockClient('127.0.0.1', '8086');
     }
 
-    public function _after(AcceptanceTester $I)
-    {
-    }
-
     // tests
     public function shouldCreateAnExpectationTest(AcceptanceTester $I)
     {
@@ -178,5 +174,43 @@ class ClientCest
             A::getRequest()->andUrl(Is::matching('~potato~'))
         );
         $I->assertEquals(2, $count);
+    }
+
+    public function containsMatcherShouldWork(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()
+                ->andUrl(Is::equalTo('/potato'))
+                ->andBody(Is::containing('This is the body'))
+        )->then(
+            Respond::withStatusCode(202)
+                ->andBody('Tomato!')
+                ->andDelayInMillis(2500)
+                ->andHeader('X-Tomato', 'Potato-received')
+        );
+        $this->phiremock->createExpectation($expectation);
+        $I->sendPOST('/potato', '{"key": "This is the body"}');
+        $I->seeResponseCodeIs(202);
+        $I->seeResponseEquals('Tomato!');
+        $I->seeHttpHeader('X-Tomato', 'Potato-received');
+    }
+
+    public function fullUrlShouldBeEvaluated(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()
+                ->andUrl(Is::equalTo('/potato/coconut/?tomato=123'))
+                ->andBody(Is::containing('This is the body'))
+        )->then(
+            Respond::withStatusCode(202)
+                ->andBody('Tomato!')
+                ->andDelayInMillis(2500)
+                ->andHeader('X-Tomato', 'Potato-received')
+        );
+        $this->phiremock->createExpectation($expectation);
+        $I->sendPOST('/potato/coconut/?tomato=123', '{"key": "This is the body"}');
+        $I->seeResponseCodeIs(202);
+        $I->seeResponseEquals('Tomato!');
+        $I->seeHttpHeader('X-Tomato', 'Potato-received');
     }
 }
