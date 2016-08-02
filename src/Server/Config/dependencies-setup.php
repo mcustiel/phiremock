@@ -46,6 +46,8 @@ use Mcustiel\SimpleRequest\ParserGenerator;
 use Mcustiel\SimpleRequest\Services\DoctrineAnnotationService;
 use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
 use Mcustiel\SimpleRequest\Services\PhpReflectionService;
+use Mcustiel\Phiremock\Server\Utils\Strategies\RegexResponseStrategy;
+use Mcustiel\Phiremock\Server\Config\Matchers;
 
 $di = new DependencyInjectionService();
 
@@ -63,6 +65,10 @@ $di->register(RemoteConnectionInterface::class, function () {
 
 $di->register(HttpResponseStrategy::class, function () use ($di) {
     return new HttpResponseStrategy($di->get('logger'));
+});
+
+$di->register(RegexResponseStrategy::class, function () use ($di) {
+    return new RegexResponseStrategy($di->get('logger'));
 });
 
 $di->register(ProxyResponseStrategy::class, function () use ($di) {
@@ -165,9 +171,9 @@ $di->register('router', function () use ($di) {
 
 $di->register('matcherFactory', function () {
     return new MatcherFactory([
-        'isEqualTo'    => new SingletonLazyCreator(Equals::class),
-        'matches'      => new SingletonLazyCreator(RegExpMatcher::class),
-        'isSameString' => new SingletonLazyCreator(CaseInsensitiveEquals::class),
+        Matchers::EQUAL_TO    => new SingletonLazyCreator(Equals::class),
+        Matchers::MATCHES      => new SingletonLazyCreator(RegExpMatcher::class),
+        Matchers::SAME_STRING => new SingletonLazyCreator(CaseInsensitiveEquals::class),
     ]);
 });
 

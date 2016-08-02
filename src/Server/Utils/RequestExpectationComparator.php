@@ -9,6 +9,7 @@ use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
 use Psr\Log\LoggerInterface;
+use Mcustiel\Phiremock\Server\Config\Matchers;
 
 class RequestExpectationComparator
 {
@@ -120,7 +121,7 @@ class RequestExpectationComparator
             'method' => null,
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
-            'isSameString' => $expectedRequest->getMethod(),
+            Matchers::SAME_STRING => $expectedRequest->getMethod(),
         ]);
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
@@ -128,12 +129,20 @@ class RequestExpectationComparator
     private function requestUrlMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
-            'url' => 'path',
+            'url' => $this->getUrlPartFromMatcher($expectedRequest->getUrl()->getMatcher()),
         ]);
         $matcher = $this->matcherFactory->createFromConfig([
             $expectedRequest->getUrl()->getMatcher() => $expectedRequest->getUrl()->getValue(),
         ]);
         return $this->evaluate($inputSource, $matcher, $httpRequest);
+    }
+
+    private function getUrlPartFromMatcher($matcher)
+    {
+        if ($matcher == Matchers::MATCHES) {
+            return 'full';
+        }
+        return 'path';
     }
 
     private function requestBodyMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)

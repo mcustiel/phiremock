@@ -6,7 +6,8 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Psr\Log\LoggerInterface;
-use Psr\Http\Message\RequestInterface;
+use Mcustiel\Phiremock\Domain\Expectation;
+use Psr\Http\Message\ServerRequestInterface;
 
 class SearchRequestAction implements ActionInterface
 {
@@ -51,7 +52,7 @@ class SearchRequestAction implements ActionInterface
         $transactionData->set('foundExpectation', $foundExpectation);
     }
 
-    private function searchForMatchingExpectation($request)
+    private function searchForMatchingExpectation(ServerRequestInterface $request)
     {
         $lastFound = null;
         foreach ($this->storage->listExpectations() as $expectation) {
@@ -61,7 +62,7 @@ class SearchRequestAction implements ActionInterface
         return $lastFound;
     }
 
-    private function getNextMatchingExpectation($lastFound, $request, $expectation)
+    private function getNextMatchingExpectation($lastFound, ServerRequestInterface $request, Expectation $expectation)
     {
         if ($this->comparator->equals($request, $expectation)) {
             if ($lastFound === null || $expectation->getPriority() > $lastFound->getPriority()) {
@@ -72,7 +73,7 @@ class SearchRequestAction implements ActionInterface
     }
 
 
-    private function getLoggableRequest(RequestInterface $request)
+    private function getLoggableRequest(ServerRequestInterface $request)
     {
         return $request->getMethod() . ': '
             . $request->getUri()->__toString() . ' || '

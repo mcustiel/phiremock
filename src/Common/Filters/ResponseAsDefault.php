@@ -14,6 +14,11 @@ class ResponseAsDefault implements FilterInterface
         return $value;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
+     * @SuppressWarnings("unused")
+     */
     public function setSpecification($specification = null)
     {
     }
