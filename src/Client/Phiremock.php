@@ -63,14 +63,12 @@ class Phiremock
      */
     public function createExpectation(Expectation $expectation)
     {
-        $json = json_encode($expectation);
-
         $uri = $this->createBaseUri()->withPath(self::API_EXPECTATIONS_URL);
         $request = (new PsrRequest())
             ->withUri($uri)
             ->withMethod('post')
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(new StringStream($json));
+            ->withBody(new StringStream(json_encode($expectation)));
         $this->checkResponse($this->connection->send($request));
     }
 
@@ -121,13 +119,12 @@ class Phiremock
         $expectation = $requestBuilder->build();
         $expectation->setResponse(new Response());
         $uri = $this->createBaseUri()->withPath(self::API_EXECUTIONS_URL);
-        $json = json_encode($expectation);
 
         $request = (new PsrRequest())
             ->withUri($uri)
             ->withMethod('post')
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(new StringStream($json));
+            ->withBody(new StringStream(json_encode($expectation)));
 
         $response = $this->connection->send($request);
 

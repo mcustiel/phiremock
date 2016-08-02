@@ -137,7 +137,6 @@ class ClientCest
         $I->seeHttpHeader('X-Tomato', 'Potato-received-again');
     }
 
-    // tests
     public function countExecutionsTest(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/executions');
@@ -159,6 +158,24 @@ class ClientCest
 
         $count = $this->phiremock->countExecutions(
             A::getRequest()->andUrl(Is::equalTo('/potato'))
+        );
+        $I->assertEquals(2, $count);
+    }
+
+    public function countExecutionsWhenNoExpectationIsSet(AcceptanceTester $I)
+    {
+        $I->sendDELETE('/__phiremock/executions');
+
+        $I->sendGET('/potato');
+        $I->seeResponseCodeIs(404);
+        $I->sendGET('/potato');
+
+        $count = $this->phiremock->countExecutions(
+            A::getRequest()->andUrl(Is::equalTo('/potato'))
+        );
+        $I->assertEquals(2, $count);
+        $count = $this->phiremock->countExecutions(
+            A::getRequest()->andUrl(Is::matching('~potato~'))
         );
         $I->assertEquals(2, $count);
     }
