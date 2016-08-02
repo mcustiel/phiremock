@@ -5,18 +5,13 @@ use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
 use Zend\Diactoros\Request as PsrRequest;
 use Zend\Diactoros\Uri;
-use Mcustiel\SimpleRequest\RequestBuilder as SimpleRequestBuilder;
 use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Domain\Response;
 use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter as Psr6CacheAdapter;
-use Mcustiel\SimpleRequest\ParserGenerator;
-use Mcustiel\SimpleRequest\Services\DoctrineAnnotationService;
-use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
-use Mcustiel\SimpleRequest\Services\PhpReflectionService;
+use Mcustiel\Phiremock\Common\Utils\RequestBuilderFactory;
 
 class Phiremock
 {
@@ -202,7 +197,7 @@ class Phiremock
     private function checkErrorResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() >= 500) {
-            $error = json_decode($response->getBody()->__toString())['details'];
+            $error = json_decode($response->getBody()->__toString())->details;
             throw new \RuntimeException('An error occurred creating the expectation: ' . $error);
         }
 
@@ -214,20 +209,7 @@ class Phiremock
     private function getRequestBuilder()
     {
         if ($this->simpleRequestBuilder === null) {
-            $cache = new Psr6CacheAdapter(
-                'phiremock',
-                3600,
-                sys_get_temp_dir() . '/phiremock/cache/requests/'
-            );
-
-            $this->simpleRequestBuilder = new SimpleRequestBuilder(
-                $cache,
-                new ParserGenerator(
-                    new DoctrineAnnotationService(),
-                    new AnnotationParserFactory(),
-                    new PhpReflectionService()
-                )
-            );
+            $this->simpleRequestBuilder = RequestBuilderFactory::createRequestBuilder();
         }
         return $this->simpleRequestBuilder;
     }

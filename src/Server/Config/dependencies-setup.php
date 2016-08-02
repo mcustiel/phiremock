@@ -48,6 +48,7 @@ use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
 use Mcustiel\SimpleRequest\Services\PhpReflectionService;
 use Mcustiel\Phiremock\Server\Utils\Strategies\RegexResponseStrategy;
 use Mcustiel\Phiremock\Server\Config\Matchers;
+use Mcustiel\Phiremock\Common\Utils\RequestBuilderFactory;
 
 $di = new DependencyInjectionService();
 
@@ -121,20 +122,7 @@ $di->register('requestExpectationComparator', function () use ($di) {
 });
 
 $di->register('requestBuilder', function () {
-    $cache = new Psr6CacheAdapter(
-        'phiremock',
-        3600,
-        sys_get_temp_dir() . '/phiremock/cache/requests/'
-    );
-
-    return new RequestBuilder(
-        $cache,
-        new ParserGenerator(
-            new DoctrineAnnotationService(),
-            new AnnotationParserFactory(),
-            new PhpReflectionService()
-        )
-    );
+    return RequestBuilderFactory::createRequestBuilder();
 });
 
 $di->register('fileExpectationsLoader', function () use ($di) {
