@@ -12,6 +12,11 @@ use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Domain\Response;
 use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter as Psr6CacheAdapter;
+use Mcustiel\SimpleRequest\ParserGenerator;
+use Mcustiel\SimpleRequest\Services\DoctrineAnnotationService;
+use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
+use Mcustiel\SimpleRequest\Services\PhpReflectionService;
 
 class Phiremock
 {
@@ -23,6 +28,10 @@ class Phiremock
      * @var \Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface
      */
     private $connection;
+    /**
+     * @var \Mcustiel\SimpleRequest\RequestBuilder
+     */
+    private $simpleRequestBuilder;
     /**
      * @var string
      */
@@ -91,7 +100,8 @@ class Phiremock
 
         if ($response->getStatusCode() === 200) {
             $json = json_decode($response->getBody()->__toString());
-            $builder = new SimpleRequestBuilder();
+
+            $builder = $this->getRequestBuilder();
             $return = [];
             foreach ($json as $expectationArray) {
                 $return[] = $builder->parseRequest($expectationArray, Expectation::class);
@@ -205,5 +215,26 @@ class Phiremock
         if ($response->getStatusCode() >= 400) {
             throw new \RuntimeException('Request error while creating the expectation');
         }
+    }
+
+    private function getRequestBuilder()
+    {
+        if ($this->simpleRequestBuilder === null) {
+            $cache = new Psr6CacheAdapter(
+                'phiremock',
+                3600,
+                sys_get_temp_dir() . '/phiremock/cache/requests/'
+            );
+
+            $this->simpleRequestBuilder = new SimpleRequestBuilder(
+                $cache,
+                new ParserGenerator(
+                    new DoctrineAnnotationService(),
+                    new AnnotationParserFactory(),
+                    new PhpReflectionService()
+                )
+            );
+        }
+        return $this->simpleRequestBuilder;
     }
 }
