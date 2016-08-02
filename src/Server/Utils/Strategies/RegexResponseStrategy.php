@@ -14,7 +14,11 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     {
         $responseConfig = $expectation->getResponse();
         $httpResponse = $transactionData->getResponse();
-        $httpResponse = $this->getResponseWithBody($expectation, $httpResponse, $transactionData->getRequest());
+        $httpResponse = $this->getResponseWithBody(
+            $expectation,
+            $httpResponse,
+            $transactionData->getRequest()
+        );
         $httpResponse = $this->getResponseWithStatusCode($responseConfig, $httpResponse);
         $httpResponse = $this->getResponseWithHeaders($responseConfig, $httpResponse);
         $this->processDelay($responseConfig);
@@ -22,8 +26,11 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $httpResponse;
     }
 
-    private function getResponseWithBody(Expectation $expectation, ResponseInterface $httpResponse, ServerRequestInterface $httpRequest)
-    {
+    private function getResponseWithBody(
+        Expectation $expectation,
+        ResponseInterface $httpResponse,
+        ServerRequestInterface $httpRequest
+    ) {
         $responseBody = $expectation->getResponse()->getBody();
 
         if ($responseBody) {
@@ -36,7 +43,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
 
     private function fillWithBodyMatches($expectation, $httpRequest, $responseBody)
     {
-        if ($expectation->getRequest()->getBody() && $expectation->getRequest()->getBody()->getMatcher() == Matchers::MATCHES) {
+        if ($this->bodyConditionIsRegex($expectation)) {
             $responseBody = preg_replace('/\$\{body\.(\d+)\}/', '\$$1', $responseBody);
             return preg_replace(
                 $expectation->getRequest()->getBody()->getValue(),
@@ -47,9 +54,15 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $responseBody;
     }
 
+    private function bodyConditionIsRegex($expectation)
+    {
+        return $expectation->getRequest()->getBody()
+            && $expectation->getRequest()->getBody()->getMatcher() == Matchers::MATCHES;
+    }
+
     private function fillWithUrlMatches($expectation, $httpRequest, $responseBody)
     {
-        if ($expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() == Matchers::MATCHES) {
+        if ($this->urlConditionIsRegex($expectation)) {
             $responseBody = preg_replace('/\$\{url\.(\d+)\}/', '\$$1', $responseBody);
             return preg_replace(
                 $expectation->getRequest()->getUrl()->getValue(),
@@ -58,5 +71,10 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
             );
         }
         return $responseBody;
+    }
+
+    private function urlConditionIsRegex($expectation)
+    {
+        return $expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() == Matchers::MATCHES;
     }
 }

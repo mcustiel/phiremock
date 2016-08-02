@@ -30,6 +30,11 @@ class HeadersConditionsFilter implements FilterInterface
         return $return;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
+     * @SuppressWarnings("unused")
+     */
     public function setSpecification($specification = null)
     {
     }

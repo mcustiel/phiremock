@@ -25,7 +25,7 @@ class AbstractResponse
         if ($responseConfig->getDelayMillis()) {
             $this->logger->debug(
                 'Delaying the response for ' . $responseConfig->getDelayMillis() . ' milliseconds'
-                );
+            );
             usleep($responseConfig->getDelayMillis() * 1000);
         }
     }
@@ -47,5 +47,4 @@ class AbstractResponse
         }
         return $httpResponse;
     }
-
 }
