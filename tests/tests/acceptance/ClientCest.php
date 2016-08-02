@@ -12,6 +12,9 @@ use Mcustiel\Phiremock\Client\Utils\Respond;
 
 class ClientCest
 {
+    /**
+     * @var \Mcustiel\Phiremock\Client\Phiremock
+     */
     private $phiremock;
 
     public function _before(AcceptanceTester $I)
@@ -40,6 +43,23 @@ class ClientCest
         $I->sendGET('/potato');
         $I->seeResponseCodeIs(201);
         $I->seeResponseEquals('Tomato!');
+    }
+
+    public function shouldCreateAnExpectationAndReceiveItInTheList(AcceptanceTester $I)
+    {
+        $expectation = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(new Condition('isEqualTo', '/potato'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Tomato!');
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $expectations = $this->phiremock->listExpectations();
+
+        $I->assertEquals($expectation, $expectations[0]);
     }
 
     public function shouldCreateAnExpectationTestWithFluentInterface(AcceptanceTester $I)

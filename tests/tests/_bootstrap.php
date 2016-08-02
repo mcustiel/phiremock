@@ -2,4 +2,6 @@
 
 define('APP_ROOT', __DIR__ . '/../../');
 
-require APP_ROOT . 'vendor/autoload.php';
+$loader = require APP_ROOT . 'vendor/autoload.php';
+
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
