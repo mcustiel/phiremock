@@ -366,7 +366,7 @@ In this case, Phiremock will POST `http://your.real.service/some/path/script.php
 
 ### Generate response body based in request data
 It could happen that you want to make your response dependent on data you receive in your request. For this cases
-you can use regexp matching for request url and/or body, and access the submatches from your response body specification
+you can use regexp matching for request url and/or body, and access the subpatterns matches from your response body specification
 using `${body.matchIndex}` or `${url.matchIndex}` notation.
 
 #### Example:
@@ -385,3 +385,11 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
     );
     $phiremock->createExpectation($expectation);
 ```
+## Apendix
+
+### List of condition matchers:
+
+* **contains:** Checks that the given section of the http request contains the specified string.
+* **isEqualTo:** Checks that the given section of the http request is equal to the one specified, case sensitive.
+* **isSameString:** Checks that the given section of the http request is equal to the one specified, case insensitive.
+* **matches:** Checks that the given section of the http request matches the regular expression specified.
