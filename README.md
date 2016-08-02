@@ -393,3 +393,10 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
 * **isEqualTo:** Checks that the given section of the http request is equal to the one specified, case sensitive.
 * **isSameString:** Checks that the given section of the http request is equal to the one specified, case insensitive.
 * **matches:** Checks that the given section of the http request matches the regular expression specified.
+
+### Contributing:
+
+Fork the project and pull request, as easy as that. The code standard used is based in PSR, just run php-cs-fixer with this configuration: 
+```
+--level=psr2 --fixers=-psr0,no_empty_lines_after_phpdocs,no_blank_lines_after_class_opening,operators_spaces,phpdoc_params,phpdoc_scalar,unused_use,align_double_arrow,multiline_array_trailing_comma,list_commas,phpdoc_separation,single_quote
+```
