@@ -62,6 +62,36 @@ class ClientCest
         $I->assertEquals($expectation, $expectations[0]);
     }
 
+    public function shouldListSeveralExpectations(AcceptanceTester $I)
+    {
+        $expectation1 = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(new Condition('isEqualTo', '/potato'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Tomato!');
+        $expectation1->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation1);
+
+        $expectation2 = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(new Condition('isEqualTo', '/banana'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Coconut!');
+        $expectation2->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation2);
+
+        $expectations = $this->phiremock->listExpectations();
+
+        $I->assertTrue(gettype($expectations) == 'array');
+        $I->assertEquals(2, count($expectations));
+        $I->assertEquals($expectation1, $expectations[0]);
+        $I->assertEquals($expectation2, $expectations[1]);
+    }
+
     public function shouldCreateAnExpectationTestWithFluentInterface(AcceptanceTester $I)
     {
         $expectation = PhiremockClient::on(

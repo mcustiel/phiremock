@@ -99,14 +99,11 @@ class Phiremock
         $response = $this->connection->send($request);
 
         if ($response->getStatusCode() === 200) {
-            $json = json_decode($response->getBody()->__toString());
-
             $builder = $this->getRequestBuilder();
-            $return = [];
-            foreach ($json as $expectationArray) {
-                $return[] = $builder->parseRequest($expectationArray, Expectation::class);
-            }
-            return $return;
+            return $builder->parseRequest(
+                json_decode($response->getBody()->__toString(), true),
+                [Expectation::class]
+            );
         }
 
         $this->checkErrorResponse($response);
