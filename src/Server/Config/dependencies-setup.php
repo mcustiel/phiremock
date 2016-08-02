@@ -9,11 +9,10 @@ use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Mcustiel\Phiremock\Server\Actions\SearchRequestAction;
 use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\PowerRoute\InputSources\Method;
-use Mcustiel\PowerRoute\InputSources\Url;
 use Mcustiel\PowerRoute\InputSources\Header;
 use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
 use Mcustiel\PowerRoute\Matchers\Equals;
-use Mcustiel\PowerRoute\Matchers\Contains;
+use Mcustiel\PowerRoute\Matchers\Contains as ContainsMatcher;
 use Mcustiel\PowerRoute\Matchers\CaseInsensitiveEquals;
 use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
 use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
@@ -158,7 +157,7 @@ $di->register('matcherFactory', function () {
         Matchers::EQUAL_TO    => new SingletonLazyCreator(Equals::class),
         Matchers::MATCHES     => new SingletonLazyCreator(RegExpMatcher::class),
         Matchers::SAME_STRING => new SingletonLazyCreator(CaseInsensitiveEquals::class),
-        Matchers::CONTAINS    => new SingletonLazyCreator(Contains::class),
+        Matchers::CONTAINS    => new SingletonLazyCreator(ContainsMatcher::class),
     ]);
 });
 
