@@ -378,7 +378,7 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
     
     $expectation = Phiremock::on(
         A::posttRequest()->andUrl(Is::matching('~/example_service/(\w+)/?id=(\d+)~'))
-            ->andBody(Is::matching('~{"name" : "([^"]+)"}~'))
+            ->andBody(Is::matching('~\{"name" : "([^"]+)"\}~'))
             ->andHeader('Content-Type', Is::equalTo('application/json'))
     )->then(
         Respond::withStatusCode(200)->andBody('The resource is ${url.1}, the id is ${url.2) and the name is ${body.1}')
