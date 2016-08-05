@@ -18,7 +18,7 @@ use Mcustiel\Phiremock\Common\Utils\FileSystem;
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
-$options = getopt('p:i:e:d', ['port:', 'ip:', 'debug', 'expectations-dir:']);
+$options = getopt('p:i:e:d' /* p:i:p:e:r */, ['port:', 'ip:', 'debug', 'expectations-dir:']);
 
 $port = isset($options['port']) ? $options['port'] : (isset($options['p']) ? $options['p'] : '8086');
 $interface = isset($options['ip']) ? $options['ip'] : (isset($options['i']) ? $options['i'] : '0.0.0.0');
