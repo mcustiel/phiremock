@@ -93,43 +93,41 @@ class ReactPhpServer implements ServerInterface
             . (empty($query) ? '' : ('?' . http_build_query($query)));
     }
 
-    private function convertFromReactToPsrRequest(ReactRequest $request)
+    private function convertFromReactToPsrRequest(ReactRequest $request, $requestData)
     {
+        $bodyStream = new Stream('php://temp', 'rw');
+        $bodyStream->write($requestData);
+
         return new ServerRequest(
             [
-                'REMOTE_ADDR'  => $request->getRemoteAddress(),
+                'REMOTE_ADDR'  => $request->remoteAddress,
                 'HTTP_VERSION' => $request->getHttpVersion(),
             ],
             [],
             $this->getUriFromRequest($request),
             $request->getMethod(),
-            $this->getBodyStreamFromReact($request),
+            $bodyStream,
             $request->getHeaders()
         );
-    }
-
-    private function getBodyStreamFromReact(ReactRequest $request)
-    {
-        $bodyStream = new Stream('php://temp', 'rw');
-        $bodyStream->write($request->getBody());
-        return $bodyStream;
     }
 
     private function onRequest(ReactRequest $request, ReactResponse $response)
     {
         $start = microtime(true);
 
-        $psrResponse = $this->requestHandler->execute(
-            $this->convertFromReactToPsrRequest(
-                $request
-            ),
-            new PsrResponse()
-        );
+        $request->on('data', function ($data) use ($request, $response, $start) {
+            $convertedRequest = $this->convertFromReactToPsrRequest($request, $data);
 
-        $this->logger->debug(
-            'Processing took ' . number_format((microtime(true) - $start) * 1000, 3) . ' milliseconds'
-        );
-        $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
-        $response->end($psrResponse->getBody()->__toString());
+            $psrResponse = $this->requestHandler->execute(
+                $convertedRequest,
+                new PsrResponse()
+            );
+
+            $this->logger->debug(
+                'Processing took ' . number_format((microtime(true) - $start) * 1000, 3) . ' milliseconds'
+            );
+            $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
+            $response->end($psrResponse->getBody()->__toString());
+        });
     }
 }

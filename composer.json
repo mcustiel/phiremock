@@ -26,7 +26,7 @@
     "license" : "GPL-3.0+",
     "require" : {
         "php" : ">=5.5",
-        "react/http" : "dev-master#cd15204bd15d106d7832c680e4fb0ca0ce2f5e30",
+        "react/http" : "0.4.1",
         "mcustiel/php-simple-request" : "^3.1",
         "symfony/cache": "^3.1",
         "mcustiel/power-route" : "^2.2.0",
@@ -50,7 +50,5 @@
     },
     "bin" : [
         "bin/phiremock"
-    ],
-    "minimum-stability" : "dev",
-    "prefer-stable" : true
+    ]
 }
