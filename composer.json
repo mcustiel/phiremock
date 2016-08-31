@@ -50,5 +50,7 @@
     },
     "bin" : [
         "bin/phiremock"
-    ]
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
