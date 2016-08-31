@@ -31,13 +31,8 @@ This project is published in packagist, so you just need to add it as a dependen
 ```json
     "require-dev": {
         "mcustiel/phiremock": "*"
-    },
-    "minimum-stability": "dev"
+    }
 ```
-
-> *NOTE*
-> Phiremock uses a dev-master version of react/http to work. Because of this, until ReactPhp guys tag a new 
-> version you will need to set your project's minimum stability to dev to be able to install Phiremock. 
 
 ### Phar:
 
