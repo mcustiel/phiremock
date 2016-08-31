@@ -116,10 +116,8 @@ class ReactPhpServer implements ServerInterface
         $start = microtime(true);
 
         $request->on('data', function ($data) use ($request, $response, $start) {
-            $convertedRequest = $this->convertFromReactToPsrRequest($request, $data);
-
             $psrResponse = $this->requestHandler->execute(
-                $convertedRequest,
+                $this->convertFromReactToPsrRequest($request, $data),
                 new PsrResponse()
             );
 
