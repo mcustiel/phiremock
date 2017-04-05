@@ -36,7 +36,7 @@ This project is published in packagist, so you just need to add it as a dependen
 
 ### Phar:
 
-You can also download the standalone phar application from [here](https://github.com/mcustiel/phiremock/releases/download/v1.3.2/phiremock.phar).
+You can also download the standalone phar application from [here](https://github.com/mcustiel/phiremock/releases/download/v1.3.3/phiremock.phar).
 
 ## How does it work?
 
