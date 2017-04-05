@@ -50,4 +50,20 @@ class A
     {
         return RequestBuilder::create('fetch');
     }
+
+    /**
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
+     */
+    public static function deleteRequest()
+    {
+        return RequestBuilder::create('delete');
+    }
+
+    /**
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
+     */
+    public static function patchRequest()
+    {
+        return RequestBuilder::create('patch');
+    }
 }
