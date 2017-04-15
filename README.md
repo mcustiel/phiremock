@@ -36,7 +36,7 @@ This project is published in packagist, so you just need to add it as a dependen
 
 ### Phar:
 
-You can also download the standalone phar application from [here](https://github.com/mcustiel/phiremock/releases/download/v1.3.2/phiremock.phar).
+You can also download the standalone phar application from [here](https://github.com/mcustiel/phiremock/releases/download/v1.3.3/phiremock.phar).
 
 ## How does it work?
 
@@ -375,7 +375,7 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
             ->andBody(Is::matching('~\{"name" : "([^"]+)"\}~'))
             ->andHeader('Content-Type', Is::equalTo('application/json'))
     )->then(
-        Respond::withStatusCode(200)->andBody('The resource is ${url.1}, the id is ${url.2) and the name is ${body.1}')
+        Respond::withStatusCode(200)->andBody('The resource is ${url.1}, the id is ${url.2} and the name is ${body.1}')
     );
     $phiremock->createExpectation($expectation);
 ```
