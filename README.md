@@ -379,7 +379,7 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
     );
     $phiremock->createExpectation($expectation);
 ```
-## Apendix
+## Appendix
 
 ### List of condition matchers:
 
