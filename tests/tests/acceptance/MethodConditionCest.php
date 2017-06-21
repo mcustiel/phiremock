@@ -1,7 +1,8 @@
 <?php
+
+use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Domain\Response;
-use Mcustiel\Phiremock\Domain\Expectation;
 
 class MethodConditionCest
 {

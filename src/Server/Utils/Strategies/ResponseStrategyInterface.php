@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils\Strategies;
 
 use Mcustiel\Phiremock\Domain\Expectation;

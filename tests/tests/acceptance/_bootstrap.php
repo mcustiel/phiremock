@@ -1,4 +1,5 @@
 <?php
+
 use Symfony\Component\Process\Process;
 
 // Here you can initialize variables that will be available to your tests
@@ -14,9 +15,9 @@ register_shutdown_function(function () use ($process) {
 
 $process->start(function ($type, $buffer) {
     if (Process::ERR === $type) {
-        echo 'ERR > '.$buffer;
+        echo 'ERR > ' . $buffer;
     } else {
-        echo 'OUT > '.$buffer;
+        echo 'OUT > ' . $buffer;
     }
 });
 sleep(1);

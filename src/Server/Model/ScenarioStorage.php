@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Model;
 
 interface ScenarioStorage
@@ -8,8 +9,6 @@ interface ScenarioStorage
     /**
      * @param string $name
      * @param string $state
-     *
-     * @return void
      */
     public function setScenarioState($name, $state);
 
@@ -20,8 +19,5 @@ interface ScenarioStorage
      */
     public function getScenarioState($name);
 
-    /**
-     * @return void
-     */
     public function clearScenarios();
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils;
 
 use Psr\Log\LoggerInterface;

@@ -1,49 +1,49 @@
 <?php
 
+use Mcustiel\Creature\SingletonLazyCreator;
 use Mcustiel\DependencyInjection\DependencyInjectionService;
-use Mcustiel\PowerRoute\PowerRoute;
-use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
-use Mcustiel\PowerRoute\Actions\ServerError;
+use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
+use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
+use Mcustiel\Phiremock\Common\Utils\RequestBuilderFactory;
 use Mcustiel\Phiremock\Server\Actions\AddExpectationAction;
-use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
-use Mcustiel\Phiremock\Server\Actions\SearchRequestAction;
-use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
-use Mcustiel\PowerRoute\InputSources\Method;
-use Mcustiel\PowerRoute\InputSources\Header;
-use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
-use Mcustiel\PowerRoute\Matchers\Equals;
-use Mcustiel\PowerRoute\Matchers\Contains as ContainsMatcher;
-use Mcustiel\PowerRoute\Matchers\CaseInsensitiveEquals;
-use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
-use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
-use Mcustiel\Phiremock\Server\Actions\VerifyRequestFound;
-use Mcustiel\PowerRoute\InputSources\Body;
-use Mcustiel\Phiremock\Server\Actions\ListExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearScenariosAction;
-use Mcustiel\Creature\SingletonLazyCreator;
 use Mcustiel\Phiremock\Server\Actions\CountRequestsAction;
-use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
-use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
-use Mcustiel\Phiremock\Server\Model\Implementation\RequestAutoStorage;
-use Mcustiel\Phiremock\Server\Phiremock;
+use Mcustiel\Phiremock\Server\Actions\ListExpectationsAction;
+use Mcustiel\Phiremock\Server\Actions\ResetRequestsCountAction;
+use Mcustiel\Phiremock\Server\Actions\SearchRequestAction;
+use Mcustiel\Phiremock\Server\Actions\StoreRequestAction;
+use Mcustiel\Phiremock\Server\Actions\VerifyRequestFound;
+use Mcustiel\Phiremock\Server\Config\Matchers;
 use Mcustiel\Phiremock\Server\Config\RouterConfig;
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
-use Mcustiel\Phiremock\Server\Actions\StoreRequestAction;
-use Mcustiel\Phiremock\Server\Actions\ResetRequestsCountAction;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Mcustiel\Phiremock\Server\Utils\HomePathService;
+use Mcustiel\Phiremock\Server\Http\InputSources\UrlFromPath;
+use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
+use Mcustiel\Phiremock\Server\Model\Implementation\RequestAutoStorage;
+use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
+use Mcustiel\Phiremock\Server\Phiremock;
 use Mcustiel\Phiremock\Server\Utils\FileExpectationsLoader;
+use Mcustiel\Phiremock\Server\Utils\HomePathService;
+use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
 use Mcustiel\Phiremock\Server\Utils\Strategies\HttpResponseStrategy;
 use Mcustiel\Phiremock\Server\Utils\Strategies\ProxyResponseStrategy;
-use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
-use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Server\Utils\Strategies\RegexResponseStrategy;
-use Mcustiel\Phiremock\Server\Config\Matchers;
-use Mcustiel\Phiremock\Common\Utils\RequestBuilderFactory;
-use Mcustiel\Phiremock\Server\Http\InputSources\UrlFromPath;
+use Mcustiel\PowerRoute\Actions\ServerError;
+use Mcustiel\PowerRoute\Common\Conditions\ConditionsMatcherFactory;
+use Mcustiel\PowerRoute\Common\Factories\ActionFactory;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
+use Mcustiel\PowerRoute\InputSources\Body;
+use Mcustiel\PowerRoute\InputSources\Header;
+use Mcustiel\PowerRoute\InputSources\Method;
+use Mcustiel\PowerRoute\Matchers\CaseInsensitiveEquals;
+use Mcustiel\PowerRoute\Matchers\Contains as ContainsMatcher;
+use Mcustiel\PowerRoute\Matchers\Equals;
+use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
+use Mcustiel\PowerRoute\PowerRoute;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 $di = new DependencyInjectionService();
 
@@ -88,6 +88,7 @@ $di->register('homePathService', function () {
 
 $di->register('server', function () use ($di) {
     $server = new ReactPhpServer($di->get('logger'));
+
     return $server;
 });
 

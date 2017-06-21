@@ -1,11 +1,12 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server;
 
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Mcustiel\PowerRoute\PowerRoute;
-use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
 use Mcustiel\Phiremock\Common\StringStream;
+use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
+use Mcustiel\PowerRoute\PowerRoute;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 class Phiremock implements RequestHandlerInterface
@@ -26,8 +27,7 @@ class Phiremock implements RequestHandlerInterface
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Http\RequestHandler::execute()
      */
@@ -37,6 +37,7 @@ class Phiremock implements RequestHandlerInterface
             return $this->router->start($request, $response);
         } catch (\Exception $e) {
             $this->logger->warning('Unexpected exception: ' . $e->getMessage());
+
             return $response->withStatus(500)
                 ->withBody(new StringStream($e->getMessage()));
         }

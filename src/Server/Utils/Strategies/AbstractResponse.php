@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils\Strategies;
 
 use Mcustiel\Phiremock\Domain\Response;
@@ -37,6 +38,7 @@ class AbstractResponse
                 $httpResponse = $httpResponse->withHeader($name, $value);
             }
         }
+
         return $httpResponse;
     }
 
@@ -45,6 +47,7 @@ class AbstractResponse
         if ($responseConfig->getStatusCode()) {
             $httpResponse = $httpResponse->withStatus($responseConfig->getStatusCode());
         }
+
         return $httpResponse;
     }
 }

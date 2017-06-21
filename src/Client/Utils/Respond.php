@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Client\Utils;
 
 class Respond

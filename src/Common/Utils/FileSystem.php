@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Common\Utils;
 
 class FileSystem
@@ -24,9 +25,10 @@ class FileSystem
     private function normalizePath($path)
     {
         $path = str_replace(DIRECTORY_SEPARATOR, '/', $path);
-        if ($path[0] != '/') {
+        if ($path[0] !== '/') {
             $path = getcwd() . '/' . $path;
         }
+
         return $path;
     }
 }

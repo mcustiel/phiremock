@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
@@ -16,8 +17,7 @@ class ScenarioAutoStorage implements ScenarioStorage
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Model\ScenarioStorage::setScenarioState()
      */
@@ -27,8 +27,7 @@ class ScenarioAutoStorage implements ScenarioStorage
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Model\ScenarioStorage::getScenarioState()
      */
@@ -37,11 +36,12 @@ class ScenarioAutoStorage implements ScenarioStorage
         if (!isset($this->scenarios[$name])) {
             $this->scenarios[$name] = self::INITIAL_SCENARIO;
         }
+
         return $this->scenarios[$name];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Model\ScenarioStorage::clearScenarios()
      */

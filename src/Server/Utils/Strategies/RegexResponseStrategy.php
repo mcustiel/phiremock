@@ -1,12 +1,13 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils\Strategies;
 
-use Psr\Http\Message\ResponseInterface;
 use Mcustiel\Phiremock\Common\StringStream;
 use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\PowerRoute\Common\TransactionData;
-use Psr\Http\Message\ServerRequestInterface;
 use Mcustiel\Phiremock\Server\Config\Matchers;
+use Mcustiel\PowerRoute\Common\TransactionData;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RegexResponseStrategy extends AbstractResponse implements ResponseStrategyInterface
 {
@@ -38,6 +39,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
             $responseBody = $this->fillWithBodyMatches($expectation, $httpRequest, $responseBody);
             $httpResponse = $httpResponse->withBody(new StringStream($responseBody));
         }
+
         return $httpResponse;
     }
 
@@ -45,36 +47,40 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     {
         if ($this->bodyConditionIsRegex($expectation)) {
             $responseBody = preg_replace('/\$\{body\.(\d+)\}/', '\$$1', $responseBody);
+
             return preg_replace(
                 $expectation->getRequest()->getBody()->getValue(),
                 $responseBody,
                 $httpRequest->getBody()->__toString()
             );
         }
+
         return $responseBody;
     }
 
     private function bodyConditionIsRegex($expectation)
     {
         return $expectation->getRequest()->getBody()
-            && $expectation->getRequest()->getBody()->getMatcher() == Matchers::MATCHES;
+            && $expectation->getRequest()->getBody()->getMatcher() === Matchers::MATCHES;
     }
 
     private function fillWithUrlMatches($expectation, $httpRequest, $responseBody)
     {
         if ($this->urlConditionIsRegex($expectation)) {
             $responseBody = preg_replace('/\$\{url\.(\d+)\}/', '\$$1', $responseBody);
+
             return preg_replace(
                 $expectation->getRequest()->getUrl()->getValue(),
                 $responseBody,
                 $httpRequest->getUri()->__toString()
             );
         }
+
         return $responseBody;
     }
 
     private function urlConditionIsRegex($expectation)
     {
-        return $expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() == Matchers::MATCHES;
+        return $expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() === Matchers::MATCHES;
     }
 }

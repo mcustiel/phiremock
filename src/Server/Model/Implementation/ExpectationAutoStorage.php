@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
 use Mcustiel\Phiremock\Domain\Expectation;
@@ -7,7 +8,6 @@ use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 class ExpectationAutoStorage implements ExpectationStorage
 {
     /**
-     *
      * @var \Mcustiel\Phiremock\Domain\Expectation[]
      */
     private $expectations;
@@ -18,8 +18,7 @@ class ExpectationAutoStorage implements ExpectationStorage
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::addExpectation()
      */
@@ -29,8 +28,7 @@ class ExpectationAutoStorage implements ExpectationStorage
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::listExpectations()
      */
@@ -40,8 +38,7 @@ class ExpectationAutoStorage implements ExpectationStorage
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::clearExpectations()
      */

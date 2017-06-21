@@ -1,13 +1,14 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Actions;
 
-use Mcustiel\PowerRoute\Actions\ActionInterface;
-use Mcustiel\PowerRoute\Common\TransactionData;
+use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
-use Psr\Log\LoggerInterface;
-use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\PowerRoute\Actions\ActionInterface;
+use Mcustiel\PowerRoute\Common\TransactionData;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 
 class SearchRequestAction implements ActionInterface
 {
@@ -35,8 +36,7 @@ class SearchRequestAction implements ActionInterface
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
@@ -48,6 +48,7 @@ class SearchRequestAction implements ActionInterface
         $foundExpectation = $this->searchForMatchingExpectation($request);
         if ($foundExpectation === null) {
             $transactionData->set('foundExpectation', false);
+
             return;
         }
         $transactionData->set('foundExpectation', $foundExpectation);
@@ -70,9 +71,9 @@ class SearchRequestAction implements ActionInterface
                 $lastFound = $expectation;
             }
         }
+
         return $lastFound;
     }
-
 
     private function getLoggableRequest(ServerRequestInterface $request)
     {

@@ -1,8 +1,9 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Http\RequestFilters;
 
-use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 use Mcustiel\SimpleRequest\Exception\FilterErrorException;
+use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 
 class HeadersConditionsFilter implements FilterInterface
 {
@@ -27,11 +28,12 @@ class HeadersConditionsFilter implements FilterInterface
         foreach ($value as $header => $condition) {
             $return[$header] = $this->conditionFilter->filter($condition);
         }
+
         return $return;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
      * @SuppressWarnings("unused")

@@ -1,16 +1,17 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Http\Implementation;
 
-use Mcustiel\Phiremock\Server\Http\ServerInterface;
 use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
+use Mcustiel\Phiremock\Server\Http\ServerInterface;
+use Psr\Log\LoggerInterface;
 use React\EventLoop\Factory as EventLoop;
-use React\Socket\Server as ReactSocket;
-use React\Http\Server as ReactServer;
-use Zend\Diactoros\ServerRequest;
 use React\Http\Request as ReactRequest;
 use React\Http\Response as ReactResponse;
+use React\Http\Server as ReactServer;
+use React\Socket\Server as ReactSocket;
 use Zend\Diactoros\Response as PsrResponse;
-use Psr\Log\LoggerInterface;
+use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Stream;
 
 class ReactPhpServer implements ServerInterface
@@ -45,8 +46,7 @@ class ReactPhpServer implements ServerInterface
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Http\ServerInterface::setRequestHandler()
      */
@@ -88,6 +88,7 @@ class ReactPhpServer implements ServerInterface
     private function getUriFromRequest(ReactRequest $request)
     {
         $query = $request->getQuery();
+
         return 'http://localhost/'
             . $request->getPath()
             . (empty($query) ? '' : ('?' . http_build_query($query)));

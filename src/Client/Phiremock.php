@@ -1,17 +1,18 @@
 <?php
+
 namespace Mcustiel\Phiremock\Client;
 
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
-use Zend\Diactoros\Request as PsrRequest;
-use Zend\Diactoros\Uri;
-use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
-use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
+use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
 use Mcustiel\Phiremock\Common\StringStream;
-use Psr\Http\Message\ResponseInterface;
 use Mcustiel\Phiremock\Common\Utils\RequestBuilderFactory;
+use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Response;
+use Psr\Http\Message\ResponseInterface;
+use Zend\Diactoros\Request as PsrRequest;
+use Zend\Diactoros\Uri;
 
 class Phiremock
 {
@@ -53,8 +54,6 @@ class Phiremock
      * Creates an expectation with a response for a given request.
      *
      * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
-     *
-     * @return void
      */
     public function createExpectation(Expectation $expectation)
     {
@@ -69,8 +68,6 @@ class Phiremock
 
     /**
      * Clears all the currently configured expectations.
-     *
-     * @return void
      */
     public function clearExpectations()
     {
@@ -93,6 +90,7 @@ class Phiremock
 
         if ($response->getStatusCode() === 200) {
             $builder = $this->getRequestBuilder();
+
             return $builder->parseRequest(
                 json_decode($response->getBody()->__toString(), true),
                 [Expectation::class]
@@ -125,6 +123,7 @@ class Phiremock
 
         if ($response->getStatusCode() === 200) {
             $json = json_decode($response->getBody()->__toString());
+
             return $json->count;
         }
 
@@ -133,8 +132,6 @@ class Phiremock
 
     /**
      * Resets all the scenarios to start state.
-     *
-     * @return void
      */
     public function resetScenarios()
     {
@@ -146,8 +143,6 @@ class Phiremock
 
     /**
      * Resets all the requests counters to 0.
-     *
-     * @return void
      */
     public function resetRequestsCounter()
     {
@@ -211,6 +206,7 @@ class Phiremock
         if ($this->simpleRequestBuilder === null) {
             $this->simpleRequestBuilder = RequestBuilderFactory::createRequestBuilder();
         }
+
         return $this->simpleRequestBuilder;
     }
 }

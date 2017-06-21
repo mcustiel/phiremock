@@ -1,15 +1,16 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Actions;
 
+use Mcustiel\Phiremock\Common\StringStream;
+use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Server\Actions\Base\AbstractRequestAction;
+use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
-use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
-use Mcustiel\Phiremock\Common\StringStream;
-use Psr\Log\LoggerInterface;
-use Mcustiel\Phiremock\Server\Actions\Base\AbstractRequestAction;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class AddExpectationAction extends AbstractRequestAction implements ActionInterface
 {
@@ -28,7 +29,7 @@ class AddExpectationAction extends AbstractRequestAction implements ActionInterf
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
@@ -41,6 +42,7 @@ class AddExpectationAction extends AbstractRequestAction implements ActionInterf
                 function (TransactionData $transaction, Expectation $expectation) {
                     $this->validateExpectationOrThrowException($expectation, $this->logger);
                     $this->storage->addExpectation($expectation);
+
                     return $this->constructResponse([], $transaction->getResponse());
                 }
             )
@@ -52,6 +54,7 @@ class AddExpectationAction extends AbstractRequestAction implements ActionInterf
         if (empty($listOfErrors)) {
             return $response->withStatus(201)->withBody(new StringStream('{"result" : "OK"}'));
         }
+
         return $this->constructErrorResponse($listOfErrors, $response);
     }
 }

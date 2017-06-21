@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Common;
 
 use Zend\Diactoros\Stream;
