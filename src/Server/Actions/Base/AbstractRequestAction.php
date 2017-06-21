@@ -56,30 +56,34 @@ abstract class AbstractRequestAction
             );
     }
 
-    protected function processAndGetResponse(
-        TransactionData $transactionData,
-        callable $process
-    ) {
+    protected function processAndGetResponse(TransactionData $transactionData, callable $process)
+    {
         try {
-            /**
-             * @var \Mcustiel\Phiremock\Domain\Expectation
-             */
-            $expectation = $this->requestBuilder->parseRequest(
-                $this->parseJsonBody($transactionData->getRequest()),
-                Expectation::class,
-                RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
-            );
-            $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
-
-            return $process($transactionData, $expectation);
+            return $this->createExpectationFromRequestAndProcess($transactionData, $process);
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
-
             return $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse());
         } catch (\Exception $e) {
             $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
-
             return $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse());
         }
     }
+
+    private function createExpectationFromRequestAndProcess(
+        TransactionData $transactionData,
+        callable $process
+    ) {
+        /**
+         * @var \Mcustiel\Phiremock\Domain\Expectation
+         */
+        $expectation = $this->requestBuilder->parseRequest(
+            $this->parseJsonBody($transactionData->getRequest()),
+            Expectation::class,
+            RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
+        );
+        $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
+
+        return $process($transactionData, $expectation);
+    }
+
 }
