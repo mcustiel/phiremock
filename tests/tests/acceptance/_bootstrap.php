@@ -2,8 +2,8 @@
 use Symfony\Component\Process\Process;
 
 // Here you can initialize variables that will be available to your tests
-
-$command = 'exec php ' . APP_ROOT . 'bin/phiremock --port 8086 --ip 0.0.0.0';
+/*
+$command = 'exec php ' . APP_ROOT . 'bin/phiremock --port 8086 -d';
 echo 'Running ' . $command . PHP_EOL;
 $process = new Process($command);
 
@@ -20,3 +20,4 @@ $process->start(function ($type, $buffer) {
     }
 });
 sleep(1);
+*/

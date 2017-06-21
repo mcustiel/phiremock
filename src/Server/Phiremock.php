@@ -37,6 +37,7 @@ class Phiremock implements RequestHandlerInterface
             return $this->router->start($request, $response);
         } catch (\Exception $e) {
             $this->logger->warning('Unexpected exception: ' . $e->getMessage());
+            $this->logger->info($e->__toString());
             return $response->withStatus(500)
                 ->withBody(new StringStream($e->getMessage()));
         }
