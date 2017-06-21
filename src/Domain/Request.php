@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
@@ -51,6 +52,7 @@ class Request implements \JsonSerializable
     public function setMethod($method)
     {
         $this->method = $method;
+
         return $this;
     }
 
@@ -70,6 +72,7 @@ class Request implements \JsonSerializable
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -89,6 +92,7 @@ class Request implements \JsonSerializable
     public function setBody($body)
     {
         $this->body = $body;
+
         return $this;
     }
 
@@ -108,6 +112,7 @@ class Request implements \JsonSerializable
     public function setHeaders($headers)
     {
         $this->headers = $headers;
+
         return $this;
     }
 

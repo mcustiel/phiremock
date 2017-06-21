@@ -2,13 +2,13 @@
 
 
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-use Mcustiel\Phiremock\Domain\Condition;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
 use Mcustiel\Phiremock\Client\Utils\Respond;
+use Mcustiel\Phiremock\Domain\Condition;
+use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Request;
+use Mcustiel\Phiremock\Domain\Response;
 
 class ClientCest
 {
@@ -82,7 +82,7 @@ class ClientCest
 
         $expectations = $this->phiremock->listExpectations();
 
-        $I->assertTrue(gettype($expectations) == 'array');
+        $I->assertTrue(gettype($expectations) === 'array');
         $I->assertEquals(2, count($expectations));
         $I->assertEquals($expectation1, $expectations[0]);
         $I->assertEquals($expectation2, $expectations[1]);

@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Client\Utils;
 
 use Mcustiel\Phiremock\Domain\Response;
@@ -35,6 +36,7 @@ class ResponseBuilder
     public function andBody($body)
     {
         $this->response->setBody($body);
+
         return $this;
     }
 
@@ -47,6 +49,7 @@ class ResponseBuilder
     public function andHeader($header, $value)
     {
         $this->headers[$header] = $value;
+
         return $this;
     }
 
@@ -58,6 +61,7 @@ class ResponseBuilder
     public function andDelayInMillis($delay)
     {
         $this->response->setDelayMillis($delay);
+
         return $this;
     }
 
@@ -69,6 +73,7 @@ class ResponseBuilder
     public function andSetScenarioStateTo($scenarioState)
     {
         $this->scenarioState = $scenarioState;
+
         return $this;
     }
 
@@ -80,6 +85,7 @@ class ResponseBuilder
         if (!empty($this->headers)) {
             $this->response->setHeaders($this->headers);
         }
+
         return [$this->scenarioState, $this->response];
     }
 }

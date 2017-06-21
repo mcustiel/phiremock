@@ -1,8 +1,9 @@
 <?php
+
 namespace Mcustiel\Phiremock\Common\Filters;
 
-use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 
 class ResponseAsDefault implements FilterInterface
 {
@@ -11,11 +12,12 @@ class ResponseAsDefault implements FilterInterface
         if (empty($value)) {
             return new Response();
         }
+
         return $value;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
      * @SuppressWarnings("unused")

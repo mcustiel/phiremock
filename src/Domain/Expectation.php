@@ -1,9 +1,10 @@
 <?php
+
 namespace Mcustiel\Phiremock\Domain;
 
-use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\ParseAs;
+use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
 class Expectation implements \JsonSerializable
 {
@@ -95,6 +96,7 @@ class Expectation implements \JsonSerializable
     public function setRequest($request)
     {
         $this->request = $request;
+
         return $this;
     }
 
@@ -114,6 +116,7 @@ class Expectation implements \JsonSerializable
     public function setResponse($response)
     {
         $this->response = $response;
+
         return $this;
     }
 
@@ -128,6 +131,7 @@ class Expectation implements \JsonSerializable
     public function setScenarioName($scenario)
     {
         $this->scenarioName = $scenario;
+
         return $this;
     }
 
@@ -142,6 +146,7 @@ class Expectation implements \JsonSerializable
     public function setScenarioStateIs($scenarioStateIs)
     {
         $this->scenarioStateIs = $scenarioStateIs;
+
         return $this;
     }
 
@@ -156,6 +161,7 @@ class Expectation implements \JsonSerializable
     public function setNewScenarioState($newScenarioState)
     {
         $this->newScenarioState = $newScenarioState;
+
         return $this;
     }
 
@@ -183,6 +189,7 @@ class Expectation implements \JsonSerializable
     public function setPriority($priority)
     {
         $this->priority = $priority;
+
         return $this;
     }
 
@@ -197,6 +204,7 @@ class Expectation implements \JsonSerializable
     public function setProxyTo($proxyTo)
     {
         $this->proxyTo = $proxyTo;
+
         return $this;
     }
 }

@@ -1,15 +1,16 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Actions;
 
+use Mcustiel\Phiremock\Common\StringStream;
+use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Server\Actions\Base\AbstractRequestAction;
+use Mcustiel\Phiremock\Server\Model\RequestStorage;
+use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\SimpleRequest\RequestBuilder;
-use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
-use Mcustiel\Phiremock\Server\Model\RequestStorage;
-use Mcustiel\Phiremock\Common\StringStream;
 use Psr\Log\LoggerInterface;
-use Mcustiel\Phiremock\Server\Actions\Base\AbstractRequestAction;
 
 class CountRequestsAction extends AbstractRequestAction implements ActionInterface
 {
@@ -34,7 +35,7 @@ class CountRequestsAction extends AbstractRequestAction implements ActionInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
@@ -47,6 +48,7 @@ class CountRequestsAction extends AbstractRequestAction implements ActionInterfa
                     $this->validateRequestOrThrowException($expectation, $this->logger);
                     $count = $this->searchForExecutionsCount($expectation);
                     $this->logger->debug('Found ' . $count . ' request matching the expectation');
+
                     return $transaction->getResponse()
                         ->withStatus(200)
                         ->withHeader('Content-Type', 'application/json')
@@ -61,9 +63,10 @@ class CountRequestsAction extends AbstractRequestAction implements ActionInterfa
         $count = 0;
         foreach ($this->requestsStorage->listRequests() as $request) {
             if ($this->comparator->equals($request, $expectation)) {
-                $count++;
+                ++$count;
             }
         }
+
         return $count;
     }
 }

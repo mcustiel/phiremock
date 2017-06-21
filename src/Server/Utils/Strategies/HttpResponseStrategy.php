@@ -1,11 +1,12 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils\Strategies;
 
-use Mcustiel\Phiremock\Domain\Response;
-use Psr\Http\Message\ResponseInterface;
 use Mcustiel\Phiremock\Common\StringStream;
 use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Response;
 use Mcustiel\PowerRoute\Common\TransactionData;
+use Psr\Http\Message\ResponseInterface;
 
 class HttpResponseStrategy extends AbstractResponse implements ResponseStrategyInterface
 {
@@ -26,6 +27,7 @@ class HttpResponseStrategy extends AbstractResponse implements ResponseStrategyI
         if ($responseConfig->getBody()) {
             $httpResponse = $httpResponse->withBody(new StringStream($responseConfig->getBody()));
         }
+
         return $httpResponse;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Common\Http;
 
 use Psr\Http\Message\RequestInterface;

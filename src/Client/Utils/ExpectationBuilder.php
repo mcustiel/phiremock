@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Client\Utils;
 
 use Mcustiel\Phiremock\Domain\Response;
@@ -20,6 +21,7 @@ class ExpectationBuilder
     public function then(ResponseBuilder $responseBuilder)
     {
         $responseBuilderValue = $responseBuilder->build();
+
         return $this->expectation
             ->setNewScenarioState($responseBuilderValue[0])
             ->setResponse($responseBuilderValue[1]);
@@ -37,6 +39,7 @@ class ExpectationBuilder
         if (filter_var($url, FILTER_VALIDATE_URL) === false) {
             throw new \Exception('Invalid proxy url');
         }
+
         return $this->noResponse()->setProxyTo($url);
     }
 

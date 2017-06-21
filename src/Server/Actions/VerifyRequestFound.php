@@ -1,18 +1,18 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Actions;
 
-use Mcustiel\PowerRoute\Actions\ActionInterface;
-use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\PowerRoute\Actions\NotFound;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
+use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
+use Mcustiel\PowerRoute\Actions\ActionInterface;
+use Mcustiel\PowerRoute\Actions\NotFound;
+use Mcustiel\PowerRoute\Common\TransactionData;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
-use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
 
 class VerifyRequestFound implements ActionInterface
 {
     /**
-     *
      * @var \Mcustiel\Phiremock\Server\Model\ScenarioStorage
      */
     private $scenarioStorage;
@@ -38,11 +38,12 @@ class VerifyRequestFound implements ActionInterface
     public function execute(TransactionData $transactionData, $argument = null)
     {
         /**
-         * @var \Mcustiel\Phiremock\Domain\Expectation $foundExpectation
+         * @var \Mcustiel\Phiremock\Domain\Expectation
          */
         $foundExpectation = $transactionData->get('foundExpectation');
-        if (! $foundExpectation) {
+        if (!$foundExpectation) {
             (new NotFound())->execute($transactionData);
+
             return;
         }
 
@@ -63,13 +64,12 @@ class VerifyRequestFound implements ActionInterface
     }
 
     /**
-     *
      * @param \Mcustiel\Phiremock\Domain\Expectation $foundExpectation
      */
     private function processScenario($foundExpectation)
     {
         if ($foundExpectation->getNewScenarioState()) {
-            if (! $foundExpectation->getScenarioName()) {
+            if (!$foundExpectation->getScenarioName()) {
                 throw new \RuntimeException(
                     'Expecting scenario state without specifying scenario name'
                 );

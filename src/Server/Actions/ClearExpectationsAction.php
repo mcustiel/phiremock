@@ -1,9 +1,10 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Actions;
 
+use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
 
 class ClearExpectationsAction implements ActionInterface
 {
@@ -15,8 +16,7 @@ class ClearExpectationsAction implements ActionInterface
     }
 
     /**
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */

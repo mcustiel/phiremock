@@ -1,12 +1,17 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Http\Implementation;
 
 use Mcustiel\Phiremock\Server\Http\ServerInterface;
 use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
+use Mcustiel\Phiremock\Server\Http\ServerInterface;
+use Psr\Log\LoggerInterface;
 use React\EventLoop\Factory as EventLoop;
 use React\Socket\Server as ReactSocket;
 use React\Http\Server as ReactServer;
 use React\Http\Response as ReactResponse;
+use React\Http\Server as ReactServer;
+use React\Socket\Server as ReactSocket;
 use Zend\Diactoros\Response as PsrResponse;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -52,7 +57,6 @@ class ReactPhpServer implements ServerInterface
     }
 
     /**
-     *
      * {@inheritdoc}
      *
      * @see \Mcustiel\Phiremock\Server\Http\ServerInterface::setRequestHandler()

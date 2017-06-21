@@ -1,15 +1,16 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils;
 
-use Psr\Http\Message\ServerRequestInterface;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
-use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
 use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Request;
+use Mcustiel\Phiremock\Server\Config\Matchers;
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
 use Mcustiel\PowerRoute\Common\Conditions\ClassArgumentObject;
+use Mcustiel\PowerRoute\Common\Factories\InputSourceFactory;
+use Mcustiel\PowerRoute\Common\Factories\MatcherFactory;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Mcustiel\Phiremock\Server\Config\Matchers;
 
 class RequestExpectationComparator
 {
@@ -60,9 +61,11 @@ class RequestExpectationComparator
 
         if ($atLeastOneExecution !== null && $expectedRequest->getHeaders()) {
             $this->logger->debug('Checking headers against expectation');
+
             return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);
         }
-        return (boolean) $atLeastOneExecution;
+
+        return (bool) $atLeastOneExecution;
     }
 
     /**
@@ -87,6 +90,7 @@ class RequestExpectationComparator
                 $atLeastOneExecution = true;
             }
         }
+
         return $atLeastOneExecution;
     }
 
@@ -98,13 +102,13 @@ class RequestExpectationComparator
             $scenarioState = $this->scenarioStorage->getScenarioState(
                 $expectation->getScenarioName()
             );
-            if ($expectation->getScenarioStateIs() != $scenarioState) {
+            if ($expectation->getScenarioStateIs() !== $scenarioState) {
                 return false;
             }
         }
+
         return true;
     }
-
 
     private function checkScenarioNameOrThrowException(Expectation $expectation)
     {
@@ -123,6 +127,7 @@ class RequestExpectationComparator
         $matcher = $this->matcherFactory->createFromConfig([
             Matchers::SAME_STRING => $expectedRequest->getMethod(),
         ]);
+
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
@@ -134,6 +139,7 @@ class RequestExpectationComparator
         $matcher = $this->matcherFactory->createFromConfig([
             $expectedRequest->getUrl()->getMatcher() => $expectedRequest->getUrl()->getValue(),
         ]);
+
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
@@ -145,6 +151,7 @@ class RequestExpectationComparator
         $matcher = $this->matcherFactory->createFromConfig([
             $expectedRequest->getBody()->getMatcher() => $expectedRequest->getBody()->getValue(),
         ]);
+
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
@@ -162,6 +169,7 @@ class RequestExpectationComparator
                 return false;
             }
         }
+
         return true;
     }
 

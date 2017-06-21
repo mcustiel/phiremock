@@ -1,8 +1,9 @@
 <?php
+
 namespace Mcustiel\Phiremock\Domain;
 
-use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
+use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
 class Response implements \JsonSerializable
 {
@@ -58,6 +59,7 @@ class Response implements \JsonSerializable
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
+
         return $this;
     }
 
@@ -72,6 +74,7 @@ class Response implements \JsonSerializable
     public function setBody($body)
     {
         $this->body = $body;
+
         return $this;
     }
 
@@ -86,6 +89,7 @@ class Response implements \JsonSerializable
     public function setHeaders($headers)
     {
         $this->headers = $headers;
+
         return $this;
     }
 
@@ -100,6 +104,7 @@ class Response implements \JsonSerializable
     public function setDelayMillis($delayMillis)
     {
         $this->delayMillis = $delayMillis;
+
         return $this;
     }
 

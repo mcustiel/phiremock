@@ -1,9 +1,10 @@
 <?php
+
 namespace Mcustiel\Phiremock\Client\Utils;
 
 use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\Request;
 
 class RequestBuilder
 {
@@ -37,6 +38,7 @@ class RequestBuilder
     public function andBody(Condition $condition)
     {
         $this->request->setBody($condition);
+
         return $this;
     }
 
@@ -49,6 +51,7 @@ class RequestBuilder
     public function andHeader($header, Condition $condition)
     {
         $this->headers[$header] = $condition;
+
         return $this;
     }
 
@@ -60,6 +63,7 @@ class RequestBuilder
     public function andUrl(Condition $condition)
     {
         $this->request->setUrl($condition);
+
         return $this;
     }
 
@@ -73,6 +77,7 @@ class RequestBuilder
     {
         $this->scenarioName = $scenario;
         $this->scenarioIs = $scenarioState;
+
         return $this;
     }
 
@@ -93,6 +98,7 @@ class RequestBuilder
         $expectation->setRequest($this->request);
         $this->setScenario($expectation);
         $this->setPriority($expectation);
+
         return $expectation;
     }
 
@@ -102,7 +108,7 @@ class RequestBuilder
     private function setPriority(Expectation $expectation)
     {
         if ($this->priority) {
-            $expectation->setPriority((integer) $this->priority);
+            $expectation->setPriority((int) $this->priority);
         }
     }
 

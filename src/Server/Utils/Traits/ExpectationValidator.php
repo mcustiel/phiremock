@@ -1,10 +1,11 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils\Traits;
 
 use Mcustiel\Phiremock\Domain\Expectation;
-use Psr\Log\LoggerInterface;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Domain\Response;
+use Psr\Log\LoggerInterface;
 
 trait ExpectationValidator
 {
@@ -54,7 +55,7 @@ trait ExpectationValidator
         Expectation $expectation,
         LoggerInterface $logger
     ) {
-        if ($expectation->getNewScenarioState() && ! $expectation->getScenarioStateIs()) {
+        if ($expectation->getNewScenarioState() && !$expectation->getScenarioStateIs()) {
             $logger->error('Scenario states misconfiguration');
             throw new \RuntimeException(
                 'Trying to set scenario state without specifying scenario previous state'

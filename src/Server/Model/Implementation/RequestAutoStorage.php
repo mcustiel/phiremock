@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Model\Implementation;
 
 use Mcustiel\Phiremock\Server\Model\RequestStorage;
@@ -7,7 +8,6 @@ use Psr\Http\Message\ServerRequestInterface;
 class RequestAutoStorage implements RequestStorage
 {
     /**
-     *
      * @var \Psr\Http\Message\ServerRequestInterface[]
      */
     private $requests;

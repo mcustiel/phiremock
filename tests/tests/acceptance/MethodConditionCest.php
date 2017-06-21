@@ -1,7 +1,8 @@
 <?php
+
+use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Domain\Response;
-use Mcustiel\Phiremock\Domain\Expectation;
 
 class MethodConditionCest
 {
@@ -170,6 +171,29 @@ class MethodConditionCest
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
             . '"request":{"method":"head","url":null,"body":null,"headers":null},'
+            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
+        );
+    }
+
+    public function createAnExpectationUsingMethodPatch(AcceptanceTester $I)
+    {
+        $I->wantTo('create a specification with method post');
+        $request = new Request();
+        $request->setMethod('patch');
+        $response = new Response();
+        $response->setStatusCode(201);
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectations', $expectation);
+
+        $I->sendGET('/__phiremock/expectations');
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals(
+            '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
+            . '"request":{"method":"patch","url":null,"body":null,"headers":null},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
             . '"proxyTo":null,"priority":0}]'
         );

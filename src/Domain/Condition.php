@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Domain;
 
 class Condition implements \JsonSerializable
@@ -29,6 +30,7 @@ class Condition implements \JsonSerializable
     public function setMatcher($matcher)
     {
         $this->matcher = $matcher;
+
         return $this;
     }
 
@@ -43,6 +45,7 @@ class Condition implements \JsonSerializable
     public function setValue($value)
     {
         $this->value = $value;
+
         return $this;
     }
 

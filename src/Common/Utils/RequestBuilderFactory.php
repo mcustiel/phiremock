@@ -1,12 +1,13 @@
 <?php
+
 namespace Mcustiel\Phiremock\Common\Utils;
 
-use Mcustiel\SimpleRequest\RequestBuilder as SimpleRequestBuilder;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter as Psr6CacheAdapter;
 use Mcustiel\SimpleRequest\ParserGenerator;
+use Mcustiel\SimpleRequest\RequestBuilder as SimpleRequestBuilder;
 use Mcustiel\SimpleRequest\Services\DoctrineAnnotationService;
-use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
 use Mcustiel\SimpleRequest\Services\PhpReflectionService;
+use Mcustiel\SimpleRequest\Strategies\AnnotationParserFactory;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter as Psr6CacheAdapter;
 
 class RequestBuilderFactory
 {

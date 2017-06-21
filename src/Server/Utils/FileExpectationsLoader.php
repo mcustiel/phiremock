@@ -1,11 +1,12 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Utils;
 
 use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\SimpleRequest\RequestBuilder;
 use Mcustiel\Phiremock\Server\Model\ExpectationStorage;
-use Psr\Log\LoggerInterface;
 use Mcustiel\Phiremock\Server\Utils\Traits\ExpectationValidator;
+use Mcustiel\SimpleRequest\RequestBuilder;
+use Psr\Log\LoggerInterface;
 
 class FileExpectationsLoader
 {
@@ -39,7 +40,7 @@ class FileExpectationsLoader
         $this->logger->debug("Loading expectation file $fileName");
         $content = file_get_contents($fileName);
         $data = @json_decode($content, true);
-        if (json_last_error() != JSON_ERROR_NONE) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception(json_last_error_msg());
         }
         $expectation = $this->requestBuilder->parseRequest(

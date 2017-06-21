@@ -3,7 +3,6 @@
 return [
     'start' => 'expectationUrl',
     'nodes' => [
-
 // -------------------------------- API: expectations ---------------------------
         'expectationUrl' => [
             'condition' => [

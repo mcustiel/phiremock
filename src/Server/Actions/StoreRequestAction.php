@@ -1,9 +1,10 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Actions;
 
+use Mcustiel\Phiremock\Server\Model\RequestStorage;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
-use Mcustiel\Phiremock\Server\Model\RequestStorage;
 
 class StoreRequestAction implements ActionInterface
 {
@@ -18,7 +19,7 @@ class StoreRequestAction implements ActionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\PowerRoute\Actions\ActionInterface::execute()
      */
