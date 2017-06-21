@@ -2,50 +2,41 @@
 
 namespace Mcustiel\Phiremock\Server\Http\Implementation;
 
-use Mcustiel\Phiremock\Server\Http\ServerInterface;
+use Mcustiel\Phiremock\Common\StringStream;
 use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
 use Mcustiel\Phiremock\Server\Http\ServerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use React\EventLoop\Factory as EventLoop;
-use React\Socket\Server as ReactSocket;
-use React\Http\Server as ReactServer;
 use React\Http\Response as ReactResponse;
 use React\Http\Server as ReactServer;
+use React\Promise\Promise;
 use React\Socket\Server as ReactSocket;
 use Zend\Diactoros\Response as PsrResponse;
-use Psr\Log\LoggerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use React\Promise\Promise;
-use Mcustiel\Phiremock\Common\StringStream;
 
 class ReactPhpServer implements ServerInterface
 {
     /**
-     *
      * @var \Mcustiel\Phiremock\Server\Http\RequestHandlerInterface
      */
     private $requestHandler;
 
     /**
-     *
      * @var \React\EventLoop\LoopInterface
      */
     private $loop;
 
     /**
-     *
      * @var \React\Socket\Server
      */
     private $socket;
 
     /**
-     *
      * @var \React\Http\Server
      */
     private $http;
 
     /**
-     *
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
@@ -67,8 +58,7 @@ class ReactPhpServer implements ServerInterface
     }
 
     /**
-     *
-     * @param int $port
+     * @param int    $port
      * @param string $host
      */
     public function listen($port, $host)
@@ -79,8 +69,8 @@ class ReactPhpServer implements ServerInterface
             }
         );
 
-        $this->logger->info("Phiremock http server listening on $host:$port");
-        $this->socket = new ReactSocket("$host:$port", $this->loop);
+        $this->logger->info("Phiremock http server listening on {$host}:{$port}");
+        $this->socket = new ReactSocket("{$host}:{$port}", $this->loop);
         $this->http->listen($this->socket);
 
         // Dispatch pending signals periodically
@@ -102,31 +92,30 @@ class ReactPhpServer implements ServerInterface
         $start = microtime(true);
         $psrResponse = $this->requestHandler->execute($request, new PsrResponse());
         $this->logger->debug('Processing took ' . number_format((microtime(true) - $start) * 1000, 3) . ' milliseconds');
+
         return $psrResponse;
     }
 
     private function createRequestManager(ServerRequestInterface $request)
     {
         return new Promise(function ($resolve, $reject) use ($request) {
-            $body = '';
-            $request->getBody()->on('data', function ($data) use (&$body, $request) {
-                echo 'on data ======> ' . $data;
-                $body .= $data;
+            $bodyStream = '';
+
+            $request->getBody()->on('data', function ($data) use (&$bodyStream, $request) {
+                $bodyStream .= $data;
             });
-            $request->getBody()->on('end', function () use ($resolve, $request, &$body) {
-                echo 'on end ======> ' . $body;
+            $request->getBody()->on('end', function () use ($resolve, $request, &$bodyStream) {
                 /** @var ServerRequestInterface $request */
-                $response = $this->onRequest($request->withBody(new StringStream($body)));
+                $response = $this->onRequest($request->withBody(new StringStream($bodyStream)));
                 $resolve($response);
             });
             // an error occures e.g. on invalid chunked encoded data or an unexpected 'end' event
             $request->getBody()->on('error', function (\Exception $exception) use ($resolve) {
-                echo 'on error ';
                 $response = new ReactResponse(
                     400,
-                    array('Content-Type' => 'text/plain'),
-                    "An error occured while reading: "
-                    );
+                    ['Content-Type' => 'text/plain'],
+                    'An error occured while reading: '
+                );
                 $resolve($response);
             });
         });
