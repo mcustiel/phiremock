@@ -67,7 +67,7 @@ class BodyConditionCest
 
     public function failWhenInvalidMatcherSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('see if request fails when an invalida matcher is specified');
+        $I->wantTo('see if request fails when an invalid matcher is specified');
         $request = new Request();
         $request->setBody(new Condition('potato', '/some pattern/'));
         $response = new Response();

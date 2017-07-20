@@ -178,7 +178,7 @@ class MethodConditionCest
 
     public function createAnExpectationUsingMethodPatch(AcceptanceTester $I)
     {
-        $I->wantTo('create a specification with method post');
+        $I->wantTo('create a specification with method patch');
         $request = new Request();
         $request->setMethod('patch');
         $response = new Response();
