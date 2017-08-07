@@ -2,17 +2,17 @@
 
 namespace Mcustiel\Phiremock\Server\Http\Implementation;
 
+use Mcustiel\Phiremock\Common\StringStream;
 use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
 use Mcustiel\Phiremock\Server\Http\ServerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use React\EventLoop\Factory as EventLoop;
-use React\Http\Request as ReactRequest;
 use React\Http\Response as ReactResponse;
 use React\Http\Server as ReactServer;
+use React\Promise\Promise;
 use React\Socket\Server as ReactSocket;
 use Zend\Diactoros\Response as PsrResponse;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Stream;
 
 class ReactPhpServer implements ServerInterface
 {
@@ -20,18 +20,22 @@ class ReactPhpServer implements ServerInterface
      * @var \Mcustiel\Phiremock\Server\Http\RequestHandlerInterface
      */
     private $requestHandler;
+
     /**
      * @var \React\EventLoop\LoopInterface
      */
     private $loop;
+
     /**
      * @var \React\Socket\Server
      */
     private $socket;
+
     /**
      * @var \React\Http\Server
      */
     private $http;
+
     /**
      * @var \Psr\Log\LoggerInterface
      */
@@ -40,8 +44,6 @@ class ReactPhpServer implements ServerInterface
     public function __construct(LoggerInterface $logger)
     {
         $this->loop = EventLoop::create();
-        $this->socket = new ReactSocket($this->loop);
-        $this->http = new ReactServer($this->socket);
         $this->logger = $logger;
     }
 
@@ -61,15 +63,15 @@ class ReactPhpServer implements ServerInterface
      */
     public function listen($port, $host)
     {
-        $this->http->on(
-            'request',
-            function (ReactRequest $request, ReactResponse $response) {
-                return $this->onRequest($request, $response);
+        $this->http = new ReactServer(
+            function (ServerRequestInterface $request) {
+                return $this->createRequestManager($request);
             }
         );
-        $this->logger->info("Phiremock http server listening on $host:$port");
 
-        $this->socket->listen($port, $host);
+        $this->logger->info("Phiremock http server listening on {$host}:{$port}");
+        $this->socket = new ReactSocket("{$host}:{$port}", $this->loop);
+        $this->http->listen($this->socket);
 
         // Dispatch pending signals periodically
         if (function_exists('pcntl_signal_dispatch')) {
@@ -85,48 +87,37 @@ class ReactPhpServer implements ServerInterface
         $this->loop->stop();
     }
 
-    private function getUriFromRequest(ReactRequest $request)
-    {
-        $query = $request->getQuery();
-
-        return 'http://localhost/'
-            . $request->getPath()
-            . (empty($query) ? '' : ('?' . http_build_query($query)));
-    }
-
-    private function convertFromReactToPsrRequest(ReactRequest $request, $requestData)
-    {
-        $bodyStream = new Stream('php://temp', 'rw');
-        $bodyStream->write($requestData);
-
-        return new ServerRequest(
-            [
-                'REMOTE_ADDR'  => $request->remoteAddress,
-                'HTTP_VERSION' => $request->getHttpVersion(),
-            ],
-            [],
-            $this->getUriFromRequest($request),
-            $request->getMethod(),
-            $bodyStream,
-            $request->getHeaders()
-        );
-    }
-
-    private function onRequest(ReactRequest $request, ReactResponse $response)
+    private function onRequest(ServerRequestInterface $request)
     {
         $start = microtime(true);
+        $psrResponse = $this->requestHandler->execute($request, new PsrResponse());
+        $this->logger->debug('Processing took ' . number_format((microtime(true) - $start) * 1000, 3) . ' milliseconds');
 
-        $request->on('data', function ($data) use ($request, $response, $start) {
-            $psrResponse = $this->requestHandler->execute(
-                $this->convertFromReactToPsrRequest($request, $data),
-                new PsrResponse()
-            );
+        return $psrResponse;
+    }
 
-            $this->logger->debug(
-                'Processing took ' . number_format((microtime(true) - $start) * 1000, 3) . ' milliseconds'
-            );
-            $response->writeHead($psrResponse->getStatusCode(), $psrResponse->getHeaders());
-            $response->end($psrResponse->getBody()->__toString());
+    private function createRequestManager(ServerRequestInterface $request)
+    {
+        return new Promise(function ($resolve, $reject) use ($request) {
+            $bodyStream = '';
+
+            $request->getBody()->on('data', function ($data) use (&$bodyStream, $request) {
+                $bodyStream .= $data;
+            });
+            $request->getBody()->on('end', function () use ($resolve, $request, &$bodyStream) {
+                /** @var ServerRequestInterface $request */
+                $response = $this->onRequest($request->withBody(new StringStream($bodyStream)));
+                $resolve($response);
+            });
+            // an error occures e.g. on invalid chunked encoded data or an unexpected 'end' event
+            $request->getBody()->on('error', function (\Exception $exception) use ($resolve) {
+                $response = new ReactResponse(
+                    400,
+                    ['Content-Type' => 'text/plain'],
+                    'An error occured while reading: '
+                );
+                $resolve($response);
+            });
         });
     }
 }

@@ -62,9 +62,11 @@ abstract class AbstractRequestAction
             return $this->createExpectationFromRequestAndProcess($transactionData, $process);
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
+
             return $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse());
         } catch (\Exception $e) {
             $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
+
             return $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse());
         }
     }
@@ -85,5 +87,4 @@ abstract class AbstractRequestAction
 
         return $process($transactionData, $expectation);
     }
-
 }

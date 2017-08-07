@@ -18,7 +18,7 @@ class StatusCodeSpecificationCest
 
     public function createExpectationWithStatusCodeTest(AcceptanceTester $I)
     {
-        $I->wantTo('create a specificationwith a valid status code');
+        $I->wantTo('create a specification with a valid status code');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
@@ -41,7 +41,7 @@ class StatusCodeSpecificationCest
 
     public function createExpectationWithDefaultStatusCodeTest(AcceptanceTester $I)
     {
-        $I->wantTo('create a specificationwith a default status code');
+        $I->wantTo('create a specification with a default status code');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();

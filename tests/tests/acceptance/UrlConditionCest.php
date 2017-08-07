@@ -65,7 +65,7 @@ class UrlConditionCest
 
     public function failWhenInvalidMatcherSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation that checks url using matches');
+        $I->wantTo(' check if it fails when an invalid matcher is specified');
         $request = new Request();
         $request->setUrl(new Condition('potato', '/some pattern/'));
         $response = new Response();
@@ -82,7 +82,7 @@ class UrlConditionCest
 
     public function failWhenInvalidValueSpecifiedTest(AcceptanceTester $I)
     {
-        $I->wantTo('create an expectation that checks url using matches');
+        $I->wantTo('check if it fails when an invalid value is specified');
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', null));
         $response = new Response();
