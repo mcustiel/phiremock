@@ -105,16 +105,14 @@ class ReactPhpServer implements ServerInterface
                 $bodyStream .= $data;
             });
             $request->getBody()->on('end', function () use ($resolve, $request, &$bodyStream) {
-                /** @var ServerRequestInterface $request */
                 $response = $this->onRequest($request->withBody(new StringStream($bodyStream)));
                 $resolve($response);
             });
-            // an error occures e.g. on invalid chunked encoded data or an unexpected 'end' event
             $request->getBody()->on('error', function (\Exception $exception) use ($resolve) {
                 $response = new ReactResponse(
                     400,
                     ['Content-Type' => 'text/plain'],
-                    'An error occured while reading: '
+                    'An error occured while reading: ' . $exception->getMessage()
                 );
                 $resolve($response);
             });
