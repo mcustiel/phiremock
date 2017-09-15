@@ -18,6 +18,7 @@ class Response implements \JsonSerializable
      */
     private $statusCode = 200;
     /**
+     * @SRF\CustomFilter(class="\Mcustiel\Phiremock\Server\Http\ResponseFilters\JsonToString")
      * @SRV\OneOf({
      *      @SRV\Type("string"),
      *      @SRV\Not(@SRV\NotNull)
