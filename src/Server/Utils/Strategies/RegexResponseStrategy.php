@@ -46,12 +46,11 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     private function fillWithBodyMatches($expectation, $httpRequest, $responseBody)
     {
         if ($this->bodyConditionIsRegex($expectation)) {
-            $responseBody = preg_replace('/\$\{body\.(\d+)\}/', '\$$1', $responseBody);
-
-            return preg_replace(
+            return $this->replaceMatches(
+                'body',
                 $expectation->getRequest()->getBody()->getValue(),
-                $responseBody,
-                $httpRequest->getBody()->__toString()
+                $httpRequest->getBody()->__toString(),
+                $responseBody
             );
         }
 
@@ -67,12 +66,17 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     private function fillWithUrlMatches($expectation, $httpRequest, $responseBody)
     {
         if ($this->urlConditionIsRegex($expectation)) {
-            $responseBody = preg_replace('/\$\{url\.(\d+)\}/', '\$$1', $responseBody);
+            $pattern = preg_replace(
+                '/^(.)\^/',
+                '$1',
+                $expectation->getRequest()->getUrl()->getValue()
+            );
 
-            return preg_replace(
-                $expectation->getRequest()->getUrl()->getValue(),
-                $responseBody,
-                $httpRequest->getUri()->__toString()
+            return $this->replaceMatches(
+                'url',
+                $pattern,
+                $httpRequest->getUri()->__toString(),
+                $responseBody
             );
         }
 
@@ -82,5 +86,28 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     private function urlConditionIsRegex($expectation)
     {
         return $expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() === Matchers::MATCHES;
+    }
+
+    private function replaceMatches($type, $pattern, $subject, $responseBody)
+    {
+        $matches = [];
+        $replace = [];
+
+        preg_match(
+            $pattern,
+            $subject,
+            $matches
+        );
+
+        if (isset($matches[1])) {
+            unset($matches[0]);
+            foreach ($matches as $i => $match) {
+                $replace["\${{$type}.{$i}}"] = $match;
+            }
+
+            return strtr($responseBody, $replace);
+        }
+
+        return $responseBody;
     }
 }

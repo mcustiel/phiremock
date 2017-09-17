@@ -27,7 +27,7 @@ class ReplacementCest
 
         $I->sendGET('/potato', ['param1' => 123, 'test' => 456]);
         $I->seeResponseCodeIs('200');
-        $I->seeResponseContains('the number is 456');
+        $I->seeResponseEquals('the number is 456');
     }
 
     public function createAnExpectationWithRegexReplacementFromBody(AcceptanceTester $I)
@@ -43,7 +43,7 @@ class ReplacementCest
 
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
         $I->seeResponseCodeIs('200');
-        $I->seeResponseContains('the number is 3');
+        $I->seeResponseEquals('the number is 3');
     }
 
     public function createAnExpectationWithRegexReplacementFromBodyAndUrl(AcceptanceTester $I)
@@ -59,6 +59,38 @@ class ReplacementCest
 
         $I->sendPOST('/potato?param1=123&test=456', 'this is a tomato 3kg it weights');
         $I->seeResponseCodeIs('200');
-        $I->seeResponseContains('the numbers are 456 and 3');
+        $I->seeResponseEquals('the numbers are 456 and 3');
+    }
+
+    public function createAnExpectationWithStrictRegexReplacementFromBodyAndUrl(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::matching('~^/potato/(\d+)$~'))
+            ->andBody(Is::matching('/^this is a tomato (\d+)kg it weights$/'))
+        )->then(
+            Respond::withStatusCode(200)
+            ->andBody('the numbers are ${url.1} and ${body.1}')
+        );
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendPOST('/potato/456', 'this is a tomato 3kg it weights');
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseEquals('the numbers are 456 and 3');
+    }
+
+    public function createAnExpectationWithoutRegexReplacement(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::matching('/potato/'))
+            ->andBody(Is::matching('/a tomato 3kg/'))
+        )->then(
+            Respond::withStatusCode(200)
+            ->andBody('the numbers are ${url.1} and ${body.1}')
+        );
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseEquals('the numbers are ${url.1} and ${body.1}');
     }
 }
