@@ -18,7 +18,7 @@ class BodyJsonCest
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
-        $response->setBody(array('foo' => 'bar'));
+        $response->setBody(['foo' => 'bar']);
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -42,7 +42,7 @@ class BodyJsonCest
         $request = new Request();
         $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
         $response = new Response();
-        $response->setBody((object) array('foo' => 'bar'));
+        $response->setBody((object) ['foo' => 'bar']);
         $expectation = new Expectation();
         $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');

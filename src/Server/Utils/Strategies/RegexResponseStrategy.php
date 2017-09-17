@@ -43,7 +43,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $httpResponse;
     }
 
-    private function fillWithBodyMatches($expectation, $httpRequest, $responseBody)
+    private function fillWithBodyMatches(Expectation $expectation, ServerRequestInterface $httpRequest, $responseBody)
     {
         if ($this->bodyConditionIsRegex($expectation)) {
             return $this->replaceMatches(
@@ -57,30 +57,36 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $responseBody;
     }
 
-    private function bodyConditionIsRegex($expectation)
+    private function bodyConditionIsRegex(Expectation $expectation)
     {
         return $expectation->getRequest()->getBody()
             && $expectation->getRequest()->getBody()->getMatcher() === Matchers::MATCHES;
     }
 
-    private function fillWithUrlMatches($expectation, $httpRequest, $responseBody)
+    private function fillWithUrlMatches(Expectation $expectation, ServerRequestInterface $httpRequest, $responseBody)
     {
         if ($this->urlConditionIsRegex($expectation)) {
-            $pattern = preg_replace(
-                '/^(.)\^/',
-                '$1',
-                $expectation->getRequest()->getUrl()->getValue()
-            );
-
             return $this->replaceMatches(
                 'url',
-                $pattern,
-                $httpRequest->getUri()->__toString(),
+                $expectation->getRequest()->getUrl()->getValue(),
+                $this->getUri($httpRequest),
                 $responseBody
             );
         }
 
         return $responseBody;
+    }
+
+    private function getUri(ServerRequestInterface $httpRequest)
+    {
+        $path = ltrim($httpRequest->getUri()->getPath(), '/');
+        $query = $httpRequest->getUri()->getQuery();
+        $return = '/' . $path;
+        if ($query) {
+            $return .= '?' . $httpRequest->getUri()->getQuery();
+        }
+
+        return $return;
     }
 
     private function urlConditionIsRegex($expectation)

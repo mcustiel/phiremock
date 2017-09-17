@@ -7,7 +7,7 @@ use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 class JsonToString implements FilterInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\SimpleRequest\Interfaces\Specificable::setSpecification()
      */
@@ -16,7 +16,7 @@ class JsonToString implements FilterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @see \Mcustiel\SimpleRequest\Interfaces\FilterInterface::filter()
      */
@@ -25,4 +25,3 @@ class JsonToString implements FilterInterface
         return is_array($value) || is_object($value) ? json_encode($value) : $value;
     }
 }
-
