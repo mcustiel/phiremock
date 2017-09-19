@@ -2,6 +2,7 @@
 
 namespace Mcustiel\Phiremock\Client;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
@@ -48,6 +49,8 @@ class Phiremock
         $this->host = $host;
         $this->port = $port;
         $this->connection = $remoteConnection;
+
+        $this->registerAnnotationsLoader();
     }
 
     /**
@@ -208,5 +211,16 @@ class Phiremock
         }
 
         return $this->simpleRequestBuilder;
+    }
+
+    private function registerAnnotationsLoader()
+    {
+        if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+            $loader = require __DIR__ . '/../../vendor/autoload.php';
+        } else {
+            $loader = require __DIR__ . '/../../../../autoload.php';
+        }
+
+        AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
     }
 }
