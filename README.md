@@ -38,6 +38,13 @@ This project is published in packagist, so you just need to add it as a dependen
 
 You can also download the standalone phar application from [here](https://github.com/mcustiel/phiremock/releases/download/v1.4.0/phiremock.phar).
 
+## Configuration
+Phiremock uses annotations internally. To be able to run the Phiremock client library, the annotations autoloader must be activated. To do this, you must add the next lines in the bootstrap file where you include your composer autoloader:
+```php
+$loader = require APP_ROOT . '/vendor/autoload.php';
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+```
+
 ## How does it work?
 
 Phiremock will allow you to create a stubbed version of some external service your application needs to communicate to. That can be used to avoid calling the real application during development or to setup responses to expected requests
