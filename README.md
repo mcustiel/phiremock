@@ -198,7 +198,7 @@ Host: your.phiremock.host
 
 ```
 
-### Verify requests
+### Verify amount of requests
 To know how much times a request was sent to Phiremock, for instance to verify after a feature execution in a test, there is a helper method too:
 
 ```php
@@ -213,6 +213,35 @@ To know how much times a request was sent to Phiremock, for instance to verify a
 #### API call:
 ```
 POST /__phiremock/executions HTTP/1.1
+Host: your.phiremock.host
+Content-Type: application/json
+
+{
+    "request": {
+        "method": "GET",
+        "url": {
+            "isEqualTo" : "/example_service/some/resource"
+        }
+    },
+    "response": {}
+}
+```
+
+### Search executed requests
+To search for the list of requests to which phiremock responded:
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    $actualExecutions = $phiremock->listExecutions(
+        A::getRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+    );
+    $this->assertEquals($expectedExecutionsList, $actualExecutionsList);
+```
+#### API call:
+```
+PUT /__phiremock/executions HTTP/1.1
 Host: your.phiremock.host
 Content-Type: application/json
 
@@ -397,7 +426,12 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
 
 ### Contributing:
 
-Fork the project and pull request, as easy as that. The code standard used is based in PSR, just run php-cs-fixer with this configuration: 
-```
---level=psr2 --fixers=-psr0,no_empty_lines_after_phpdocs,no_blank_lines_after_class_opening,operators_spaces,phpdoc_params,phpdoc_scalar,unused_use,align_double_arrow,multiline_array_trailing_comma,list_commas,phpdoc_separation,single_quote
-```
+Just submit a pull request. Don't forget to run tests and php-cs-fixer first.
+
+### Thanks to
+
+* Denis Rudoi ([@drudoi](https://github.com/drudoi))
+* Henrik Schmidt ([@mrIncompetent](https://github.com/mrIncompetent))
+* Nils Gajsek ([@linslin](https://github.com/linslin))
+
+And [everyone](https://github.com/mcustiel/phiremock/graphs/contributors) who submitted their Pull Requests.

@@ -64,11 +64,11 @@ class ListRequestsAction extends AbstractRequestAction implements ActionInterfac
         foreach ($this->requestsStorage->listRequests() as $request) {
             if ($this->comparator->equals($request, $expectation)) {
                 $executions[] = [
-                    'method' => $request->getMethod(),
-                    'url' => (string) $request->getUri(),
+                    'method'  => $request->getMethod(),
+                    'url'     => (string) $request->getUri(),
                     'headers' => $request->getHeaders(),
                     'cookies' => $request->getCookieParams(),
-                    'body' => (string) $request->getBody(),
+                    'body'    => (string) $request->getBody(),
                 ];
             }
         }
