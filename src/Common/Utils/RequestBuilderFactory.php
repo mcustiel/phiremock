@@ -15,9 +15,9 @@ class RequestBuilderFactory
     {
         return new SimpleRequestBuilder(
             new Psr6CacheAdapter(
-                'phiremock',
+                'requests',
                 3600,
-                sys_get_temp_dir() . '/phiremock/cache/requests/'
+                sys_get_temp_dir() . '/phiremock/cache/'
             ),
             new ParserGenerator(
                 new DoctrineAnnotationService(),
