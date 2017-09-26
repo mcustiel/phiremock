@@ -163,6 +163,28 @@ return [
                     ['countRequests' => null],
                 ],
                 'else' => [
+                    ['goto' => 'verifyMethodIsPut'],
+                ],
+            ],
+        ],
+        'verifyMethodIsPut' => [
+            'condition' => [
+                'all-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher'      => ['isEqualTo' => 'PUT'],
+                    ],
+                    [
+                        'input-source' => ['header' => 'Content-Type'],
+                        'matcher'      => ['isEqualTo' => 'application/json'],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['listRequests' => null],
+                ],
+                'else' => [
                     ['goto' => 'verifyMethodIsDelete'],
                 ],
             ],
