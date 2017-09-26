@@ -158,6 +158,36 @@ class ClientCest
         $I->assertEquals(2, $count);
     }
 
+    public function listExecutionsTest(AcceptanceTester $I)
+    {
+        $I->sendDELETE('/__phiremock/executions');
+        $expectation = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(Is::matching('~^/(potato|tomato)~'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Tomato!');
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendGET('/potato');
+        $I->seeResponseCodeIs(201);
+        $I->seeResponseEquals('Tomato!');
+
+        $I->sendGET('/potato');
+        $I->sendGET('/tomato');
+
+        $executions = $this->phiremock->listExecutions(
+            A::getRequest()->andUrl(Is::equalTo('/potato'))
+        );
+        $I->assertEquals(2, count($executions));
+        foreach ($executions as $item) {
+            $I->assertEquals('GET', $item->method);
+            $I->assertContains('potato', $item->url);
+        }
+    }
+
     public function countExecutionsWhenNoExpectationIsSet(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/executions');

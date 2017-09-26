@@ -9,6 +9,7 @@ use Mcustiel\Phiremock\Server\Actions\AddExpectationAction;
 use Mcustiel\Phiremock\Server\Actions\ClearExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ClearScenariosAction;
 use Mcustiel\Phiremock\Server\Actions\CountRequestsAction;
+use Mcustiel\Phiremock\Server\Actions\ListRequestsAction;
 use Mcustiel\Phiremock\Server\Actions\ListExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ResetRequestsCountAction;
 use Mcustiel\Phiremock\Server\Actions\SearchRequestAction;
@@ -203,6 +204,15 @@ $di->register('actionFactory', function () use ($di) {
         ),
         'countRequests' => new SingletonLazyCreator(
             CountRequestsAction::class,
+            [
+                $di->get('requestBuilder'),
+                $di->get('requestStorage'),
+                $di->get('requestExpectationComparator'),
+                $di->get('logger'),
+            ]
+        ),
+        'listRequests' => new SingletonLazyCreator(
+            ListRequestsAction::class,
             [
                 $di->get('requestBuilder'),
                 $di->get('requestStorage'),

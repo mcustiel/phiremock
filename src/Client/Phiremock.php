@@ -131,6 +131,34 @@ class Phiremock
     }
 
     /**
+     * List requests was executed in phiremock.
+     *
+     * @param \Mcustiel\Phiremock\Client\Utils\RequestBuilder $requestBuilder
+     *
+     * @return array
+     */
+    public function listExecutions(RequestBuilder $requestBuilder)
+    {
+        $expectation = $requestBuilder->build();
+        $expectation->setResponse(new Response());
+        $uri = $this->createBaseUri()->withPath(self::API_EXECUTIONS_URL);
+
+        $request = (new PsrRequest())
+            ->withUri($uri)
+            ->withMethod('put')
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(new StringStream(json_encode($expectation)));
+
+        $response = $this->connection->send($request);
+
+        if ($response->getStatusCode() === 200) {
+            return json_decode($response->getBody()->__toString());
+        }
+
+        $this->checkErrorResponse($response);
+    }
+
+    /**
      * Resets all the scenarios to start state.
      */
     public function resetScenarios()
