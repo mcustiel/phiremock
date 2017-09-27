@@ -36,6 +36,12 @@ class Phiremock
      * @var int
      */
     private $port;
+    /**
+     * @var array
+     */
+    private $clientConfig = [
+        'http_errors' => false,
+    ];
 
     public function __construct(
         $host = 'localhost',
@@ -43,7 +49,9 @@ class Phiremock
         RemoteConnectionInterface $remoteConnection = null
     ) {
         if (!$remoteConnection) {
-            $remoteConnection = new GuzzleConnection();
+            $remoteConnection = new GuzzleConnection(
+                new \GuzzleHttp\Client($this->clientConfig)
+            );
         }
         $this->host = $host;
         $this->port = $port;
@@ -159,6 +167,29 @@ class Phiremock
     }
 
     /**
+     * Sets scenario state.
+     *
+     * @param string $scenarioName
+     * @param string $scenarioState
+     */
+    public function setScenarioState($scenarioName, $scenarioState) {
+        $uri = $this->createBaseUri()->withPath(self::API_SCENARIOS_URL);
+        $request = (new PsrRequest())
+            ->withUri($uri)
+            ->withMethod('put')
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody(new StringStream(json_encode([
+                'scenarioName' => $scenarioName,
+                'scenarioState' => $scenarioState,
+            ])));
+
+        $response = $this->connection->send($request);
+        if ($response->getStatusCode() !== 200) {
+            $this->checkErrorResponse($response);
+        }
+    }
+
+    /**
      * Resets all the scenarios to start state.
      */
     public function resetScenarios()
@@ -220,8 +251,8 @@ class Phiremock
     private function checkErrorResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() >= 500) {
-            $error = json_decode($response->getBody()->__toString())->details;
-            throw new \RuntimeException('An error occurred creating the expectation: ' . $error);
+            $errors = (array) json_decode($response->getBody()->__toString())->details;
+            throw new \RuntimeException('An error occurred creating the expectation: ' . implode(', ', $errors));
         }
 
         if ($response->getStatusCode() >= 400) {

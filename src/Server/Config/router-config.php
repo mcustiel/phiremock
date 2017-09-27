@@ -97,10 +97,28 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    ['goto' => 'scenariosMethodIsDelete'],
+                    ['goto' => 'scenariosMethodIsPut'],
                 ],
                 'else' => [
                     ['goto' => 'verifyUrl'],
+                ],
+            ],
+        ],
+        'scenariosMethodIsPut' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher'      => ['isEqualTo' => 'PUT'],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['setScenarioState' => null],
+                ],
+                'else' => [
+                    ['goto' => 'scenariosMethodIsDelete'],
                 ],
             ],
         ],
