@@ -67,6 +67,17 @@ class Phiremock
     }
 
     /**
+     * Restores pre-defined expectations and resets scenarios and requests counter.
+     */
+    public function restoreExpectations()
+    {
+        $uri = $this->createBaseUri()->withPath(self::API_EXPECTATIONS_URL);
+        $request = (new PsrRequest())->withUri($uri)->withMethod('put');
+
+        $this->checkResponse($this->connection->send($request));
+    }
+
+    /**
      * Clears all the currently configured expectations.
      */
     public function clearExpectations()

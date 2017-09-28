@@ -60,6 +60,24 @@ return [
                     ['listExpectations' => null],
                 ],
                 'else' => [
+                    ['goto' => 'expectationMethodIsPut'],
+                ],
+            ],
+        ],
+        'expectationMethodIsPut' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher'      => ['isEqualTo' => 'PUT'],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['restoreExpectations' => null],
+                ],
+                'else' => [
                     ['goto' => 'expectationMethodIsDelete'],
                 ],
             ],

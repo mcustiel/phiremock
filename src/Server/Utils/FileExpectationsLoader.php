@@ -21,6 +21,10 @@ class FileExpectationsLoader
      */
     private $storage;
     /**
+     * @var \Mcustiel\Phiremock\Server\Model\ExpectationStorage
+     */
+    private $backup;
+    /**
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
@@ -28,10 +32,12 @@ class FileExpectationsLoader
     public function __construct(
         RequestBuilder $requestBuilder,
         ExpectationStorage $storage,
+        ExpectationStorage $backup,
         LoggerInterface $logger
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->storage = $storage;
+        $this->backup = $backup;
         $this->logger = $logger;
     }
 
@@ -52,6 +58,10 @@ class FileExpectationsLoader
 
         $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
         $this->storage->addExpectation($expectation);
+        // As we have no API to modify expectation parsed the same object could be used for backup.
+        // On futher changes when $expectation modifications are possible something like deep-copy
+        // should be used to clone expectation.
+        $this->backup->addExpectation($expectation);
     }
 
     public function loadExpectationsFromDirectory($directory)
