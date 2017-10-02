@@ -34,6 +34,13 @@ abstract class AbstractRequestAction
         $this->logger = $logger;
     }
 
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
+     * @throws \Exception
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation|\Mcustiel\Phiremock\Domain\ScenarioState
+     */
     protected function parseJsonBody(ServerRequestInterface $request)
     {
         $bodyJson = @json_decode($request->getBody()->__toString(), true);
@@ -44,6 +51,12 @@ abstract class AbstractRequestAction
         return $bodyJson;
     }
 
+    /**
+     * @param array                               $listOfErrors
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     protected function constructErrorResponse(array $listOfErrors, ResponseInterface $response)
     {
         return $response->withStatus(500)
@@ -56,6 +69,12 @@ abstract class AbstractRequestAction
             );
     }
 
+    /**
+     * @param TransactionData $transactionData
+     * @param callable        $process
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     protected function processAndGetResponse(TransactionData $transactionData, callable $process)
     {
         try {
@@ -71,15 +90,6 @@ abstract class AbstractRequestAction
         }
     }
 
-    private function createObjectFromRequestAndProcess(
-        TransactionData $transactionData,
-        callable $process
-    ) {
-        $object = $this->parseRequestObject($transactionData->getRequest());
-
-        return $process($transactionData, $object);
-    }
-
     /**
      * @return \Mcustiel\Phiremock\Domain\Expectation
      */
@@ -93,5 +103,20 @@ abstract class AbstractRequestAction
         $this->logger->debug('Parsed expectation: ' . var_export($object, true));
 
         return $object;
+    }
+
+    /**
+     * @param TransactionData $transactionData
+     * @param callable        $process
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    private function createObjectFromRequestAndProcess(
+        TransactionData $transactionData,
+        callable $process
+    ) {
+        $object = $this->parseRequestObject($transactionData->getRequest());
+
+        return $process($transactionData, $object);
     }
 }

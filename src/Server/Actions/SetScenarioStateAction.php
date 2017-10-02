@@ -14,8 +14,16 @@ use Psr\Log\LoggerInterface;
 
 class SetScenarioStateAction extends AbstractRequestAction implements ActionInterface
 {
+    /**
+     * @var \Mcustiel\Phiremock\Server\Model\ScenarioStorage
+     */
     private $storage;
 
+    /**
+     * @param \Mcustiel\SimpleRequest\RequestBuilder           $requestBuilder
+     * @param \Mcustiel\Phiremock\Server\Model\ScenarioStorage $storage
+     * @param \Psr\Log\LoggerInterface                         $logger
+     */
     public function __construct(
         RequestBuilder $requestBuilder,
         ScenarioStorage $storage,

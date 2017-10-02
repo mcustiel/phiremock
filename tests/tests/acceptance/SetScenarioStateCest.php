@@ -4,6 +4,7 @@ use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
 use Mcustiel\Phiremock\Client\Utils\Respond;
+use Mcustiel\Phiremock\Domain\ScenarioState;
 
 class SetScenarioStateCest
 {
@@ -44,12 +45,15 @@ class SetScenarioStateCest
         );
         $this->phiremock->createExpectation($expectation);
 
-        $this->phiremock->setScenarioState('test-scenario', 'Scenario.POTATO');
+        $scenarioState = new ScenarioState('test-scenario', 'Scenario.POTATO');
+        $this->phiremock->setScenarioState($scenarioState);
         $I->sendGET('/test');
         $I->seeResponseCodeIs('200');
         $I->seeResponseEquals('potato');
 
-        $this->phiremock->setScenarioState('test-scenario', 'Scenario.START');
+        $scenarioState = new ScenarioState('test-scenario', 'Scenario.START');
+
+        $this->phiremock->setScenarioState($scenarioState);
         $I->sendGET('/test');
         $I->seeResponseCodeIs('200');
         $I->seeResponseEquals('start');
@@ -57,8 +61,10 @@ class SetScenarioStateCest
 
     public function checkScenarioStateValidation(AcceptanceTester $I)
     {
+        $scenarioState = new ScenarioState();
+
         try {
-            $this->phiremock->setScenarioState('', '');
+            $this->phiremock->setScenarioState($scenarioState);
         } catch (\RuntimeException $e) {
             // Do nothing.
         }

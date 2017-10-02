@@ -10,6 +10,7 @@ use Mcustiel\Phiremock\Common\StringStream;
 use Mcustiel\Phiremock\Common\Utils\RequestBuilderFactory;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\Phiremock\Domain\ScenarioState;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Request as PsrRequest;
 use Zend\Diactoros\Uri;
@@ -19,6 +20,9 @@ class Phiremock
     const API_EXPECTATIONS_URL = '/__phiremock/expectations';
     const API_EXECUTIONS_URL = '/__phiremock/executions';
     const API_SCENARIOS_URL = '/__phiremock/scenarios';
+    const CLIENT_CONFIG = [
+        'http_errors' => false,
+    ];
 
     /**
      * @var \Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface
@@ -36,12 +40,6 @@ class Phiremock
      * @var int
      */
     private $port;
-    /**
-     * @var array
-     */
-    private $clientConfig = [
-        'http_errors' => false,
-    ];
 
     public function __construct(
         $host = 'localhost',
@@ -50,7 +48,7 @@ class Phiremock
     ) {
         if (!$remoteConnection) {
             $remoteConnection = new GuzzleConnection(
-                new \GuzzleHttp\Client($this->clientConfig)
+                new \GuzzleHttp\Client(self::CLIENT_CONFIG)
             );
         }
         $this->host = $host;
@@ -169,19 +167,16 @@ class Phiremock
     /**
      * Sets scenario state.
      *
-     * @param string $scenarioName
-     * @param string $scenarioState
+     * @param \Mcustiel\Phiremock\Domain\ScenarioState $scenarioState
      */
-    public function setScenarioState($scenarioName, $scenarioState) {
+    public function setScenarioState(ScenarioState $scenarioState)
+    {
         $uri = $this->createBaseUri()->withPath(self::API_SCENARIOS_URL);
         $request = (new PsrRequest())
             ->withUri($uri)
             ->withMethod('put')
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(new StringStream(json_encode([
-                'scenarioName' => $scenarioName,
-                'scenarioState' => $scenarioState,
-            ])));
+            ->withBody(new StringStream(json_encode($scenarioState)));
 
         $response = $this->connection->send($request);
         if ($response->getStatusCode() !== 200) {
