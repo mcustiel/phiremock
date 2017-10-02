@@ -13,6 +13,7 @@ use Mcustiel\Phiremock\Server\Actions\ListExpectationsAction;
 use Mcustiel\Phiremock\Server\Actions\ListRequestsAction;
 use Mcustiel\Phiremock\Server\Actions\ResetRequestsCountAction;
 use Mcustiel\Phiremock\Server\Actions\SearchRequestAction;
+use Mcustiel\Phiremock\Server\Actions\SetScenarioStateAction;
 use Mcustiel\Phiremock\Server\Actions\StoreRequestAction;
 use Mcustiel\Phiremock\Server\Actions\VerifyRequestFound;
 use Mcustiel\Phiremock\Server\Config\Matchers;
@@ -181,7 +182,17 @@ $di->register('actionFactory', function () use ($di) {
             ClearExpectationsAction::class,
             [$di->get('expectationStorage')]
         ),
-        'serverError'    => new SingletonLazyCreator(ServerError::class),
+        'serverError' => new SingletonLazyCreator(
+            ServerError::class
+        ),
+        'setScenarioState' => new SingletonLazyCreator(
+            SetScenarioStateAction::class,
+            [
+                $di->get('requestBuilder'),
+                $di->get('scenarioStorage'),
+                $di->get('logger'),
+            ]
+        ),
         'clearScenarios' => new SingletonLazyCreator(
             ClearScenariosAction::class,
             [$di->get('scenarioStorage')]

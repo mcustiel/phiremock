@@ -59,7 +59,7 @@ abstract class AbstractRequestAction
     protected function processAndGetResponse(TransactionData $transactionData, callable $process)
     {
         try {
-            return $this->createExpectationFromRequestAndProcess($transactionData, $process);
+            return $this->createObjectFromRequestAndProcess($transactionData, $process);
         } catch (InvalidRequestException $e) {
             $this->logger->warning('Invalid request received');
 
@@ -71,20 +71,27 @@ abstract class AbstractRequestAction
         }
     }
 
-    private function createExpectationFromRequestAndProcess(
+    private function createObjectFromRequestAndProcess(
         TransactionData $transactionData,
         callable $process
     ) {
-        /**
-         * @var \Mcustiel\Phiremock\Domain\Expectation
-         */
-        $expectation = $this->requestBuilder->parseRequest(
-            $this->parseJsonBody($transactionData->getRequest()),
+        $object = $this->parseRequestObject($transactionData->getRequest());
+
+        return $process($transactionData, $object);
+    }
+
+    /**
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
+    protected function parseRequestObject(ServerRequestInterface $request)
+    {
+        $object = $this->requestBuilder->parseRequest(
+            $this->parseJsonBody($request),
             Expectation::class,
             RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
         );
-        $this->logger->debug('Parsed expectation: ' . var_export($expectation, true));
+        $this->logger->debug('Parsed expectation: ' . var_export($object, true));
 
-        return $process($transactionData, $expectation);
+        return $object;
     }
 }
