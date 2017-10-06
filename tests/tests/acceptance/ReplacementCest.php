@@ -7,6 +7,9 @@ use Mcustiel\Phiremock\Client\Utils\Respond;
 
 class ReplacementCest
 {
+    /**
+     * @var \Mcustiel\Phiremock\Client\Phiremock
+     */
     private $phiremock;
 
     public function _before(AcceptanceTester $I)

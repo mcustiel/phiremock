@@ -4,6 +4,7 @@ return [
     'start' => 'expectationUrl',
     'nodes' => [
 // -------------------------------- API: expectations ---------------------------
+
         'expectationUrl' => [
             'condition' => [
                 'one-of' => [
@@ -60,24 +61,6 @@ return [
                     ['listExpectations' => null],
                 ],
                 'else' => [
-                    ['goto' => 'expectationMethodIsPut'],
-                ],
-            ],
-        ],
-        'expectationMethodIsPut' => [
-            'condition' => [
-                'one-of' => [
-                    [
-                        'input-source' => ['method' => null],
-                        'matcher'      => ['isEqualTo' => 'PUT'],
-                    ],
-                ],
-            ],
-            'actions' => [
-                'if-matches' => [
-                    ['restoreExpectations' => null],
-                ],
-                'else' => [
                     ['goto' => 'expectationMethodIsDelete'],
                 ],
             ],
@@ -102,6 +85,7 @@ return [
         ],
 
 // -------------------------------- API: scenarios ---------------------------
+
         'scenariosUrl' => [
             'condition' => [
                 'one-of' => [
@@ -177,7 +161,7 @@ return [
                     ['goto' => 'verifyMethodIsPost'],
                 ],
                 'else' => [
-                    ['goto' => 'default'],
+                    ['goto' => 'resetUrl'],
                 ],
             ],
         ],
@@ -244,7 +228,49 @@ return [
             ],
         ],
 
+// -------------------------------- API: reset ---------------------------
+
+        'resetUrl' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['url' => 'path'],
+                        'matcher'      => [
+                            'matches' => '~\\_\\_phiremock/reset/?$~',
+                        ],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['goto' => 'resetMethodIsPost'],
+                ],
+                'else' => [
+                    ['goto' => 'default'],
+                ],
+            ],
+        ],
+        'resetMethodIsPost' => [
+            'condition' => [
+                'one-of' => [
+                    [
+                        'input-source' => ['method' => null],
+                        'matcher'      => ['isEqualTo' => 'POST'],
+                    ],
+                ],
+            ],
+            'actions' => [
+                'if-matches' => [
+                    ['reset' => null],
+                ],
+                'else' => [
+                    ['goto' => 'apiError'],
+                ],
+            ],
+        ],
+
 // -------------------------------- API: error happened ---------------------------
+
         'apiError' => [
             'condition' => [],
             'actions'   => [
@@ -256,6 +282,7 @@ return [
         ],
 
 // ---------------------------- Verify configured expectations -----------------------
+
         'default' => [
             'condition' => [],
             'actions'   => [

@@ -8,6 +8,9 @@ use Mcustiel\Phiremock\Domain\Response;
 
 class ProxyCest
 {
+    /**
+     * @var \Mcustiel\Phiremock\Client\Phiremock
+     */
     private $phiremock;
 
     public function _before(AcceptanceTester $I)

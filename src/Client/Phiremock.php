@@ -20,6 +20,7 @@ class Phiremock
     const API_EXPECTATIONS_URL = '/__phiremock/expectations';
     const API_EXECUTIONS_URL = '/__phiremock/executions';
     const API_SCENARIOS_URL = '/__phiremock/scenarios';
+    const API_RESET_URL = '/__phiremock/reset';
     const CLIENT_CONFIG = [
         'http_errors' => false,
     ];
@@ -75,10 +76,10 @@ class Phiremock
     /**
      * Restores pre-defined expectations and resets scenarios and requests counter.
      */
-    public function restoreExpectations()
+    public function reset()
     {
-        $uri = $this->createBaseUri()->withPath(self::API_EXPECTATIONS_URL);
-        $request = (new PsrRequest())->withUri($uri)->withMethod('put');
+        $uri = $this->createBaseUri()->withPath(self::API_RESET_URL);
+        $request = (new PsrRequest())->withUri($uri)->withMethod('post');
 
         $this->checkResponse($this->connection->send($request));
     }
@@ -257,7 +258,7 @@ class Phiremock
     private function checkErrorResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() >= 500) {
-            $errors = (array) json_decode($response->getBody()->__toString())->details;
+            $errors = json_decode($response->getBody()->__toString(), true)['details'];
             throw new \RuntimeException('An error occurred creating the expectation: ' . implode(', ', $errors));
         }
 

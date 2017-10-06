@@ -9,7 +9,7 @@ use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Common\TransactionData;
 use Psr\Log\LoggerInterface;
 
-class RestoreExpectationsAction implements ActionInterface
+class ResetAction implements ActionInterface
 {
     /**
      * @var \Mcustiel\Phiremock\Server\Model\ExpectationStorage

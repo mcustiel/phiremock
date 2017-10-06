@@ -35,6 +35,11 @@ function deleteDirectoryRecursively($dir)
 
 $di = Dependencies::init();
 $logger = $di->get('logger');
-$logger->info('Clearing phiremock cache...');
-deleteDirectoryRecursively(sys_get_temp_dir() . '/phiremock/cache/requests/');
-$logger->info('Cache deleted successfully...');
+$cacheDirectory = sys_get_temp_dir() . '/phiremock/cache/requests/';
+if (is_dir($cacheDirectory)) {
+    $logger->info('Clearing phiremock cache...');
+    deleteDirectoryRecursively($cacheDirectory);
+    $logger->info('Cache deleted successfully.');
+} else {
+    $logger->info('No cache to delete.');
+}
