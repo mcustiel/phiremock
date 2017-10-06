@@ -104,7 +104,7 @@ Then, using phiremock's REST interface, expectations can be configured, specifyi
     },
     "response": {
         "statusCode": 200,
-        "body": "{\"id\": 1, \"description\": \"I am a resource\"}",
+        "body": {"id": 1, "description": "I am a resource"},
         "headers": {
             "Content-Type": "application/json"
         },
@@ -271,6 +271,21 @@ DELETE /__phiremock/executions HTTP/1.1
 Host: your.phiremock.host
 ```
 
+### Reset Phiremock to its initial state
+To reset the requests counter to 0, Phiremock also provides a method: 
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    $phiremock->reset();
+```
+#### API call:
+```
+POST /__phiremock/reset HTTP/1.1
+Host: your.phiremock.host
+```
+
 ## Cool stuff
 
 ### Priorities
@@ -365,7 +380,7 @@ If you want to test how your application behaves on, for instance, a timeout; yo
     $phiremock = new Phiremock('phiremock.server', '8080');
     
     $expectation = Phiremock::on(
-        A::posttRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+        A::postRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
             ->andBody(Is::equalTo('{"id": "1", "name" : "resource"}'))
             ->andHeader('Content-Type', Is::equalTo('application/json'))
     )->then(
