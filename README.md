@@ -365,8 +365,13 @@ To reset all scenarios to the initial state (Scenario.START) use this simple met
     
     $phiremock->resetScenarios();
 ```
-To define a scenario state in any moment:
+#### API call:
+```
+DELETE /__phiremock/scenarios HTTP/1.1
+Host: your.phiremock.host
+```
 
+To define a scenario state in any moment:
 ```php
     use Mcustiel\Phiremock\Client\Phiremock;
     use Mcustiel\Phiremock\Domain\ScenarioState;
@@ -377,8 +382,13 @@ To define a scenario state in any moment:
 ```
 #### API call:
 ```
-DELETE /__phiremock/scenarios HTTP/1.1
+PUT /__phiremock/scenarios HTTP/1.1
 Host: your.phiremock.host
+
+{
+    "scenarioName": "saved",
+    "scenarioState": "Scenario.START"
+}
 ```
 
 ### Netwok latency simulation
