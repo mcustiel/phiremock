@@ -39,7 +39,7 @@ abstract class AbstractRequestAction
      *
      * @throws \Exception
      *
-     * @return \Mcustiel\Phiremock\Domain\Expectation|\Mcustiel\Phiremock\Domain\ScenarioState
+     * @return array
      */
     protected function parseJsonBody(ServerRequestInterface $request)
     {
@@ -91,10 +91,11 @@ abstract class AbstractRequestAction
     }
 
     /**
-     * @return \Mcustiel\Phiremock\Domain\Expectation
+     * @return object
      */
     protected function parseRequestObject(ServerRequestInterface $request)
     {
+        /** @var \Mcustiel\Phiremock\Domain\Expectation $object */
         $object = $this->requestBuilder->parseRequest(
             $this->parseJsonBody($request),
             Expectation::class,
