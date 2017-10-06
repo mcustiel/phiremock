@@ -365,6 +365,16 @@ To reset all scenarios to the initial state (Scenario.START) use this simple met
     
     $phiremock->resetScenarios();
 ```
+To define a scenario state in any moment:
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+    use Mcustiel\Phiremock\Domain\ScenarioState;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $phiremock->setScenarioState(new ScenarioState('saved', 'Scenario.START')));
+```
 #### API call:
 ```
 DELETE /__phiremock/scenarios HTTP/1.1
@@ -441,7 +451,7 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
 
 ### Contributing:
 
-Just submit a pull request. Don't forget to run tests and php-cs-fixer first.
+Just submit a pull request. Don't forget to run tests and php-cs-fixer first and write documentation.
 
 ### Thanks to
 
