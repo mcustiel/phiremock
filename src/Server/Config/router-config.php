@@ -261,7 +261,10 @@ return [
             ],
             'actions' => [
                 'if-matches' => [
-                    ['reset' => null],
+                    ['clearScenarios' => null],
+                    ['resetCount'         => null],
+                    ['clearExpectations'  => null],
+                    ['reloadExpectations' => null],
                 ],
                 'else' => [
                     ['goto' => 'apiError'],
