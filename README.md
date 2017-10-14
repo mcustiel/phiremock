@@ -463,7 +463,7 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
 
 Just submit a pull request. Don't forget to run tests and php-cs-fixer first and write documentation.
 
-### Thanks to
+### Thanks to:
 
 * Denis Rudoi ([@drudoi](https://github.com/drudoi))
 * Henrik Schmidt ([@mrIncompetent](https://github.com/mrIncompetent))
