@@ -1,7 +1,5 @@
 <?php
 
-
-use Mcustiel\Phiremock\Client\Exceptions\PhiremockClientException;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
@@ -253,13 +251,5 @@ class ClientCest
         $I->sendGET('/potato');
         $I->seeResponseCodeIs(200);
         $I->seeResponseEquals('Everything worked as expected');
-    }
-
-    public function shouldThrowExceptionForInvalidMethod(AcceptanceTester $I)
-    {
-        $I->expectException(new PhiremockClientException('Invalid method tomato'), function () {
-            PhiremockClient::onRequest('tomato', '/potato')
-                ->thenRespond(200, 'Everything worked as expected');
-        });
     }
 }

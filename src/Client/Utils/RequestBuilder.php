@@ -14,18 +14,22 @@ class RequestBuilder
     private $scenarioIs;
     private $priority;
 
-    private function __construct($method)
+    private function __construct($method, $url = null)
     {
         $this->request = new Request();
         $this->request->setMethod($method);
+        if (null !== $url) {
+            $this->request->setUrl(new Condition('isEqualTo', $url));
+        }
     }
 
     /**
-     * @param string $method
+     * @param string     $method
+     * @param null|mixed $url
      *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
-    public static function create($method)
+    public static function create($method, $url = null)
     {
         return new static($method);
     }

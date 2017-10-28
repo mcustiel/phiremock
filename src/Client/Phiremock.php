@@ -2,9 +2,7 @@
 
 namespace Mcustiel\Phiremock\Client;
 
-use Mcustiel\Phiremock\Client\Exceptions\PhiremockClientException;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
-use Mcustiel\Phiremock\Client\Utils\Is;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
@@ -239,19 +237,12 @@ class Phiremock
      * @param string $method
      * @param string $url
      *
-     * @throws \Mcustiel\Phiremock\Client\Exceptions\PhiremockClientException
-     *
      * @return \Mcustiel\Phiremock\Client\Utils\ExpectationBuilder
      */
     public static function onRequest($method, $url)
     {
-        $method = strtolower($method);
-        if (!in_array($method, self::HTTP_METHODS, true)) {
-            throw new PhiremockClientException('Invalid method ' . $method);
-        }
-
         return new ExpectationBuilder(
-            RequestBuilder::create($method)->andUrl(Is::equalTo($url))
+            RequestBuilder::create($method, $url)
         );
     }
 
@@ -295,6 +286,9 @@ class Phiremock
         }
     }
 
+    /**
+     * @return \Mcustiel\SimpleRequest\RequestBuilder
+     */
     private function getRequestBuilder()
     {
         if (null === $this->simpleRequestBuilder) {
