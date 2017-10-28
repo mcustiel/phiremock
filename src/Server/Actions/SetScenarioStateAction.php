@@ -58,9 +58,6 @@ class SetScenarioStateAction extends AbstractRequestAction implements ActionInte
         );
     }
 
-    /**
-     * @return object
-     */
     protected function parseRequestObject(ServerRequestInterface $request)
     {
         /** @var \Mcustiel\Phiremock\Domain\ScenarioState $object */

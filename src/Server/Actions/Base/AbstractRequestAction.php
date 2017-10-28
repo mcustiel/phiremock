@@ -90,9 +90,6 @@ abstract class AbstractRequestAction
         }
     }
 
-    /**
-     * @return object
-     */
     protected function parseRequestObject(ServerRequestInterface $request)
     {
         /** @var \Mcustiel\Phiremock\Domain\Expectation $object */
