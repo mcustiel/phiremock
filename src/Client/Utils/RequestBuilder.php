@@ -31,7 +31,7 @@ class RequestBuilder
      */
     public static function create($method, $url = null)
     {
-        return new static($method);
+        return new static($method, $url);
     }
 
     /**
