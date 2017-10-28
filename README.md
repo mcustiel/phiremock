@@ -450,6 +450,20 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
     );
     $phiremock->createExpectation($expectation);
 ```
+### Shorthand syntax for common requests
+Phiremock is a bit too much expressive to create requests and that is a bit annoying when writing simple stubs. For that,
+there is a simpler syntax using `Phiremock::onRequest` method.
+#### Example:
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $expectation = Phiremock::onRequest('get', '/my/example/url')->thenRespond(200, 'This is the response');
+    $phiremock->createExpectation($expectation);
+```
+
 ## Appendix
 
 ### List of condition matchers:
