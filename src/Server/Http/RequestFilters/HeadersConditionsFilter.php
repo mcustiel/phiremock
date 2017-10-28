@@ -19,7 +19,7 @@ class HeadersConditionsFilter implements FilterInterface
 
     public function filter($value)
     {
-        if ($value === null) {
+        if (null === $value) {
             return;
         }
         $this->checkValueIsArrayOrThrowException($value);

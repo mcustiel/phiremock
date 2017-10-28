@@ -46,7 +46,7 @@ class FileExpectationsLoader
         $this->logger->debug("Loading expectation file $fileName");
         $content = file_get_contents($fileName);
         $data = @json_decode($content, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new \Exception(json_last_error_msg());
         }
         /** @var Mcustiel\Phiremock\Domain\Expectation $expectation */

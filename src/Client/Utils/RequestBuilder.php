@@ -89,6 +89,9 @@ class RequestBuilder
         $this->priority = $priority;
     }
 
+    /**
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function build()
     {
         if (!empty($this->headers)) {

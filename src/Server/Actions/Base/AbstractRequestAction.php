@@ -44,7 +44,7 @@ abstract class AbstractRequestAction
     protected function parseJsonBody(ServerRequestInterface $request)
     {
         $bodyJson = @json_decode($request->getBody()->__toString(), true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new \Exception(json_last_error_msg());
         }
 

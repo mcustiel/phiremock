@@ -41,8 +41,8 @@ class ResponseStrategyFactory
     private function requestBodyOrUrlAreRegexp(Expectation $expectation)
     {
         return $expectation->getRequest()->getBody()
-            && $expectation->getRequest()->getBody()->getMatcher() === Matchers::MATCHES
+            && Matchers::MATCHES === $expectation->getRequest()->getBody()->getMatcher()
             || $expectation->getRequest()->getUrl()
-            && $expectation->getRequest()->getUrl()->getMatcher() === Matchers::MATCHES;
+            && Matchers::MATCHES === $expectation->getRequest()->getUrl()->getMatcher();
     }
 }

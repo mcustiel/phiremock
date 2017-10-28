@@ -59,7 +59,7 @@ class RequestExpectationComparator
 
         $atLeastOneExecution = $this->compareRequestParts($httpRequest, $expectedRequest);
 
-        if ($atLeastOneExecution !== null && $expectedRequest->getHeaders()) {
+        if (null !== $atLeastOneExecution && $expectedRequest->getHeaders()) {
             $this->logger->debug('Checking headers against expectation');
 
             return $this->requestHeadersMatchExpectation($httpRequest, $expectedRequest);

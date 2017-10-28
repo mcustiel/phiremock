@@ -6,12 +6,24 @@ use Mcustiel\Phiremock\Domain\Response;
 
 class ResponseBuilder
 {
+    /**
+     * @var \Mcustiel\Phiremock\Domain\Response
+     */
     private $response;
 
+    /**
+     * @var array
+     */
     private $headers = [];
 
+    /**
+     * @var string
+     */
     private $scenarioState;
 
+    /**
+     * @param int $statusCode
+     */
     private function __construct($statusCode)
     {
         $this->response = new Response();

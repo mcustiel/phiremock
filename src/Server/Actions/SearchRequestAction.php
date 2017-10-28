@@ -46,7 +46,7 @@ class SearchRequestAction implements ActionInterface
         $request = $transactionData->getRequest();
         $this->logger->info('Request received: ' . $this->getLoggableRequest($request));
         $foundExpectation = $this->searchForMatchingExpectation($request);
-        if ($foundExpectation === null) {
+        if (null === $foundExpectation) {
             $transactionData->set('foundExpectation', false);
 
             return;
@@ -67,7 +67,7 @@ class SearchRequestAction implements ActionInterface
     private function getNextMatchingExpectation($lastFound, ServerRequestInterface $request, Expectation $expectation)
     {
         if ($this->comparator->equals($request, $expectation)) {
-            if ($lastFound === null || $expectation->getPriority() > $lastFound->getPriority()) {
+            if (null === $lastFound || $expectation->getPriority() > $lastFound->getPriority()) {
                 $lastFound = $expectation;
             }
         }

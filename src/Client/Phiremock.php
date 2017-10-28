@@ -2,7 +2,9 @@
 
 namespace Mcustiel\Phiremock\Client;
 
+use Mcustiel\Phiremock\Client\Exceptions\PhiremockClientException;
 use Mcustiel\Phiremock\Client\Utils\ExpectationBuilder;
+use Mcustiel\Phiremock\Client\Utils\Is;
 use Mcustiel\Phiremock\Client\Utils\RequestBuilder;
 use Mcustiel\Phiremock\Common\Http\Implementation\GuzzleConnection;
 use Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface;
@@ -24,6 +26,7 @@ class Phiremock
     const CLIENT_CONFIG = [
         'http_errors' => false,
     ];
+    const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'fetch', 'patch', 'options', 'head'];
 
     /**
      * @var \Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface
@@ -106,7 +109,7 @@ class Phiremock
         $request = (new PsrRequest())->withUri($uri)->withMethod('get');
         $response = $this->connection->send($request);
 
-        if ($response->getStatusCode() === 200) {
+        if (200 === $response->getStatusCode()) {
             $builder = $this->getRequestBuilder();
 
             return $builder->parseRequest(
@@ -139,7 +142,7 @@ class Phiremock
 
         $response = $this->connection->send($request);
 
-        if ($response->getStatusCode() === 200) {
+        if (200 === $response->getStatusCode()) {
             $json = json_decode($response->getBody()->__toString());
 
             return $json->count;
@@ -169,7 +172,7 @@ class Phiremock
 
         $response = $this->connection->send($request);
 
-        if ($response->getStatusCode() === 200) {
+        if (200 === $response->getStatusCode()) {
             return json_decode($response->getBody()->__toString());
         }
 
@@ -191,7 +194,7 @@ class Phiremock
             ->withBody(new StringStream(json_encode($scenarioState)));
 
         $response = $this->connection->send($request);
-        if ($response->getStatusCode() !== 200) {
+        if (200 !== $response->getStatusCode()) {
             $this->checkErrorResponse($response);
         }
     }
@@ -230,6 +233,31 @@ class Phiremock
         return new ExpectationBuilder($requestBuilder);
     }
 
+    /**
+     * Shortcut.
+     *
+     * @param string $method
+     * @param string $url
+     *
+     * @throws \Mcustiel\Phiremock\Client\Exceptions\PhiremockClientException
+     *
+     * @return \Mcustiel\Phiremock\Client\Utils\ExpectationBuilder
+     */
+    public static function onRequest($method, $url)
+    {
+        $method = strtolower($method);
+        if (!in_array($method, self::HTTP_METHODS, true)) {
+            throw new PhiremockClientException('Invalid method ' . $method);
+        }
+
+        return new ExpectationBuilder(
+            RequestBuilder::create($method)->andUrl(Is::equalTo($url))
+        );
+    }
+
+    /**
+     * @return \Zend\Diactoros\Uri
+     */
     private function createBaseUri()
     {
         return (new Uri())
@@ -243,7 +271,7 @@ class Phiremock
      */
     private function checkResponse(ResponseInterface $response)
     {
-        if ($response->getStatusCode() === 201) {
+        if (201 === $response->getStatusCode()) {
             return;
         }
 
@@ -269,7 +297,7 @@ class Phiremock
 
     private function getRequestBuilder()
     {
-        if ($this->simpleRequestBuilder === null) {
+        if (null === $this->simpleRequestBuilder) {
             $this->simpleRequestBuilder = RequestBuilderFactory::createRequestBuilder();
         }
 

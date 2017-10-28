@@ -6,8 +6,14 @@ use Mcustiel\Phiremock\Domain\Response;
 
 class ExpectationBuilder
 {
+    /**
+     * @var \Mcustiel\Phiremock\Domain\Expectation
+     */
     private $expectation;
 
+    /**
+     * @param RequestBuilder $requestBuilder
+     */
     public function __construct(RequestBuilder $requestBuilder)
     {
         $this->expectation = $requestBuilder->build();
@@ -28,6 +34,21 @@ class ExpectationBuilder
     }
 
     /**
+     * Shortcut.
+     *
+     * @param int    $statusCode
+     * @param string $body
+     *
+     * return \Mcustiel\Phiremock\Domain\Expectation
+     */
+    public function thenRespond($statusCode, $body)
+    {
+        $response = ResponseBuilder::create($statusCode)->andBody($body)->build()[1];
+
+        return $this->expectation->setResponse($response);
+    }
+
+    /**
      * @param string $url
      *
      * @throws \Exception
@@ -36,7 +57,7 @@ class ExpectationBuilder
      */
     public function proxyTo($url)
     {
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        if (false === filter_var($url, FILTER_VALIDATE_URL)) {
             throw new \Exception('Invalid proxy url');
         }
 

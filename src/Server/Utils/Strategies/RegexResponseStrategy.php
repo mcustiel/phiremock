@@ -60,7 +60,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     private function bodyConditionIsRegex(Expectation $expectation)
     {
         return $expectation->getRequest()->getBody()
-            && $expectation->getRequest()->getBody()->getMatcher() === Matchers::MATCHES;
+            && Matchers::MATCHES === $expectation->getRequest()->getBody()->getMatcher();
     }
 
     private function fillWithUrlMatches(Expectation $expectation, ServerRequestInterface $httpRequest, $responseBody)
@@ -91,7 +91,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
 
     private function urlConditionIsRegex($expectation)
     {
-        return $expectation->getRequest()->getUrl() && $expectation->getRequest()->getUrl()->getMatcher() === Matchers::MATCHES;
+        return $expectation->getRequest()->getUrl() && Matchers::MATCHES === $expectation->getRequest()->getUrl()->getMatcher();
     }
 
     private function replaceMatches($type, $pattern, $subject, $responseBody)

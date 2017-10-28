@@ -11,7 +11,7 @@ class ConvertToCondition implements FilterInterface
 {
     public function filter($value)
     {
-        if ($value === null) {
+        if (null === $value) {
             return;
         }
         $this->checkValueIsValidOrThrowException($value);
@@ -34,7 +34,7 @@ class ConvertToCondition implements FilterInterface
 
     private function validateValueOrThrowException($value)
     {
-        if ($value === null) {
+        if (null === $value) {
             throw new FilterErrorException('Condition value can not be null');
         }
     }
@@ -48,15 +48,15 @@ class ConvertToCondition implements FilterInterface
 
     private function isValidCondition($matcherName)
     {
-        return $matcherName === Matchers::EQUAL_TO
-            || $matcherName === Matchers::MATCHES
-            || $matcherName === Matchers::SAME_STRING
-            || $matcherName === Matchers::CONTAINS;
+        return Matchers::EQUAL_TO === $matcherName
+            || Matchers::MATCHES === $matcherName
+            || Matchers::SAME_STRING === $matcherName
+            || Matchers::CONTAINS === $matcherName;
     }
 
     private function checkValueIsValidOrThrowException($value)
     {
-        if (!is_array($value) || count($value) !== 1) {
+        if (!is_array($value) || 1 !== count($value)) {
             throw new FilterErrorException(
                 'Condition parsing failed for "'
                 . var_export($value, true)

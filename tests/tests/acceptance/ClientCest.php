@@ -1,6 +1,7 @@
 <?php
 
 
+use Mcustiel\Phiremock\Client\Exceptions\PhiremockClientException;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
@@ -82,7 +83,7 @@ class ClientCest
 
         $expectations = $this->phiremock->listExpectations();
 
-        $I->assertTrue(gettype($expectations) === 'array');
+        $I->assertTrue('array' === gettype($expectations));
         $I->assertEquals(2, count($expectations));
         $I->assertEquals($expectation1, $expectations[0]);
         $I->assertEquals($expectation2, $expectations[1]);
@@ -242,5 +243,23 @@ class ClientCest
         $I->seeResponseCodeIs(202);
         $I->seeResponseEquals('Tomato!');
         $I->seeHttpHeader('X-Tomato', 'Potato-received');
+    }
+
+    public function shortcutShouldWorkAsExpected(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::onRequest('get', '/potato')
+            ->thenRespond(200, 'Everything worked as expected');
+        $this->phiremock->createExpectation($expectation);
+        $I->sendGET('/potato');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseEquals('Everything worked as expected');
+    }
+
+    public function shouldThrowExceptionForInvalidMethod(AcceptanceTester $I)
+    {
+        $I->expectException(new PhiremockClientException('Invalid method tomato'), function () {
+            PhiremockClient::onRequest('tomato', '/potato')
+                ->thenRespond(200, 'Everything worked as expected');
+        });
     }
 }
