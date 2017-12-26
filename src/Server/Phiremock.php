@@ -45,7 +45,7 @@ class Phiremock implements RequestHandlerInterface
     /**
      * {@inheritdoc}
      *
-     * @see \Mcustiel\Phiremock\Server\Http\RequestHandler::execute()
+     * @see \Mcustiel\Phiremock\Server\Http\RequestHandlerInterface::execute()
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response)
     {

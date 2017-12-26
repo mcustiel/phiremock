@@ -40,7 +40,6 @@ class Phiremock
     const CLIENT_CONFIG = [
         'http_errors' => false,
     ];
-    const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'fetch', 'patch', 'options', 'head'];
 
     /**
      * @var \Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface
@@ -82,11 +81,15 @@ class Phiremock
     public function createExpectation(Expectation $expectation)
     {
         $uri = $this->createBaseUri()->withPath(self::API_EXPECTATIONS_URL);
+        $body = @json_encode($expectation);
+        if ($body === false) {
+            throw new \RuntimeException('Error generating json body for request: ' . json_last_error_msg());
+        }
         $request = (new PsrRequest())
             ->withUri($uri)
             ->withMethod('post')
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(new StringStream(json_encode($expectation)));
+            ->withBody(new StringStream($body));
         $this->checkResponse($this->connection->send($request));
     }
 
@@ -293,8 +296,10 @@ class Phiremock
     private function checkErrorResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() >= 500) {
+
             $errors = json_decode($response->getBody()->__toString(), true)['details'];
-            throw new \RuntimeException('An error occurred creating the expectation: ' . implode(', ', $errors));
+
+            throw new \RuntimeException('An error occurred creating the expectation: ' . var_export($errors, true) . $response->getBody()->__toString());
         }
 
         if ($response->getStatusCode() >= 400) {
