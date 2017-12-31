@@ -298,7 +298,10 @@ class Phiremock
         if ($response->getStatusCode() >= 500) {
             $errors = json_decode($response->getBody()->__toString(), true)['details'];
 
-            throw new \RuntimeException('An error occurred creating the expectation: ' . var_export($errors, true) . $response->getBody()->__toString());
+            throw new \RuntimeException(
+                'An error occurred creating the expectation: '
+                . ($errors ? var_export($errors, true) : '')
+                . $response->getBody()->__toString());
         }
 
         if ($response->getStatusCode() >= 400) {
