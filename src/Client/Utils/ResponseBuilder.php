@@ -18,8 +18,8 @@
 
 namespace Mcustiel\Phiremock\Client\Utils;
 
-use Mcustiel\Phiremock\Domain\Response;
 use Mcustiel\Phiremock\Domain\BinaryInfo;
+use Mcustiel\Phiremock\Domain\Response;
 
 class ResponseBuilder
 {

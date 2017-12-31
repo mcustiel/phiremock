@@ -1,4 +1,5 @@
 <?php
+
 namespace Mcustiel\Phiremock\Domain;
 
 class BinaryInfo
