@@ -106,6 +106,7 @@ abstract class AbstractRequestAction
             return $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse());
         } catch (\Exception $e) {
             $this->logger->error('An unexpected exception occurred: ' . $e->getMessage());
+            $this->logger->debug($e->__toString());
 
             return $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse());
         }
