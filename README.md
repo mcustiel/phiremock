@@ -286,6 +286,45 @@ POST /__phiremock/reset HTTP/1.1
 Host: your.phiremock.host
 ```
 
+### Send binary body in response
+Binary contents can be sent as a response body too.
+
+```php
+    use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    $expectation = Phiremock::on(
+        A::getRequest()->andUrl(Is::equalTo('/example_service/photo.jpg'))
+    )->then(
+        Respond::withStatusCode(200)
+            ->andBinaryBody(THE_IMAGE_CONTENTS)
+            ->andHeader('Content-Type', 'image/jpeg')
+    );
+    $phiremock->createExpectation($expectation);
+```
+#### API call:
+```
+POST /__phiremock/expectations HTTP/1.1
+Host: your.phiremock.host
+Content-Type: application/json
+
+{
+    "request": {
+        "method": "GET",
+        "url": {
+            "isEqualTo" : "/example_service/photo.jpg"
+        }
+    },
+    "response": {
+        "statusCode": 200,
+        "body": "phiremock.base64:HERE_THE_BASE64_ENCODED_IMAGE",
+        "headers": {
+            "Content-Type": "image/jpeg"
+        }
+    }
+}
+```
+
 ## Cool stuff
 
 ### Priorities

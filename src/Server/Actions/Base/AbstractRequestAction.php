@@ -59,7 +59,12 @@ abstract class AbstractRequestAction
      */
     protected function parseJsonBody(ServerRequestInterface $request)
     {
-        $bodyJson = @json_decode($request->getBody()->__toString(), true);
+        $body = $request->getBody()->__toString();
+        if ($request->hasHeader('Content-Encoding') && 'base64' === $request->getHeader('Content-Encoding')) {
+            $body = base64_decode($body, true);
+        }
+
+        $bodyJson = @json_decode($body, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new \Exception(json_last_error_msg());
         }
@@ -100,7 +105,7 @@ abstract class AbstractRequestAction
 
             return $this->constructErrorResponse($e->getErrors(), $transactionData->getResponse());
         } catch (\Exception $e) {
-            $this->logger->warning('An unexpected exception occurred: ' . $e->getMessage());
+            $this->logger->warning('An unexpected exception occurred: ' . $e->__toString());
 
             return $this->constructErrorResponse([$e->getMessage()], $transactionData->getResponse());
         }
