@@ -19,9 +19,12 @@
 namespace Mcustiel\Phiremock\Server\Http\ResponseFilters;
 
 use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
+use Mcustiel\Phiremock\Domain\BinaryInfo;
 
 class Base64BodyToString implements FilterInterface
 {
+    const STRING_START = 0;
+
     /**
      * {@inheritdoc}
      *
@@ -38,10 +41,20 @@ class Base64BodyToString implements FilterInterface
      */
     public function filter($value)
     {
-        if ('phiremock.base64:' === substr($value, 0, 17)) {
-            return base64_decode(substr($value, 17), true);
+        if ($this->isBinary($value)) {
+            return base64_decode(substr($value, BinaryInfo::BINARY_BODY_PREFIX_LENGTH), true);
         }
 
         return $value;
     }
+
+    /**
+     * @param string $value
+     * @return boolean
+     */
+    private function isBinary($value)
+    {
+        return BinaryInfo::BINARY_BODY_PREFIX === substr($value, self::STRING_START, BinaryInfo::BINARY_BODY_PREFIX_LENGTH);
+    }
+
 }

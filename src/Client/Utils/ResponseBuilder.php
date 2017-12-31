@@ -19,6 +19,7 @@
 namespace Mcustiel\Phiremock\Client\Utils;
 
 use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\Phiremock\Domain\BinaryInfo;
 
 class ResponseBuilder
 {
@@ -75,7 +76,7 @@ class ResponseBuilder
      */
     public function andBinaryBody($body)
     {
-        $this->response->setBody('phiremock.base64:' . base64_encode($body));
+        $this->response->setBody(BinaryInfo::BINARY_BODY_PREFIX . base64_encode($body));
 
         return $this;
     }
