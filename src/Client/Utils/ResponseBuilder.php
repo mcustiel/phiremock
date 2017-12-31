@@ -69,6 +69,18 @@ class ResponseBuilder
     }
 
     /**
+     * @param string $body
+     *
+     * @return \Mcustiel\Phiremock\Client\Utils\ResponseBuilder
+     */
+    public function andBinaryBody($body)
+    {
+        $this->response->setBody('phiremock.base64:' . base64_encode($body));
+
+        return $this;
+    }
+
+    /**
      * @param string $header
      * @param string $value
      *

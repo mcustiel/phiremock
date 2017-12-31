@@ -38,7 +38,7 @@ class BinaryContentCest
         $response = new Response();
         $response->setStatusCode(200);
         $response->setHeaders(['Content-Type' => 'image/jpeg', 'Content-Encoding' => 'base64']);
-        $response->setBody(base64_encode($responseContents));
+        $response->setBody('phiremock.base64:' . base64_encode($responseContents));
 
         $expectation->setRequest($request)->setResponse($response);
         $this->phiremock->createExpectation($expectation);
@@ -48,7 +48,25 @@ class BinaryContentCest
         $I->seeHttpHeader('Content-Type', 'image/jpeg');
         $responseBody = $I->grabResponse();
         $I->assertEquals($responseContents, $responseBody);
+    }
 
+    public function shouldCreateAnExpectationWithBinaryResponseUsingClientTest(AcceptanceTester $I)
+    {
+        $responseContents = file_get_contents(Configuration::dataDir() . '/fixtures/number-1943293_640.jpg');
+
+        $this->phiremock->createExpectation(
+            PhiremockClient::on(
+                A::getRequest()->andUrl(Is::equalTo('/show-me-the-image-now'))
+            )->then(
+                Respond::withStatusCode(200)->andHeader('Content-Type', 'image/jpeg')->andBinaryBody($responseContents)
+            )
+        );
+
+        $I->sendGET('/show-me-the-image-now');
+        $I->seeResponseCodeIs(200);
+        $I->seeHttpHeader('Content-Type', 'image/jpeg');
+        $responseBody = $I->grabResponse();
+        $I->assertEquals($responseContents, $responseBody);
     }
 }
 
