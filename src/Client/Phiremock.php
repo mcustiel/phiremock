@@ -82,7 +82,7 @@ class Phiremock
     {
         $uri = $this->createBaseUri()->withPath(self::API_EXPECTATIONS_URL);
         $body = @json_encode($expectation);
-        if ($body === false) {
+        if (false === $body) {
             throw new \RuntimeException('Error generating json body for request: ' . json_last_error_msg());
         }
         $request = (new PsrRequest())
@@ -296,7 +296,6 @@ class Phiremock
     private function checkErrorResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() >= 500) {
-
             $errors = json_decode($response->getBody()->__toString(), true)['details'];
 
             throw new \RuntimeException('An error occurred creating the expectation: ' . var_export($errors, true) . $response->getBody()->__toString());

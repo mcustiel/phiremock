@@ -38,8 +38,8 @@ class Base64BodyToString implements FilterInterface
      */
     public function filter($value)
     {
-        if (substr($value, 0, 17) === 'phiremock.base64:') {
-            return base64_decode(substr($value, 17));
+        if ('phiremock.base64:' === substr($value, 0, 17)) {
+            return base64_decode(substr($value, 17), true);
         }
 
         return $value;

@@ -60,8 +60,8 @@ abstract class AbstractRequestAction
     protected function parseJsonBody(ServerRequestInterface $request)
     {
         $body = $request->getBody()->__toString();
-        if ($request->hasHeader('Content-Encoding') && $request->getHeader('Content-Encoding') === 'base64') {
-            $body = base64_decode($body);
+        if ($request->hasHeader('Content-Encoding') && 'base64' === $request->getHeader('Content-Encoding')) {
+            $body = base64_decode($body, true);
         }
 
         $bodyJson = @json_decode($body, true);

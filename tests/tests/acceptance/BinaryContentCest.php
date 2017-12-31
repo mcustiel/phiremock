@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Configuration;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
@@ -8,8 +9,6 @@ use Mcustiel\Phiremock\Domain\Condition;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Domain\Response;
-use React\Dns\Config\Config;
-use Codeception\Configuration;
 
 class BinaryContentCest
 {
@@ -69,4 +68,3 @@ class BinaryContentCest
         $I->assertEquals($responseContents, $responseBody);
     }
 }
-
