@@ -23,6 +23,11 @@ use Mcustiel\SimpleRequest\Interfaces\FilterInterface;
 
 class ResponseAsDefault implements FilterInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see \Mcustiel\SimpleRequest\Interfaces\FilterInterface::filter()
+     */
     public function filter($value)
     {
         if (empty($value)) {

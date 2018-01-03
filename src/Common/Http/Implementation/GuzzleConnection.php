@@ -29,6 +29,9 @@ class GuzzleConnection implements RemoteConnectionInterface
      */
     private $client;
 
+    /**
+     * @param \GuzzleHttp\Client|null $client
+     */
     public function __construct(GuzzleClient $client = null)
     {
         if (!$client) {
@@ -40,7 +43,7 @@ class GuzzleConnection implements RemoteConnectionInterface
     /**
      * {@inheritdoc}
      *
-     * @see \Mcustiel\Phiremock\Client\Http\RemoteConnectionInterface::send()
+     * @see \Mcustiel\Phiremock\Common\Http\RemoteConnectionInterface::send()
      */
     public function send(RequestInterface $request)
     {

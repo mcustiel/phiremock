@@ -58,6 +58,11 @@ class Phiremock
      */
     private $port;
 
+    /**
+     * @param string                    $host
+     * @param int                       $port
+     * @param RemoteConnectionInterface $remoteConnection
+     */
     public function __construct(
         $host = 'localhost',
         $port = 8080,

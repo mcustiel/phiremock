@@ -21,6 +21,7 @@ namespace Mcustiel\Phiremock\Server\Http\Implementation;
 use Mcustiel\Phiremock\Common\StringStream;
 use Mcustiel\Phiremock\Server\Http\RequestHandlerInterface;
 use Mcustiel\Phiremock\Server\Http\ServerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use React\EventLoop\Factory as EventLoop;
@@ -57,6 +58,9 @@ class ReactPhpServer implements ServerInterface
      */
     private $logger;
 
+    /**
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->loop = EventLoop::create();
@@ -103,6 +107,11 @@ class ReactPhpServer implements ServerInterface
         $this->loop->stop();
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @return ResponseInterface
+     */
     private function onRequest(ServerRequestInterface $request)
     {
         $start = microtime(true);
@@ -112,6 +121,11 @@ class ReactPhpServer implements ServerInterface
         return $psrResponse;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @return \React\Promise\Promise
+     */
     private function createRequestManager(ServerRequestInterface $request)
     {
         return new Promise(function ($resolve, $reject) use ($request) {

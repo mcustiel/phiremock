@@ -144,6 +144,11 @@ class Expectation implements \JsonSerializable
         return $this->scenarioName;
     }
 
+    /**
+     * @param string $scenario
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function setScenarioName($scenario)
     {
         $this->scenarioName = $scenario;
@@ -159,6 +164,11 @@ class Expectation implements \JsonSerializable
         return $this->scenarioStateIs;
     }
 
+    /**
+     * @param string $scenarioStateIs
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function setScenarioStateIs($scenarioStateIs)
     {
         $this->scenarioStateIs = $scenarioStateIs;
@@ -174,6 +184,11 @@ class Expectation implements \JsonSerializable
         return $this->newScenarioState;
     }
 
+    /**
+     * @param string $newScenarioState
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function setNewScenarioState($newScenarioState)
     {
         $this->newScenarioState = $newScenarioState;
@@ -181,27 +196,19 @@ class Expectation implements \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
-    {
-        return [
-            'scenarioName'     => $this->scenarioName,
-            'scenarioStateIs'  => $this->scenarioStateIs,
-            'newScenarioState' => $this->newScenarioState,
-            'request'          => $this->request,
-            'response'         => $this->response,
-            'proxyTo'          => $this->proxyTo,
-            'priority'         => $this->priority,
-        ];
-    }
-
     /**
-     * @return number
+     * @return int
      */
     public function getPriority()
     {
         return $this->priority;
     }
 
+    /**
+     * @param int $priority
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function setPriority($priority)
     {
         $this->priority = $priority;
@@ -217,10 +224,33 @@ class Expectation implements \JsonSerializable
         return $this->proxyTo;
     }
 
+    /**
+     * @param string $proxyTo
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     public function setProxyTo($proxyTo)
     {
         $this->proxyTo = $proxyTo;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \JsonSerializable::jsonSerialize()
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'scenarioName'     => $this->scenarioName,
+            'scenarioStateIs'  => $this->scenarioStateIs,
+            'newScenarioState' => $this->newScenarioState,
+            'request'          => $this->request,
+            'response'         => $this->response,
+            'proxyTo'          => $this->proxyTo,
+            'priority'         => $this->priority,
+        ];
     }
 }

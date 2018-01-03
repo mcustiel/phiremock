@@ -35,6 +35,11 @@ class AddExpectationAction extends AbstractRequestAction implements ActionInterf
      */
     private $storage;
 
+    /**
+     * @param RequestBuilder     $requestBuilder
+     * @param ExpectationStorage $storage
+     * @param LoggerInterface    $logger
+     */
     public function __construct(
         RequestBuilder $requestBuilder,
         ExpectationStorage $storage,
@@ -65,6 +70,12 @@ class AddExpectationAction extends AbstractRequestAction implements ActionInterf
         );
     }
 
+    /**
+     * @param array                               $listOfErrors
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     private function constructResponse(array $listOfErrors, ResponseInterface $response)
     {
         if (empty($listOfErrors)) {

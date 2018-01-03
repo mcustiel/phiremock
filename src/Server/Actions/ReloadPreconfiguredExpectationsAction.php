@@ -38,6 +38,11 @@ class ReloadPreconfiguredExpectationsAction implements ActionInterface
      */
     private $logger;
 
+    /**
+     * @param ExpectationStorage $expectationStorage
+     * @param ExpectationStorage $expectationBackup
+     * @param LoggerInterface    $logger
+     */
     public function __construct(
         ExpectationStorage $expectationStorage,
         ExpectationStorage $expectationBackup,

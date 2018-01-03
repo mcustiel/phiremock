@@ -19,7 +19,7 @@
 namespace Mcustiel\Phiremock\Server\Actions;
 
 use Mcustiel\Phiremock\Server\Model\ScenarioStorage;
-use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
+use Mcustiel\Phiremock\Server\Utils\ResponseStrategyLocator;
 use Mcustiel\PowerRoute\Actions\ActionInterface;
 use Mcustiel\PowerRoute\Actions\NotFound;
 use Mcustiel\PowerRoute\Common\TransactionData;
@@ -37,14 +37,19 @@ class VerifyRequestFound implements ActionInterface
      */
     private $logger;
     /**
-     * @var \Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory
+     * @var \Mcustiel\Phiremock\Server\Utils\ResponseStrategyLocator
      */
     private $responseStrategyFactory;
 
+    /**
+     * @param ScenarioStorage         $scenarioStorage
+     * @param LoggerInterface         $logger
+     * @param ResponseStrategyLocator $responseStrategyFactory
+     */
     public function __construct(
         ScenarioStorage $scenarioStorage,
         LoggerInterface $logger,
-        ResponseStrategyFactory $responseStrategyFactory
+        ResponseStrategyLocator $responseStrategyFactory
     ) {
         $this->scenarioStorage = $scenarioStorage;
         $this->logger = $logger;
@@ -73,6 +78,11 @@ class VerifyRequestFound implements ActionInterface
         $transactionData->setResponse($response);
     }
 
+    /**
+     * @param ResponseInterface $response
+     *
+     * @return string
+     */
     private function getLoggableResponse(ResponseInterface $response)
     {
         return $response->getStatusCode() . ' / '

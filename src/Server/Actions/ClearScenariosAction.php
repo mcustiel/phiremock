@@ -24,8 +24,14 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 
 class ClearScenariosAction implements ActionInterface
 {
+    /**
+     * @var ScenarioStorage
+     */
     private $storage;
 
+    /**
+     * @param ScenarioStorage $storage
+     */
     public function __construct(ScenarioStorage $storage)
     {
         $this->storage = $storage;

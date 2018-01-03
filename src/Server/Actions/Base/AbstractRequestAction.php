@@ -42,6 +42,10 @@ abstract class AbstractRequestAction
      */
     protected $requestBuilder;
 
+    /**
+     * @param RequestBuilder  $requestBuilder
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         RequestBuilder $requestBuilder,
         LoggerInterface $logger
@@ -112,6 +116,11 @@ abstract class AbstractRequestAction
         }
     }
 
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     protected function parseRequestObject(ServerRequestInterface $request)
     {
         /** @var \Mcustiel\Phiremock\Domain\Expectation $object */

@@ -25,13 +25,16 @@ use Mcustiel\Phiremock\Server\Utils\Strategies\HttpResponseStrategy;
 use Mcustiel\Phiremock\Server\Utils\Strategies\ProxyResponseStrategy;
 use Mcustiel\Phiremock\Server\Utils\Strategies\RegexResponseStrategy;
 
-class ResponseStrategyFactory
+class ResponseStrategyLocator
 {
     /**
      * @var \Mcustiel\DependencyInjection\DependencyInjectionService
      */
     private $diService;
 
+    /**
+     * @param DependencyInjectionService $dependencyService
+     */
     public function __construct(DependencyInjectionService $dependencyService)
     {
         $this->diService = $dependencyService;
@@ -54,6 +57,11 @@ class ResponseStrategyFactory
         return $this->diService->get(HttpResponseStrategy::class);
     }
 
+    /**
+     * @param Expectation $expectation
+     *
+     * @return bool
+     */
     private function requestBodyOrUrlAreRegexp(Expectation $expectation)
     {
         return $expectation->getRequest()->getBody()

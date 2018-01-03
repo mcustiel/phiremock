@@ -36,7 +36,7 @@ class ExpectationAutoStorage implements ExpectationStorage
     /**
      * {@inheritdoc}
      *
-     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::addExpectation()
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectationStorage::addExpectation()
      */
     public function addExpectation(Expectation $expectation)
     {
@@ -46,7 +46,7 @@ class ExpectationAutoStorage implements ExpectationStorage
     /**
      * {@inheritdoc}
      *
-     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::listExpectations()
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectationStorage::listExpectations()
      */
     public function listExpectations()
     {
@@ -56,7 +56,7 @@ class ExpectationAutoStorage implements ExpectationStorage
     /**
      * {@inheritdoc}
      *
-     * @see \Mcustiel\Phiremock\Server\Model\ExpectatationStorage::clearExpectations()
+     * @see \Mcustiel\Phiremock\Server\Model\ExpectationStorage::clearExpectations()
      */
     public function clearExpectations()
     {

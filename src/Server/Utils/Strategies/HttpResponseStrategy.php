@@ -26,6 +26,11 @@ use Psr\Http\Message\ResponseInterface;
 
 class HttpResponseStrategy extends AbstractResponse implements ResponseStrategyInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Utils\Strategies\ResponseStrategyInterface::createResponse()
+     */
     public function createResponse(Expectation $expectation, TransactionData $transactionData)
     {
         $responseConfig = $expectation->getResponse();
@@ -38,6 +43,12 @@ class HttpResponseStrategy extends AbstractResponse implements ResponseStrategyI
         return $httpResponse;
     }
 
+    /**
+     * @param Response          $responseConfig
+     * @param ResponseInterface $httpResponse
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     private function getResponseWithBody(Response $responseConfig, ResponseInterface $httpResponse)
     {
         if ($responseConfig->getBody()) {

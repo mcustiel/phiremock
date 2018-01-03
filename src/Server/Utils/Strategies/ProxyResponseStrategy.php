@@ -35,6 +35,10 @@ class ProxyResponseStrategy implements ResponseStrategyInterface
      */
     private $logger;
 
+    /**
+     * @param RemoteConnectionInterface $httpService
+     * @param LoggerInterface           $logger
+     */
     public function __construct(RemoteConnectionInterface $httpService, LoggerInterface $logger)
     {
         $this->httpService = $httpService;
@@ -44,7 +48,7 @@ class ProxyResponseStrategy implements ResponseStrategyInterface
     /**
      * {@inheritdoc}
      *
-     * @see \Mcustiel\Phiremock\Server\Utils\Strategies\ResponseCreatorInterface::createResponse()
+     * @see \Mcustiel\Phiremock\Server\Utils\Strategies\ResponseStrategyInterface::createResponse()
      */
     public function createResponse(Expectation $expectation, TransactionData $transactionData)
     {

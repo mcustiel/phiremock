@@ -36,6 +36,10 @@ class Phiremock implements RequestHandlerInterface
      */
     private $logger;
 
+    /**
+     * @param PowerRoute      $router
+     * @param LoggerInterface $logger
+     */
     public function __construct(PowerRoute $router, LoggerInterface $logger)
     {
         $this->router = $router;

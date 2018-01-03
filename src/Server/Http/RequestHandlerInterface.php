@@ -23,5 +23,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface RequestHandlerInterface
 {
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response);
 }

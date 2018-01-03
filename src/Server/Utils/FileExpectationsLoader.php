@@ -45,6 +45,12 @@ class FileExpectationsLoader
      */
     private $logger;
 
+    /**
+     * @param RequestBuilder     $requestBuilder
+     * @param ExpectationStorage $storage
+     * @param ExpectationStorage $backup
+     * @param LoggerInterface    $logger
+     */
     public function __construct(
         RequestBuilder $requestBuilder,
         ExpectationStorage $storage,
@@ -57,6 +63,11 @@ class FileExpectationsLoader
         $this->logger = $logger;
     }
 
+    /**
+     * @param string $fileName
+     *
+     * @throws \Exception
+     */
     public function loadExpectationFromFile($fileName)
     {
         $this->logger->debug("Loading expectation file $fileName");
@@ -81,6 +92,9 @@ class FileExpectationsLoader
         $this->backup->addExpectation($expectation);
     }
 
+    /**
+     * @param string $directory
+     */
     public function loadExpectationsFromDirectory($directory)
     {
         $this->logger->info("Loading expectations from directory $directory");

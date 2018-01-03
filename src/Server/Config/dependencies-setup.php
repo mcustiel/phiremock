@@ -28,7 +28,7 @@ use Mcustiel\Phiremock\Server\Phiremock;
 use Mcustiel\Phiremock\Server\Utils\FileExpectationsLoader;
 use Mcustiel\Phiremock\Server\Utils\HomePathService;
 use Mcustiel\Phiremock\Server\Utils\RequestExpectationComparator;
-use Mcustiel\Phiremock\Server\Utils\ResponseStrategyFactory;
+use Mcustiel\Phiremock\Server\Utils\ResponseStrategyLocator;
 use Mcustiel\Phiremock\Server\Utils\Strategies\HttpResponseStrategy;
 use Mcustiel\Phiremock\Server\Utils\Strategies\ProxyResponseStrategy;
 use Mcustiel\Phiremock\Server\Utils\Strategies\RegexResponseStrategy;
@@ -78,7 +78,7 @@ $di->register(ProxyResponseStrategy::class, function () use ($di) {
 });
 
 $di->register('responseStrategyFactory', function () use ($di) {
-    return new ResponseStrategyFactory($di);
+    return new ResponseStrategyLocator($di);
 });
 
 $di->register('config', function () {

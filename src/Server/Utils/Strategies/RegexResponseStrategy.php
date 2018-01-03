@@ -27,6 +27,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class RegexResponseStrategy extends AbstractResponse implements ResponseStrategyInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see \Mcustiel\Phiremock\Server\Utils\Strategies\ResponseStrategyInterface::createResponse()
+     */
     public function createResponse(Expectation $expectation, TransactionData $transactionData)
     {
         $responseConfig = $expectation->getResponse();
@@ -43,6 +48,13 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $httpResponse;
     }
 
+    /**
+     * @param Expectation            $expectation
+     * @param ResponseInterface      $httpResponse
+     * @param ServerRequestInterface $httpRequest
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     private function getResponseWithBody(
         Expectation $expectation,
         ResponseInterface $httpResponse,
@@ -59,6 +71,13 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $httpResponse;
     }
 
+    /**
+     * @param Expectation            $expectation
+     * @param ServerRequestInterface $httpRequest
+     * @param string                 $responseBody
+     *
+     * @return string
+     */
     private function fillWithBodyMatches(Expectation $expectation, ServerRequestInterface $httpRequest, $responseBody)
     {
         if ($this->bodyConditionIsRegex($expectation)) {
@@ -73,12 +92,24 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $responseBody;
     }
 
+    /**
+     * @param Expectation $expectation
+     *
+     * @return bool
+     */
     private function bodyConditionIsRegex(Expectation $expectation)
     {
         return $expectation->getRequest()->getBody()
             && Matchers::MATCHES === $expectation->getRequest()->getBody()->getMatcher();
     }
 
+    /**
+     * @param Expectation            $expectation
+     * @param ServerRequestInterface $httpRequest
+     * @param string                 $responseBody
+     *
+     * @return string
+     */
     private function fillWithUrlMatches(Expectation $expectation, ServerRequestInterface $httpRequest, $responseBody)
     {
         if ($this->urlConditionIsRegex($expectation)) {
@@ -93,6 +124,11 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $responseBody;
     }
 
+    /**
+     * @param ServerRequestInterface $httpRequest
+     *
+     * @return string
+     */
     private function getUri(ServerRequestInterface $httpRequest)
     {
         $path = ltrim($httpRequest->getUri()->getPath(), '/');
@@ -105,21 +141,30 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         return $return;
     }
 
-    private function urlConditionIsRegex($expectation)
+    /**
+     * @param Expectation $expectation
+     *
+     * @return bool
+     */
+    private function urlConditionIsRegex(Expectation $expectation)
     {
         return $expectation->getRequest()->getUrl() && Matchers::MATCHES === $expectation->getRequest()->getUrl()->getMatcher();
     }
 
+    /**
+     * @param string $type
+     * @param string $pattern
+     * @param string $subject
+     * @param string $responseBody
+     *
+     * @return string
+     */
     private function replaceMatches($type, $pattern, $subject, $responseBody)
     {
         $matches = [];
         $replace = [];
 
-        preg_match(
-            $pattern,
-            $subject,
-            $matches
-        );
+        preg_match($pattern, $subject, $matches);
 
         if (isset($matches[1])) {
             unset($matches[0]);

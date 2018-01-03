@@ -18,8 +18,13 @@
 
 namespace Mcustiel\Phiremock\Server\Config;
 
+use Mcustiel\DependencyInjection\DependencyInjectionService;
+
 class Dependencies
 {
+    /**
+     * @return DependencyInjectionService
+     */
     public static function init()
     {
         return require __DIR__ . '/dependencies-setup.php';

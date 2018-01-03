@@ -41,6 +41,11 @@ class SearchRequestAction implements ActionInterface
      */
     private $logger;
 
+    /**
+     * @param ExpectationStorage           $storage
+     * @param RequestExpectationComparator $comparator
+     * @param LoggerInterface              $logger
+     */
     public function __construct(
         ExpectationStorage $storage,
         RequestExpectationComparator $comparator,
@@ -70,6 +75,11 @@ class SearchRequestAction implements ActionInterface
         $transactionData->set('foundExpectation', $foundExpectation);
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @return null|\Mcustiel\Phiremock\Domain\Expectation
+     */
     private function searchForMatchingExpectation(ServerRequestInterface $request)
     {
         $lastFound = null;
@@ -80,6 +90,13 @@ class SearchRequestAction implements ActionInterface
         return $lastFound;
     }
 
+    /**
+     * @param null|\Mcustiel\Phiremock\Domain\Expectation $lastFound
+     * @param ServerRequestInterface                      $request
+     * @param Expectation                                 $expectation
+     *
+     * @return \Mcustiel\Phiremock\Domain\Expectation
+     */
     private function getNextMatchingExpectation($lastFound, ServerRequestInterface $request, Expectation $expectation)
     {
         if ($this->comparator->equals($request, $expectation)) {
@@ -91,6 +108,11 @@ class SearchRequestAction implements ActionInterface
         return $lastFound;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @return string
+     */
     private function getLoggableRequest(ServerRequestInterface $request)
     {
         return $request->getMethod() . ': '

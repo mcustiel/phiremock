@@ -29,6 +29,9 @@ class StoreRequestAction implements ActionInterface
      */
     private $requestsStorage;
 
+    /**
+     * @param RequestStorage $requestsStorage
+     */
     public function __construct(RequestStorage $requestsStorage)
     {
         $this->requestsStorage = $requestsStorage;

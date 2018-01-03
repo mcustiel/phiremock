@@ -24,8 +24,14 @@ use Mcustiel\PowerRoute\Common\TransactionData;
 
 class ClearExpectationsAction implements ActionInterface
 {
+    /**
+     * @var ExpectationStorage
+     */
     private $storage;
 
+    /**
+     * @param ExpectationStorage $storage
+     */
     public function __construct(ExpectationStorage $storage)
     {
         $this->storage = $storage;

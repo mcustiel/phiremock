@@ -47,6 +47,12 @@ class RequestExpectationComparator
      */
     private $logger;
 
+    /**
+     * @param MatcherFactory     $matcherFactory
+     * @param InputSourceFactory $inputSourceFactory
+     * @param ScenarioStorage    $scenarioStorage
+     * @param LoggerInterface    $logger
+     */
     public function __construct(
         MatcherFactory $matcherFactory,
         InputSourceFactory $inputSourceFactory,
@@ -110,6 +116,11 @@ class RequestExpectationComparator
         return $atLeastOneExecution;
     }
 
+    /**
+     * @param Expectation $expectation
+     *
+     * @return bool
+     */
     private function isExpectedScenarioState(Expectation $expectation)
     {
         if ($expectation->getScenarioStateIs()) {
@@ -126,6 +137,11 @@ class RequestExpectationComparator
         return true;
     }
 
+    /**
+     * @param Expectation $expectation
+     *
+     * @throws \RuntimeException
+     */
     private function checkScenarioNameOrThrowException(Expectation $expectation)
     {
         if (!$expectation->getScenarioName()) {
@@ -135,6 +151,12 @@ class RequestExpectationComparator
         }
     }
 
+    /**
+     * @param ServerRequestInterface $httpRequest
+     * @param Request                $expectedRequest
+     *
+     * @return bool
+     */
     private function requestMethodMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
@@ -147,6 +169,12 @@ class RequestExpectationComparator
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
+    /**
+     * @param ServerRequestInterface $httpRequest
+     * @param Request                $expectedRequest
+     *
+     * @return bool
+     */
     private function requestUrlMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
@@ -159,6 +187,12 @@ class RequestExpectationComparator
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
+    /**
+     * @param ServerRequestInterface $httpRequest
+     * @param Request                $expectedRequest
+     *
+     * @return bool
+     */
     private function requestBodyMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         $inputSource = $this->inputSourceFactory->createFromConfig([
@@ -171,6 +205,12 @@ class RequestExpectationComparator
         return $this->evaluate($inputSource, $matcher, $httpRequest);
     }
 
+    /**
+     * @param ServerRequestInterface $httpRequest
+     * @param Request                $expectedRequest
+     *
+     * @return bool
+     */
     private function requestHeadersMatchExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
         foreach ($expectedRequest->getHeaders() as $header => $headerCondition) {
@@ -189,6 +229,13 @@ class RequestExpectationComparator
         return true;
     }
 
+    /**
+     * @param ClassArgumentObject    $inputSource
+     * @param ClassArgumentObject    $matcher
+     * @param ServerRequestInterface $httpRequest
+     *
+     * @return bool
+     */
     private function evaluate(
         ClassArgumentObject $inputSource,
         ClassArgumentObject $matcher,

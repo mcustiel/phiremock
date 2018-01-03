@@ -25,6 +25,12 @@ use Psr\Log\LoggerInterface;
 
 trait ExpectationValidator
 {
+    /**
+     * @param Expectation     $expectation
+     * @param LoggerInterface $logger
+     *
+     * @throws \RuntimeException
+     */
     protected function validateExpectationOrThrowException(Expectation $expectation, LoggerInterface $logger)
     {
         $this->validateRequestOrThrowException($expectation, $logger);
@@ -32,6 +38,12 @@ trait ExpectationValidator
         $this->validateScenarioConfigOrThrowException($expectation, $logger);
     }
 
+    /**
+     * @param Expectation     $expectation
+     * @param LoggerInterface $logger
+     *
+     * @throws \RuntimeException
+     */
     protected function validateResponseOrThrowException(Expectation $expectation, LoggerInterface $logger)
     {
         if ($this->responseIsInvalid($expectation->getResponse())) {
@@ -40,6 +52,12 @@ trait ExpectationValidator
         }
     }
 
+    /**
+     * @param Expectation     $expectation
+     * @param LoggerInterface $logger
+     *
+     * @throws \RuntimeException
+     */
     protected function validateRequestOrThrowException(Expectation $expectation, LoggerInterface $logger)
     {
         if ($this->requestIsInvalid($expectation->getRequest())) {
@@ -48,17 +66,31 @@ trait ExpectationValidator
         }
     }
 
+    /**
+     * @param Response $response
+     *
+     * @return bool
+     */
     protected function responseIsInvalid(Response $response)
     {
         return empty($response->getStatusCode());
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return bool
+     */
     protected function requestIsInvalid(Request $request)
     {
         return empty($request->getBody()) && empty($request->getHeaders())
         && empty($request->getMethod()) && empty($request->getUrl());
     }
 
+    /**
+     * @param Expectation     $expectation
+     * @param LoggerInterface $logger
+     */
     protected function validateScenarioConfigOrThrowException(
         Expectation $expectation,
         LoggerInterface $logger
@@ -67,6 +99,12 @@ trait ExpectationValidator
         $this->validateScenarioStateOrThrowException($expectation, $logger);
     }
 
+    /**
+     * @param Expectation     $expectation
+     * @param LoggerInterface $logger
+     *
+     * @throws \RuntimeException
+     */
     protected function validateScenarioStateOrThrowException(
         Expectation $expectation,
         LoggerInterface $logger
@@ -79,6 +117,12 @@ trait ExpectationValidator
         }
     }
 
+    /**
+     * @param Expectation     $expectation
+     * @param LoggerInterface $logger
+     *
+     * @throws \RuntimeException
+     */
     protected function validateScenarioNameOrThrowException(
         Expectation $expectation,
         LoggerInterface $logger
