@@ -22,9 +22,9 @@ if (PHP_SAPI !== 'cli') {
 }
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    $loader = require __DIR__ . '/../vendor/autoload.php';
+    require __DIR__ . '/../vendor/autoload.php';
 } else {
-    $loader = require __DIR__ . '/../../../autoload.php';
+    require __DIR__ . '/../../../autoload.php';
 }
 
 define('LOG_LEVEL', \Monolog\Logger::INFO);

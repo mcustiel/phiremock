@@ -66,10 +66,9 @@ class SetScenarioStateCest
         try {
             $this->phiremock->setScenarioState($scenarioState);
         } catch (\RuntimeException $e) {
-            // Do nothing.
+            $I->assertNotEmpty($e);
+            $I->assertContains('Field scenarioName, was set with invalid value', $e->getMessage());
+            $I->assertContains('Field scenarioState, was set with invalid value', $e->getMessage());
         }
-        $I->assertNotEmpty($e);
-        $I->assertContains('Field scenarioName, was set with invalid value', $e->getMessage());
-        $I->assertContains('Field scenarioState, was set with invalid value', $e->getMessage());
     }
 }
