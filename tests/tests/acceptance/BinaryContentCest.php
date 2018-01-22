@@ -32,11 +32,11 @@ class BinaryContentCest
         $request->setMethod('get');
         $request->setUrl(new Condition('isEqualTo', '/show-me-the-image'));
 
-        $responseContents = file_get_contents(Configuration::dataDir() . '/fixtures/number-1943293_640.jpg');
+        $responseContents = file_get_contents(Configuration::dataDir() . '/fixtures/Sparkles-12543.mp4');
 
         $response = new Response();
         $response->setStatusCode(200);
-        $response->setHeaders(['Content-Type' => 'image/jpeg', 'Content-Encoding' => 'base64']);
+        $response->setHeaders(['Content-Type' => 'video/mp4', 'Content-Encoding' => 'base64']);
         $response->setBody('phiremock.base64:' . base64_encode($responseContents));
 
         $expectation->setRequest($request)->setResponse($response);
@@ -44,7 +44,7 @@ class BinaryContentCest
 
         $I->sendGET('/show-me-the-image');
         $I->seeResponseCodeIs(200);
-        $I->seeHttpHeader('Content-Type', 'image/jpeg');
+        $I->seeHttpHeader('Content-Type', 'video/mp4');
         $responseBody = $I->grabResponse();
         $I->assertEquals($responseContents, $responseBody);
     }

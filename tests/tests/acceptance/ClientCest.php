@@ -252,4 +252,51 @@ class ClientCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseEquals('Everything worked as expected');
     }
+
+    public function severalExpectationsAddedInOneCestTest(AcceptanceTester $I)
+    {
+        $expectation = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(new Condition('isEqualTo', '/potato'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Tomato!');
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $expectation = new Expectation();
+        $request = new Request();
+        $request->setMethod('post');
+        $request->setUrl(new Condition('isEqualTo', '/tomato'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Potato!');
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $expectation = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(new Condition('isEqualTo', '/coconut'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Coconut!');
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $expectation = new Expectation();
+        $request = new Request();
+        $request->setMethod('get');
+        $request->setUrl(new Condition('isEqualTo', '/banana'));
+        $response = new Response();
+        $response->setStatusCode(201);
+        $response->setBody('Banana!');
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $expectations = $this->phiremock->listExpectations();
+
+        $I->assertCount(4, $expectations);
+    }
 }
