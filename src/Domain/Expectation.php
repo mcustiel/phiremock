@@ -96,6 +96,21 @@ class Expectation implements \JsonSerializable
      */
     private $priority = 0;
 
+    public function __toString()
+    {
+        return print_r(
+            [
+                'scenarioName'     => $this->scenarioName,
+                'scenarioStateIs'  => $this->scenarioStateIs,
+                'newScenarioState' => $this->newScenarioState,
+                'request'          => isset($this->request) ? $this->request->__toString() : 'null',
+                'response'         => isset($this->response) ? $this->response->__toString() : 'null',
+                'proxyTo'          => $this->proxyTo,
+                'priority'         => $this->priority,
+            ], true
+        );
+    }
+
     /**
      * @return \Mcustiel\Phiremock\Domain\Request
      */

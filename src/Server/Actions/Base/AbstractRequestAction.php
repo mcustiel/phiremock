@@ -129,7 +129,7 @@ abstract class AbstractRequestAction
             Expectation::class,
             RequestBuilder::RETURN_ALL_ERRORS_IN_EXCEPTION
         );
-        $this->logger->debug('Parsed expectation: ' . var_export($object, true));
+        $this->logger->debug('Parsed expectation: ' . $object);
 
         return $object;
     }

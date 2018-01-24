@@ -66,6 +66,19 @@ class Response implements \JsonSerializable
      */
     private $delayMillis;
 
+    public function __toString()
+    {
+        return print_r(
+            [
+                'statusCode'  => $this->statusCode,
+                'body'        => isset($this->body[5000]) ? '--VERY LONG CONTENTS--' : $this->body,
+                'headers'     => $this->headers,
+                'delayMillis' => $this->delayMillis,
+            ],
+            true
+        );
+    }
+
     /**
      * @return int
      */

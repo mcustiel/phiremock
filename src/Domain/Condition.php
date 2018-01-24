@@ -39,6 +39,11 @@ class Condition implements \JsonSerializable
         $this->value = $value;
     }
 
+    public function __toString()
+    {
+        return $this->matcher . ' ' . var_export($this->value, true);
+    }
+
     /**
      * @return string
      */

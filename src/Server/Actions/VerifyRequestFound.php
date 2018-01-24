@@ -85,8 +85,10 @@ class VerifyRequestFound implements ActionInterface
      */
     private function getLoggableResponse(ResponseInterface $response)
     {
+        $body = $response->getBody()->__toString();
+
         return $response->getStatusCode() . ' / '
-            . preg_replace('|\s+|', ' ', $response->getBody()->__toString());
+            . strlen($body) > 5000 ? '--VERY LONG CONTENTS--' : preg_replace('|\s+|', ' ', $body);
     }
 
     /**
