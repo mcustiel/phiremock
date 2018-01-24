@@ -16,7 +16,7 @@ $command = [
     '>',
     codecept_log_dir() . '/phiremock.log',
     '2>&1',
-]; /*
+];
 echo 'Running ' . implode(' ', $command) . PHP_EOL;
 $process = new Process($command);
 $process->disableOutput();
@@ -26,5 +26,5 @@ register_shutdown_function(function () use ($process) {
 });
 
 $process->start();
-*/
+
 sleep(1);
