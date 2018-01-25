@@ -162,19 +162,47 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     private function replaceMatches($type, $pattern, $subject, $responseBody)
     {
         $matches = [];
-        $replace = [];
 
-        preg_match($pattern, $subject, $matches);
+        $matchCount = preg_match_all(
+            $pattern,
+            $subject,
+            $matches
+        );
 
-        if (isset($matches[1])) {
+        if ($matchCount > 0) {
+            // we don't need full matches
             unset($matches[0]);
-            foreach ($matches as $i => $match) {
-                $replace["\${{$type}.{$i}}"] = $match;
-            }
+            $responseBody = $this->replaceMatchesInBody($matches, $type, $responseBody);
 
-            return strtr($responseBody, $replace);
         }
 
         return $responseBody;
+    }
+
+    /**
+     * @param array  $matches
+     * @param string $type
+     * @param string $responseBody
+     *
+     * @return string
+     */
+    private function replaceMatchesInBody(array $matches, $type, $responseBody)
+    {
+        $search  = [];
+        $replace = [];
+
+        foreach ($matches as $matchGroupId => $matchGroup) {
+            // add first element as replacement for $(type.index)
+            $search[]  = "\${{$type}.{$matchGroupId}}";
+            $replace[] = reset($matchGroup);
+            foreach ($matchGroup as $matchId => $match) {
+                // fix index to start with 1 instead of 0
+                $matchId++;
+                $search[]  = "\${{$type}.{$matchGroupId}.{$matchId}}";
+                $replace[] = $match;
+            }
+        }
+
+        return str_replace($search, $replace, $responseBody);
     }
 }
