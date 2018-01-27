@@ -23,7 +23,7 @@
     "name" : "mcustiel/phiremock",
     "type" : "project",
     "description" : "A mocker for HTTP and REST services",
-    "license" : "GPL-3.0+",
+    "license" : "GPL-3.0-or-later",
     "require" : {
         "php" : ">=5.6",
         "react/http" : "~0.7.0",
