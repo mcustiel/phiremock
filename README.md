@@ -489,6 +489,25 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
     );
     $phiremock->createExpectation($expectation);
 ```
+Also retrieving data from multiple matches is supported:
+```php
+ use Mcustiel\Phiremock\Client\Phiremock;
+
+    $phiremock = new Phiremock('phiremock.server', '8080');
+    
+    $expectation = Phiremock::on(
+        A::posttRequest()->andUrl(Is::matching('/peoples-brothers-list/json'))
+            ->andBody(Is::matching('%"name"\s*:\s*"([^"]*)",\s*"brothers"\s*:\s*(\d+)%'))
+            ->andHeader('Content-Type', Is::equalTo('application/json'))
+    )->then(
+        Respond::withStatusCode(200)->andBody(
+            '${body.1} has ${body.2} brothers, ${body.1.2} has ${body.2.2} brothers,'
+            . ' ${body.1.3} has ${body.2.3} brothers'
+        )
+    );
+    $phiremock->createExpectation($expectation);
+```
+
 ### Shorthand syntax for common requests
 Phiremock is a bit too much expressive to create requests and that is a bit annoying when writing simple stubs. For that,
 there is a simpler syntax using `Phiremock::onRequest` method.
