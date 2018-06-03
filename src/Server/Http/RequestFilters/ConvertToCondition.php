@@ -87,7 +87,8 @@ class ConvertToCondition implements FilterInterface
         return Matchers::EQUAL_TO === $matcherName
             || Matchers::MATCHES === $matcherName
             || Matchers::SAME_STRING === $matcherName
-            || Matchers::CONTAINS === $matcherName;
+            || Matchers::CONTAINS === $matcherName
+            || 'isSameJsonObject' === $matcherName;
     }
 
     /**

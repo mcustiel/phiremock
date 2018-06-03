@@ -47,6 +47,7 @@ use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
 use Mcustiel\PowerRoute\PowerRoute;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Mcustiel\Phiremock\Server\Matchers\JsonObjectsEquals;
 
 $di = new DependencyInjectionService();
 
@@ -167,6 +168,7 @@ $di->register('matcherFactory', function () {
         Matchers::MATCHES     => new SingletonLazyCreator(RegExpMatcher::class),
         Matchers::SAME_STRING => new SingletonLazyCreator(CaseInsensitiveEquals::class),
         Matchers::CONTAINS    => new SingletonLazyCreator(ContainsMatcher::class),
+        'isSameJsonObject'    => new SingletonLazyCreator(JsonObjectsEquals::class),
     ]);
 });
 
