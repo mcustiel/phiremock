@@ -24,4 +24,5 @@ class Matchers
     const EQUAL_TO = 'isEqualTo';
     const SAME_STRING = 'isSameString';
     const CONTAINS = 'contains';
+    const SAME_JSON = 'isSameJsonObject';
 }

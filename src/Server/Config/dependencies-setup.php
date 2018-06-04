@@ -21,6 +21,7 @@ use Mcustiel\Phiremock\Server\Config\Matchers;
 use Mcustiel\Phiremock\Server\Config\RouterConfig;
 use Mcustiel\Phiremock\Server\Http\Implementation\ReactPhpServer;
 use Mcustiel\Phiremock\Server\Http\InputSources\UrlFromPath;
+use Mcustiel\Phiremock\Server\Matchers\JsonObjectsEquals;
 use Mcustiel\Phiremock\Server\Model\Implementation\ExpectationAutoStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\RequestAutoStorage;
 use Mcustiel\Phiremock\Server\Model\Implementation\ScenarioAutoStorage;
@@ -47,7 +48,6 @@ use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
 use Mcustiel\PowerRoute\PowerRoute;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Mcustiel\Phiremock\Server\Matchers\JsonObjectsEquals;
 
 $di = new DependencyInjectionService();
 
@@ -168,7 +168,7 @@ $di->register('matcherFactory', function () {
         Matchers::MATCHES     => new SingletonLazyCreator(RegExpMatcher::class),
         Matchers::SAME_STRING => new SingletonLazyCreator(CaseInsensitiveEquals::class),
         Matchers::CONTAINS    => new SingletonLazyCreator(ContainsMatcher::class),
-        'isSameJsonObject'    => new SingletonLazyCreator(JsonObjectsEquals::class),
+        Matchers::SAME_JSON   => new SingletonLazyCreator(JsonObjectsEquals::class),
     ]);
 });
 

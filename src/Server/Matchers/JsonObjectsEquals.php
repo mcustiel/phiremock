@@ -1,12 +1,14 @@
 <?php
+
 namespace Mcustiel\Phiremock\Server\Matchers;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 
-class JsonObjectsEquals  implements MatcherInterface
+class JsonObjectsEquals implements MatcherInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Mcustiel\PowerRoute\Matchers\MatcherInterface::match()
      */
     public function match($value, $argument = null)
@@ -28,12 +30,12 @@ class JsonObjectsEquals  implements MatcherInterface
     private function decodeJson($value)
     {
         $decodedValue = json_decode($value, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new \InvalidArgumentException('JSON parsing error: ' . json_last_error_msg());
         }
+
         return $decodedValue;
     }
-
 
     private function areRecursivelyEquals(array $array1, array $array2)
     {
@@ -54,7 +56,7 @@ class JsonObjectsEquals  implements MatcherInterface
                 }
             }
         }
+
         return true;
     }
 }
-
