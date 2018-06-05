@@ -75,7 +75,7 @@ class JsonObjectsEquals implements MatcherInterface
             if (!array_key_exists($key, $array2)) {
                 return false;
             }
-            if (!$this->valuesAreEqual($value1, $array2[$key])) {
+            if (!$this->haveTheSameTypeAndValue($value1, $array2[$key])) {
                 return false;
             }
         }
@@ -83,11 +83,29 @@ class JsonObjectsEquals implements MatcherInterface
         return true;
     }
 
-    private function valuesAreEqual($value1, $value2)
+    /**
+     * @param mixed $value1
+     * @param mixed $value2
+     *
+     * @return bool
+     */
+    private function haveTheSameTypeAndValue($value1, $value2)
     {
         if (gettype($value1) !== gettype($value2)) {
             return false;
         }
+
+        return $this->haveTheSameValue($value1, $value2);
+    }
+
+    /**
+     * @param mixed $value1
+     * @param mixed $value2
+     *
+     * @return bool
+     */
+    private function haveTheSameValue($value1, $value2)
+    {
         if (is_array($value1)) {
             if (!$this->areRecursivelyEquals($value1, $value2)) {
                 return false;
@@ -97,7 +115,6 @@ class JsonObjectsEquals implements MatcherInterface
                 return false;
             }
         }
-
         return true;
     }
 
