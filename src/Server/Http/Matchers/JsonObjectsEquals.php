@@ -19,9 +19,20 @@
 namespace Mcustiel\Phiremock\Server\Http\Matchers;
 
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
+use Psr\Log\LoggerInterface;
 
 class JsonObjectsEquals implements MatcherInterface
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * {@inheritdoc}
      *
@@ -30,7 +41,7 @@ class JsonObjectsEquals implements MatcherInterface
     public function match($value, $argument = null)
     {
         if (is_string($value)) {
-            $requestValue = $this->decodeJson($value);
+            $requestValue = $this->getParsedValue($value);
         } else {
             $requestValue = $value;
         }
@@ -45,6 +56,7 @@ class JsonObjectsEquals implements MatcherInterface
 
     /**
      * @param string $value
+     *
      * @return mixed
      */
     private function decodeJson($value)
@@ -85,6 +97,24 @@ class JsonObjectsEquals implements MatcherInterface
                 return false;
             }
         }
+
         return true;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return mixed
+     */
+    private function getParsedValue($value)
+    {
+        try {
+            $requestValue = $this->decodeJson($value);
+        } catch (\InvalidArgumentException $e) {
+            $requestValue = $value;
+            $this->logger->warning('Invalid json received in request: ' . $value);
+        }
+
+        return $requestValue;
     }
 }

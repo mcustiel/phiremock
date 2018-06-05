@@ -63,7 +63,7 @@ class Is
     }
 
     /**
-     * @param string|\JsonSerializable $value
+     * @param string|array|\JsonSerializable $value
      *
      * @return \Mcustiel\Phiremock\Domain\Condition
      */

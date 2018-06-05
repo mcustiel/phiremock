@@ -127,4 +127,59 @@ class SameJsonCest
         $responseBody = $I->grabResponse();
         $I->assertEquals('It is the same', $responseBody);
     }
+
+    public function shouldFailIfConfiguredWithInvalidJson(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::equalTo('/test-json-object'))
+                ->andBody(
+                    Is::sameJsonObjectAs(
+                        'I, am an invalid - json. string.'
+                    )
+                )
+        )->then(Respond::withStatusCode(200)->andBody('It is the same'));
+
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendPOST(
+            '/test-json-object',
+            '{"tomato":"potato","a":1,"b":null,"recursive":{"a":"b", "array": [ {"c":"d"}, "e" ]}}'
+        );
+
+        $I->seeResponseCodeIs(500);
+        $responseBody = $I->grabResponse();
+        $I->assertStringStartsWith('JSON parsing error: ', $responseBody);
+    }
+
+    public function shouldNotFailIfReceivesInvalidJsonInRequest(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::equalTo('/test-json-object'))
+                ->andBody(
+                    Is::sameJsonObjectAs(
+                        [
+                            'tomato'    => 'potato',
+                            'a'         => 1,
+                            'b'         => null,
+                            'recursive' => [
+                                'a'     => 'b',
+                                'array' => [
+                                    ['c' => 'd'],
+                                    'e',
+                                ],
+                            ],
+                        ]
+                    )
+                )
+        )->then(Respond::withStatusCode(200)->andBody('It is the same'));
+
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendPOST(
+            '/test-json-object',
+            'I, am an invalid - json. string.'
+        );
+
+        $I->seeResponseCodeIs(404);
+    }
 }

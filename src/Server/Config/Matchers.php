@@ -36,10 +36,11 @@ class Matchers
 
     /**
      * @param string $matcherName
+     *
      * @return bool
      */
     public static function isValidMatcher($matcherName)
     {
-        return in_array($matcherName, self::VALID_MATCHERS);
+        return in_array($matcherName, self::VALID_MATCHERS, true);
     }
 }
