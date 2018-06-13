@@ -18,6 +18,7 @@
 
 namespace Mcustiel\Phiremock\Server\Http\Matchers;
 
+use Mcustiel\Phiremock\Server\Utils\ArraysHelper;
 use Mcustiel\PowerRoute\Matchers\MatcherInterface;
 use Psr\Log\LoggerInterface;
 
@@ -51,7 +52,7 @@ class JsonObjectsEquals implements MatcherInterface
             return false;
         }
 
-        return $this->areRecursivelyEquals($requestValue, $configValue);
+        return ArraysHelper::areRecursivelyEquals($requestValue, $configValue);
     }
 
     /**
@@ -67,55 +68,6 @@ class JsonObjectsEquals implements MatcherInterface
         }
 
         return $decodedValue;
-    }
-
-    private function areRecursivelyEquals(array $array1, array $array2)
-    {
-        foreach ($array1 as $key => $value1) {
-            if (!array_key_exists($key, $array2)) {
-                return false;
-            }
-            if (!$this->haveTheSameTypeAndValue($value1, $array2[$key])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @param mixed $value1
-     * @param mixed $value2
-     *
-     * @return bool
-     */
-    private function haveTheSameTypeAndValue($value1, $value2)
-    {
-        if (gettype($value1) !== gettype($value2)) {
-            return false;
-        }
-
-        return $this->haveTheSameValue($value1, $value2);
-    }
-
-    /**
-     * @param mixed $value1
-     * @param mixed $value2
-     *
-     * @return bool
-     */
-    private function haveTheSameValue($value1, $value2)
-    {
-        if (is_array($value1)) {
-            if (!$this->areRecursivelyEquals($value1, $value2)) {
-                return false;
-            }
-        } else {
-            if ($value1 !== $value2) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

@@ -50,6 +50,33 @@ class SameJsonCest
         $I->assertEquals('It is the same', $responseBody);
     }
 
+    public function shouldCompareJsonAndDetectTheyAreTheSameWhenFieldsOrderedDifferent(AcceptanceTester $I)
+    {
+        $expectation = new Expectation();
+
+        $request = new Request();
+        $request->setMethod('post');
+        $request->setUrl(new Condition('isEqualTo', '/test-json'));
+        $request->setBody(
+            new Condition(
+                'isSameJsonObject',
+                '{"tomato": "potato", "a": 1, "b": null, "recursive": {"a": "b", "array": [{"c": "d"}, "e"]}}'
+            )
+        );
+
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->setBody('It is the same');
+
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendPOST('/test-json', '{"b": null, "a":1,    "recursive": {   "array" : [ {"c":"d" }, "e" ], "a": "b" }, "tomato" : "potato" }');
+        $I->seeResponseCodeIs(200);
+        $responseBody = $I->grabResponse();
+        $I->assertEquals('It is the same', $responseBody);
+    }
+
     public function shouldCompareJsonAndDetectTheyAreNotTheSame(AcceptanceTester $I)
     {
         $expectation = new Expectation();
@@ -72,6 +99,32 @@ class SameJsonCest
         $this->phiremock->createExpectation($expectation);
 
         $I->sendPOST('/test-json', '{"tomato": "potato", "a": 1, "b": 0, "recursive": {"a": "b", "array": [{"c": "d"}, "e"]}}');
+        $I->seeResponseCodeIs(404);
+    }
+
+    // From issue #38
+    public function shouldDetectTheyAreNotTheSame(AcceptanceTester $I)
+    {
+        $expectation = new Expectation();
+
+        $request = new Request();
+        $request->setMethod('post');
+        $request->setUrl(new Condition('isEqualTo', '/test-json'));
+        $request->setBody(
+            new Condition(
+                'isSameJsonObject',
+                '{ "foo": "1", "bar": "2"}'
+            )
+        );
+
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->setBody('It is the same');
+
+        $expectation->setRequest($request)->setResponse($response);
+        $this->phiremock->createExpectation($expectation);
+
+        $I->sendPOST('/test-json', '{ "foo": "1"}');
         $I->seeResponseCodeIs(404);
     }
 
