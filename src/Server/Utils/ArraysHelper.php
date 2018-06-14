@@ -45,6 +45,18 @@ class ArraysHelper
         if (count($array1) !== count($array2)) {
             return false;
         }
+
+        return self::arrayIsContained($array1, $array2);
+    }
+
+    /**
+     * @param array $array1
+     * @param array $array2
+     *
+     * @return bool
+     */
+    public static function arrayIsContained(array $array1, array $array2)
+    {
         foreach ($array1 as $key => $value1) {
             if (!array_key_exists($key, $array2)) {
                 return false;
