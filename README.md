@@ -368,7 +368,7 @@ If you want to simulate a behaviour of the service in which a response depends o
     $phiremock = new Phiremock('phiremock.server', '8080');
     
     $expectation = Phiremock::on(
-        A::posttRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+        A::postRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
             ->andBody(Is::equalTo('{"id": "1", "name" : "resource"}'))
             ->andHeader('Content-Type', Is::equalTo('application/json'))
             ->andScenarioState('saved', 'Scenario.START')
@@ -381,7 +381,7 @@ If you want to simulate a behaviour of the service in which a response depends o
     $phiremock->createExpectation($expectation);
     
     $expectation = Phiremock::on(
-        A::getRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
+        A::postRequest()->andUrl(Is::equalTo('/example_service/some/resource'))
             ->andBody(Is::equalTo('{"id": "1", "name" : "resource"}'))
             ->andHeader('Content-Type', Is::equalTo('application/json'))
             ->andScenarioState('saved', 'RESOURCE_SAVED')
