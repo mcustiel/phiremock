@@ -99,7 +99,9 @@ Then, using phiremock's REST interface, expectations can be configured, specifyi
             "matches" : "/some regex pattern/i"
         },
         "headers" : {
-            "X-MY-HEADER": "Some value"
+            "X-MY-HEADER": {
+                "contains" : "Some value"
+            }
         }
     },
     "response": {
