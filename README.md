@@ -9,7 +9,7 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 * Network latency simulation.
 * Priorizable expectations for cases in which more than one matches the request. If more than one expectation matches the request and no priorities were set, the first match is returned.
 * Allows to verify the amount of times a request was done.
-* Allows to load default expectations from json files in a directory.
+* Allows to load default expectations from json files in a directory tree.
 * Proxy requests to another URL as they are received.
 * Client with fluent interface to configure Phiremock.
 * Integration to codeception through [phiremock-codeception-extension](https://github.com/mcustiel/phiremock-codeception-extension).
@@ -81,7 +81,7 @@ or
 * -i argument: specifies in which interface Phiremock should listen for requests. Default is 0.0.0.0
 * -p argument: is the port in which Phiremock should listen. Default is 8086
 * -d argument: enables debug mode in logger. By default, info logging level is used.
-* -e argument: specifies a directory to search for json files defining expectations to load by default. Default is ~/.phiremock/expectations
+* -e argument: specifies a directory tree to search for json files defining expectations to load by default. Default is ~/.phiremock/expectations
 
 Then, using phiremock's REST interface, expectations can be configured, specifying the response to send for a given request. A REST expectation resource for phiremock looks like this:
 
@@ -99,9 +99,7 @@ Then, using phiremock's REST interface, expectations can be configured, specifyi
             "matches" : "/some regex pattern/i"
         },
         "headers" : {
-            "X-MY-HEADER": {
-                "contains" : "Some value"
-            }
+            "X-MY-HEADER": "Some value"
         }
     },
     "response": {
@@ -117,7 +115,7 @@ Then, using phiremock's REST interface, expectations can be configured, specifyi
 }
 ```
 
-The same format can be used in expectation files saved in the directory specified by the -e argument of the CLI. For Phiremock to be able to load them, each file should have `.json` extension.
+The same format can be used in expectation files saved in the directory tree specified by the -e argument of the CLI. For Phiremock to be able to load them, each file should have `.json` extension.
 
 ## Phiremock Client 
 Phiremock also provides a handy client object to simplify communication with the server in a fluent way.

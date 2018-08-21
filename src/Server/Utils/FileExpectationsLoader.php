@@ -102,6 +102,8 @@ class FileExpectationsLoader
             $directory,
             \RecursiveDirectoryIterator::FOLLOW_SYMLINKS
         );
+
+        $iterator = new \RecursiveIteratorIterator($iterator);
         foreach ($iterator as $fileInfo) {
             if ($fileInfo->isFile()) {
                 $filePath = $fileInfo->getRealPath();
