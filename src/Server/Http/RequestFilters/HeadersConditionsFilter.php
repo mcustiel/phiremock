@@ -61,7 +61,7 @@ class HeadersConditionsFilter extends AbstractEmptySpecificationFilter implement
      */
     private function checkValueIsArrayOrThrowException($value)
     {
-        if (!is_array($value)) {
+        if (!\is_array($value)) {
             throw new FilterErrorException(
                 'Error trying to parse headers condition. It should be a collection.'
             );

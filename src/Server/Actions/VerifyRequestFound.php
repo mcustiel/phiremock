@@ -88,7 +88,7 @@ class VerifyRequestFound implements ActionInterface
         $body = $response->getBody()->__toString();
 
         return $response->getStatusCode() . ' / '
-            . strlen($body) > 5000 ? '--VERY LONG CONTENTS--' : preg_replace('|\s+|', ' ', $body);
+            . \strlen($body) > 5000 ? '--VERY LONG CONTENTS--' : preg_replace('|\s+|', ' ', $body);
     }
 
     /**

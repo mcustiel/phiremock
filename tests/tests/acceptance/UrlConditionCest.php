@@ -1,6 +1,5 @@
 <?php
 
-
 use Mcustiel\Phiremock\Domain\Condition;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Request;

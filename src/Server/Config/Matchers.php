@@ -41,6 +41,6 @@ class Matchers
      */
     public static function isValidMatcher($matcherName)
     {
-        return in_array($matcherName, self::VALID_MATCHERS, true);
+        return \in_array($matcherName, self::VALID_MATCHERS, true);
     }
 }

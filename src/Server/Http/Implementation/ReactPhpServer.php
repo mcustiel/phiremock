@@ -94,7 +94,7 @@ class ReactPhpServer implements ServerInterface
         $this->http->listen($this->socket);
 
         // Dispatch pending signals periodically
-        if (function_exists('pcntl_signal_dispatch')) {
+        if (\function_exists('pcntl_signal_dispatch')) {
             $this->loop->addPeriodicTimer(0.5, function () {
                 pcntl_signal_dispatch();
             });
@@ -102,17 +102,18 @@ class ReactPhpServer implements ServerInterface
         $this->loop->run();
     }
 
+    public function shutdown()
+    {
+        $this->loop->stop();
+    }
+
     private function getReactServerClass()
     {
         if (class_exists('\React\Http\StreamingServer')) {
             return '\React\Http\StreamingServer';
         }
-        return '\React\Http\Server';
-    }
 
-    public function shutdown()
-    {
-        $this->loop->stop();
+        return '\React\Http\Server';
     }
 
     /**

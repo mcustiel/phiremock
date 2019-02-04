@@ -31,7 +31,7 @@ class ArraysHelper
             return false;
         }
 
-        return array_keys($array) !== range(0, count($array) - 1);
+        return array_keys($array) !== range(0, \count($array) - 1);
     }
 
     /**
@@ -42,7 +42,7 @@ class ArraysHelper
      */
     public static function areRecursivelyEquals(array $array1, array $array2)
     {
-        if (count($array1) !== count($array2)) {
+        if (\count($array1) !== \count($array2)) {
             return false;
         }
 
@@ -77,7 +77,7 @@ class ArraysHelper
      */
     public static function haveTheSameTypeAndValue($value1, $value2)
     {
-        if (gettype($value1) !== gettype($value2)) {
+        if (\gettype($value1) !== \gettype($value2)) {
             return false;
         }
 
@@ -92,7 +92,7 @@ class ArraysHelper
      */
     public static function haveTheSameValue($value1, $value2)
     {
-        if (is_array($value1)) {
+        if (\is_array($value1)) {
             if (!self::areRecursivelyEquals($value1, $value2)) {
                 return false;
             }

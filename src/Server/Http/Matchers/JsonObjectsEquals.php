@@ -41,14 +41,14 @@ class JsonObjectsEquals implements MatcherInterface
      */
     public function match($value, $argument = null)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $requestValue = $this->getParsedValue($value);
         } else {
             $requestValue = $value;
         }
         $configValue = $this->decodeJson($argument);
 
-        if (!is_array($requestValue) || !is_array($configValue)) {
+        if (!\is_array($requestValue) || !\is_array($configValue)) {
             return false;
         }
 

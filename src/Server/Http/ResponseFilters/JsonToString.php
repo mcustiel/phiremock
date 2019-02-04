@@ -38,6 +38,6 @@ class JsonToString implements FilterInterface
      */
     public function filter($value)
     {
-        return is_array($value) || is_object($value) ? json_encode($value) : $value;
+        return \is_array($value) || \is_object($value) ? json_encode($value) : $value;
     }
 }

@@ -69,7 +69,7 @@ class Is
      */
     public static function sameJsonObjectAs($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return new Condition('isSameJsonObject', $value);
         }
 

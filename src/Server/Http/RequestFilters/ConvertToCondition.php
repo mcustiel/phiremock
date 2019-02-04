@@ -75,7 +75,7 @@ class ConvertToCondition extends AbstractEmptySpecificationFilter implements Fil
      */
     private function checkValueIsValidOrThrowException($value)
     {
-        if (!is_array($value) || 1 !== count($value)) {
+        if (!\is_array($value) || 1 !== \count($value)) {
             throw new FilterErrorException(
                 'Condition parsing failed for "'
                 . var_export($value, true)

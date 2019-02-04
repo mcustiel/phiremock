@@ -1,9 +1,6 @@
 <?php
 
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
-use Mcustiel\Phiremock\Client\Utils\A;
-use Mcustiel\Phiremock\Client\Utils\Is;
-use Mcustiel\Phiremock\Client\Utils\Respond;
 
 class RecursiveDirectoryCest
 {

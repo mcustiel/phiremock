@@ -69,7 +69,7 @@ class ListRequestsAction extends AbstractRequestAction implements ActionInterfac
                 function (TransactionData $transaction, Expectation $expectation) {
                     $this->validateRequestOrThrowException($expectation, $this->logger);
                     $executions = $this->searchForExecutionsCount($expectation);
-                    $this->logger->debug('Listed ' . count($executions) . ' request matching the expectation');
+                    $this->logger->debug('Listed ' . \count($executions) . ' request matching the expectation');
 
                     return $transaction->getResponse()
                         ->withStatus(200)
