@@ -15,32 +15,16 @@
             "role" : "Developer"
         }
     ],
-    "autoload" : {
-        "psr-4" : {
-            "Mcustiel\\Phiremock\\" : "src"
-        }
-    },
     "name" : "mcustiel/phiremock",
     "type" : "project",
-    "description" : "A mocker for HTTP and REST services",
+    "description" : "A mocker for HTTP and REST services. Full bundle.",
     "license" : "GPL-3.0-or-later",
     "require" : {
         "php" : ">=5.6",
-        "react/http" : "~0.7.0 || ~0.8.0",
-        "mcustiel/php-simple-request" : "^3.1",
-        "symfony/cache": ">=3.1 <5.0",
-        "mcustiel/power-route" : "^3.0.0",
-        "mcustiel/php-simple-di" : "^1.2.1",
-        "guzzlehttp/guzzle" : "^6.0",
-        "monolog/monolog" : "^1.17.2"
+	"mcustiel/phiremock-server": "^1.0",
+	"mcustiel/phiremock-client": "^1.0"
     },
     "require-dev" : {
         "codeception/codeception" : "^2.2.10"
-    },
-    "suggest" : {
-        "ext-pcntl" : "Allows phiremock to handle system signals"
-    },
-    "bin" : [
-        "bin/phiremock"
-    ]
+    }
 }
