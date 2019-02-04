@@ -50,11 +50,11 @@ class ProxyCest
             A::getRequest()->andUrl(Is::equalTo('/potato'))
                 ->andHeader('X-Potato', Is::sameStringAs('bAnaNa'))
                 ->andScenarioState('PotatoScenario', 'Scenario.START')
-            )->proxyTo('https://es.wikipedia.org/wiki/Proxy');
+            )->proxyTo('http://www.youbrokethebuild.com/');
         $this->phiremock->createExpectation($expectation);
 
         $guzzle = new GuzzleHttp\Client();
-        $originalBody = $guzzle->get('https://es.wikipedia.org/wiki/Proxy')->getBody();
+        $originalBody = $guzzle->get('http://www.youbrokethebuild.com/')->getBody();
 
         $I->haveHttpHeader('X-Potato', 'banana');
         $I->sendGet('/potato');
