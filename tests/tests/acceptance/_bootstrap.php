@@ -7,7 +7,7 @@ use Symfony\Component\Process\Process;
 $expectationsDir = __DIR__ . '/../_data/expectations';
 $command = [
     'php',
-    APP_ROOT . 'bin/phiremock',
+    APP_ROOT . '/vendor/bin/phiremock',
     '--port',
     '8086',
     '-d',
