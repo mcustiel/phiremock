@@ -103,10 +103,14 @@ class RequestBuilder
 
     /**
      * @param int $priority
+     *
+     * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public function andPriority($priority)
     {
         $this->priority = $priority;
+
+        return $this;
     }
 
     /**
