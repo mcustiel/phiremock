@@ -2,6 +2,7 @@
 
 use Mcustiel\Phiremock\Client\Connection\Host;
 use Mcustiel\Phiremock\Client\Connection\Port;
+use Mcustiel\Phiremock\Client\Factory;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
@@ -21,7 +22,11 @@ class SameJsonCest
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
-        $this->phiremock = new PhiremockClient(new Host('127.0.0.1'), new Port(8086));
+        $factory = Factory::createDefault();
+        $this->phiremock = $factory->createPhiremockClient(
+            new Host('127.0.0.1'),
+            new Port(8086)
+        );
     }
 
     // tests

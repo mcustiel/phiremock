@@ -19,7 +19,7 @@ class SetScenarioStateCest
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
-        $factory = new Factory();
+        $factory = Factory::createDefault();
         $this->phiremock = $factory->createPhiremockClient(
             new Host('127.0.0.1'),
             new Port(8086)

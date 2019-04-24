@@ -17,7 +17,7 @@ class ResetCest
 
     public function _before(AcceptanceTester $I)
     {
-        $factory = new Factory();
+        $factory = Factory::createDefault();
         $this->phiremock = $factory->createPhiremockClient(
             new Host('127.0.0.1'),
             new Port(8086)
