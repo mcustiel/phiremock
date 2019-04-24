@@ -1,6 +1,9 @@
 <?php
 
 use Codeception\Configuration;
+use Mcustiel\Phiremock\Client\Connection\Host;
+use Mcustiel\Phiremock\Client\Connection\Port;
+use Mcustiel\Phiremock\Client\Factory;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
@@ -20,7 +23,11 @@ class BinaryContentCest
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
-        $this->phiremock = new PhiremockClient('127.0.0.1', '8086');
+        $factory = new Factory();
+        $this->phiremock = $factory->createPhiremockClient(
+            new Host('127.0.0.1'),
+            new Port(8086)
+        );
     }
 
     // tests
