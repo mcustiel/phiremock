@@ -39,12 +39,12 @@ class ResetCest
         $this->phiremock->reset();
 
         $expectation = PhiremockClient::on(
-            A::getRequest()->andUrl(Is::equalTo('/hello'))
+            A::getRequest()->andUrl(Is::equalTo('/hello'))->withPriority(1)
         )->then(
             Respond::withStatusCode(200)
-            ->andBody('Bye!')
-        )->setPriority(1);
-        $this->phiremock->createExpectation($expectation);
+                ->andBody('Bye!')
+        );
+        $this->phiremock->createMockConfig($expectation);
 
         $I->sendGET('/hello');
         $I->seeResponseCodeIs('200');
