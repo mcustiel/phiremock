@@ -1,13 +1,16 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Conditions\BodyCondition;
-use Mcustiel\Phiremock\Domain\Conditions\Matcher;
-use Mcustiel\Phiremock\Domain\Conditions\UrlCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Body\BodyCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Body\BodyMatcher;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodMatcher;
+use Mcustiel\Phiremock\Domain\Conditions\Pattern;
+use Mcustiel\Phiremock\Domain\Conditions\StringValue;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlMatcher;
 use Mcustiel\Phiremock\Domain\Http\Body;
 use Mcustiel\Phiremock\Domain\Http\HeadersCollection;
-use Mcustiel\Phiremock\Domain\Http\Method;
 use Mcustiel\Phiremock\Domain\Http\StatusCode;
-use Mcustiel\Phiremock\Domain\Http\Url;
 use Mcustiel\Phiremock\Domain\HttpResponse;
 use Mcustiel\Phiremock\Domain\MockConfig;
 use Mcustiel\Phiremock\Domain\RequestConditions;
@@ -32,9 +35,9 @@ class BodyConditionCest
     {
         $I->wantTo('create an expectation that checks body using isEqualTo');
         $request = new RequestConditions(
-            Method::get(),
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('GET')),
             null,
-            new BodyCondition(Matcher::equalTo(), new Body('Potato body'))
+            new BodyCondition(BodyMatcher::equalTo(), new StringValue('Potato body'))
         );
         $response = new HttpResponse(new StatusCode(201), new Body(''), new HeadersCollection());
 
@@ -50,7 +53,7 @@ class BodyConditionCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '[{'
-            . '"request":{"method":"GET","body":{"isEqualTo":"Potato body"}},'
+            . '"request":{"method":{"isSameString":"GET"},"body":{"isEqualTo":"Potato body"}},'
             . '"response":{"statusCode":201,"body":""}}]'
         );
     }
@@ -59,9 +62,9 @@ class BodyConditionCest
     {
         $I->wantTo('create an expectation that checks body using matches');
         $request = new RequestConditions(
-            Method::post(),
-            new UrlCondition(Matcher::equalTo(), new Url('/test')),
-            new BodyCondition(Matcher::matches(), new Body('/tomato (?:\d[^a])+/'))
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('POST')),
+            new UrlCondition(UrlMatcher::equalTo(), new StringValue('/test')),
+            new BodyCondition(BodyMatcher::matches(), new Pattern('/tomato (?:\d[^a])+/'))
         );
         $response = new HttpResponse(new StatusCode(201), new Body(''), new HeadersCollection());
         $expectation = new MockConfig($request, $response);
@@ -80,7 +83,7 @@ class BodyConditionCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '[{'
-            . '"request":{"method":"POST","url":{"isEqualTo":"\/test"},"body":{"matches":"\/tomato (?:\\\\d[^a])+\/"}},'
+            . '"request":{"method":{"isSameString":"POST"},"url":{"isEqualTo":"\/test"},"body":{"matches":"\/tomato (?:\\\\d[^a])+\/"}},'
             . '"response":{"statusCode":201,"body":""}}]'
         );
     }
@@ -91,7 +94,7 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            '{"request": {"method": "get", "body": {"potato": "/some pattern/"}}, "response": {"statusCode": 201} }'
+            '{"request": {"method": {"isEqualTo": "get"}, "body": {"potato": "/some pattern/"}}, "response": {"statusCode": 201} }'
         );
 
         $I->seeResponseCodeIs('500');
@@ -106,21 +109,21 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            '{"request": {"method": "get", "body": {"isEqualTo": null}}, "response": {"statusCode": 201} }'
+            '{"request": {"method": {"isEqualTo": "get"}, "body": {"isEqualTo": null}}, "response": {"statusCode": 201} }'
         );
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
-        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Body must be a string. Got: NULL"]}');
+        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Expected string got: NULL"]}');
     }
 
     public function responseExpectedWhenRequestBodyMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('see if mocking based in request body pattern works');
         $request = new RequestConditions(
-            Method::post(),
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('POST')),
             null,
-            new BodyCondition(Matcher::matches(), new Body('/.*potato.*/'))
+            new BodyCondition(BodyMatcher::matches(), new Pattern('/.*potato.*/'))
         );
         $response = new HttpResponse(new StatusCode(200), new Body('Found'), new HeadersCollection());
         $expectation = new MockConfig($request, $response);
@@ -143,9 +146,9 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body equality works');
         $request = new RequestConditions(
-            Method::post(),
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('POST')),
             null,
-            new BodyCondition(Matcher::equalTo(), new Body('potato'))
+            new BodyCondition(BodyMatcher::equalTo(), new StringValue('potato'))
         );
         $response = new HttpResponse(new StatusCode(200), new Body('Found'), new HeadersCollection());
         $expectation = new MockConfig($request, $response);
@@ -165,9 +168,9 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body case insensitive equality works');
         $request = new RequestConditions(
-            Method::post(),
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('POST')),
             null,
-            new BodyCondition(Matcher::sameString(), new Body('pOtAtO'))
+            new BodyCondition(BodyMatcher::sameString(), new StringValue('pOtAtO'))
         );
         $response = new HttpResponse(new StatusCode(200), new Body('Found'), new HeadersCollection());
         $expectation = new MockConfig($request, $response);
