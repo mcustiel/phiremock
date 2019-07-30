@@ -1,21 +1,17 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
 use Mcustiel\Phiremock\Domain\Conditions\BodyCondition;
-use Mcustiel\Phiremock\Domain\Http\Body;
-use Mcustiel\Phiremock\Domain\RequestConditions;
-use Mcustiel\Phiremock\Domain\Http\Method;
 use Mcustiel\Phiremock\Domain\Conditions\Matcher;
-use Mcustiel\Phiremock\Domain\HttpResponse;
-use Mcustiel\Phiremock\Domain\Http\StatusCode;
-use Mcustiel\Phiremock\Domain\Http\HeadersCollection;
-use Mcustiel\Phiremock\Domain\MockConfig;
-use Mcustiel\Phiremock\Factory;
 use Mcustiel\Phiremock\Domain\Conditions\UrlCondition;
+use Mcustiel\Phiremock\Domain\Http\Body;
+use Mcustiel\Phiremock\Domain\Http\HeadersCollection;
+use Mcustiel\Phiremock\Domain\Http\Method;
+use Mcustiel\Phiremock\Domain\Http\StatusCode;
 use Mcustiel\Phiremock\Domain\Http\Url;
+use Mcustiel\Phiremock\Domain\HttpResponse;
+use Mcustiel\Phiremock\Domain\MockConfig;
+use Mcustiel\Phiremock\Domain\RequestConditions;
+use Mcustiel\Phiremock\Factory;
 
 class BodyConditionCest
 {
@@ -113,7 +109,6 @@ class BodyConditionCest
             '{"request": {"method": "get", "body": {"isEqualTo": null}}, "response": {"statusCode": 201} }'
         );
 
-
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
         $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Body must be a string. Got: NULL"]}');
@@ -147,15 +142,16 @@ class BodyConditionCest
     public function responseExpectedWhenRequestBodyEqualsTest(AcceptanceTester $I)
     {
         $I->wantTo('see if mocking based in request body equality works');
-        $request = new Request();
-        $request->setBody(new Condition('isEqualTo', 'potato'));
-        $response = new Response();
-        $response->setBody('Found');
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+        $request = new RequestConditions(
+            Method::post(),
+            null,
+            new BodyCondition(Matcher::equalTo(), new Body('potato'))
+        );
+        $response = new HttpResponse(new StatusCode(200), new Body('Found'), new HeadersCollection());
+        $expectation = new MockConfig($request, $response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $this->factory->createExpectationToArrayConverter()->convert($expectation));
 
         $I->seeResponseCodeIs(201);
 
@@ -168,15 +164,16 @@ class BodyConditionCest
     public function responseExpectedWhenRequestBodyCaseInsensitiveEqualsTest(AcceptanceTester $I)
     {
         $I->wantTo('see if mocking based in request body case insensitive equality works');
-        $request = new Request();
-        $request->setBody(new Condition('isSameString', 'pOtAtO'));
-        $response = new Response();
-        $response->setBody('Found');
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+        $request = new RequestConditions(
+            Method::post(),
+            null,
+            new BodyCondition(Matcher::sameString(), new Body('pOtAtO'))
+        );
+        $response = new HttpResponse(new StatusCode(200), new Body('Found'), new HeadersCollection());
+        $expectation = new MockConfig($request, $response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $this->factory->createExpectationToArrayConverter()->convert($expectation));
 
         $I->seeResponseCodeIs(201);
         $I->sendPOST('/dontcare', 'potato');
