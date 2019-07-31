@@ -1,42 +1,58 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodMatcher;
+use Mcustiel\Phiremock\Domain\Conditions\StringValue;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlMatcher;
+use Mcustiel\Phiremock\Domain\Http\Body;
+use Mcustiel\Phiremock\Domain\Http\HeadersCollection;
+use Mcustiel\Phiremock\Domain\Http\StatusCode;
+use Mcustiel\Phiremock\Domain\HttpResponse;
+use Mcustiel\Phiremock\Domain\MockConfig;
+use Mcustiel\Phiremock\Domain\Options\Delay;
+use Mcustiel\Phiremock\Domain\RequestConditions;
+use Mcustiel\Phiremock\Factory;
 
 class DelaySpecificationCest
 {
+    /** @var \Mcustiel\Phiremock\Factory */
+    private $factory;
+
     public function _before(AcceptanceTester $I)
     {
+        $this->factory = new Factory();
         $I->sendDELETE('/__phiremock/expectations');
-    }
-
-    public function _after(AcceptanceTester $I)
-    {
     }
 
     // tests
     public function createExpectationWhithValidDelayTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with a valid delay specification');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setDelayMillis(5000);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
+        $request = new RequestConditions(
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('get')),
+            new UrlCondition(UrlMatcher::equalTo(), new StringValue('/the/request/url'))
+        );
+        $response = new HttpResponse(
+            new StatusCode(200),
+            new Body('This is the body'),
+            new HeadersCollection(),
+            new Delay(5000)
+        );
+        $expectation = new MockConfig($request, $response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            $this->factory->createExpectationToArrayConverter()->convert($expectation)
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
-            '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":5000},'
-            . '"proxyTo":null,"priority":0}]'
+            '[{"request":{"method":{"isSameString":"get"},"url":{"isEqualTo":"\/the\/request\/url"}},'
+            . '"response":{"statusCode":200,"body":"This is the body","delayMillis":5000}}]'
         );
     }
 
@@ -44,21 +60,18 @@ class DelaySpecificationCest
     public function failWhithNegativedDelayTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with a negative delay specification');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setDelayMillis(-5000);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            '{"request":{"method":{"isSameString":"get"},"url":{"isEqualTo":"\/the\/request\/url"}},'
+            . '"response":{"statusCode":200,"body":"This is the body","delayMillis":-5000}}'
+        );
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
-            '{"result" : "ERROR", "details" : '
-            . '{"response":"delayMillis: Field delayMillis, '
-            . 'was set with invalid value: -5000"}}'
+            '{"result" : "ERROR", "details" : ["Delay must be greater or equal to 0. Got: -5000"]}'
         );
     }
 
@@ -66,21 +79,16 @@ class DelaySpecificationCest
     public function failWhithInvalidDelayTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with an invalid delay specification');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setDelayMillis('potato');
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            '{"request":{"method":{"isSameString":"get"},"url":{"isEqualTo":"\/the\/request\/url"}},'
+            . '"response":{"statusCode":200,"body":"This is the body","delayMillis":"potato"}}'
+        );
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
-            '{"result" : "ERROR", "details" : '
-            . '{"response":"delayMillis: Field delayMillis, '
-            . 'was set with invalid value: \'potato\'"}}'
+            '{"result" : "ERROR", "details" : ["Delay must be an integer. Got: string"]}'
         );
     }
 
@@ -88,16 +96,22 @@ class DelaySpecificationCest
     public function mockRequestWithDelayTest(AcceptanceTester $I)
     {
         $I->wantTo('mock a request with delay');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'))
-            ->setMethod('GET');
-        $response = new Response();
-        $response->setDelayMillis(2000);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+        $request = new RequestConditions(
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('get')),
+            new UrlCondition(UrlMatcher::equalTo(), new StringValue('/the/request/url'))
+            );
+        $response = new HttpResponse(
+            new StatusCode(200),
+            new Body('This is the body'),
+            new HeadersCollection(),
+            new Delay(2000)
+            );
+        $expectation = new MockConfig($request, $response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
-
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            $this->factory->createExpectationToArrayConverter()->convert($expectation)
+            );
         $I->seeResponseCodeIs(201);
 
         $start = microtime(true);
