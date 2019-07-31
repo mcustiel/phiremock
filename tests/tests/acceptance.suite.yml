@@ -8,7 +8,7 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - Asserts
-        - REST:
+        - REST
         - \Helper\Acceptance
     config:
         REST:

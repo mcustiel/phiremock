@@ -1,59 +1,86 @@
 <?php
 
 use Codeception\Configuration;
-use Mcustiel\Phiremock\Client\Connection\Host;
-use Mcustiel\Phiremock\Client\Connection\Port;
-use Mcustiel\Phiremock\Client\Factory;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
 use Mcustiel\Phiremock\Client\Utils\Respond;
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodMatcher;
+use Mcustiel\Phiremock\Domain\Conditions\StringValue;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlMatcher;
+use Mcustiel\Phiremock\Domain\Http\BinaryBody;
+use Mcustiel\Phiremock\Domain\Http\Header;
+use Mcustiel\Phiremock\Domain\Http\HeaderName;
+use Mcustiel\Phiremock\Domain\Http\HeadersCollection;
+use Mcustiel\Phiremock\Domain\Http\HeaderValue;
+use Mcustiel\Phiremock\Domain\Http\StatusCode;
+use Mcustiel\Phiremock\Domain\HttpResponse;
+use Mcustiel\Phiremock\Domain\MockConfig;
+use Mcustiel\Phiremock\Domain\RequestConditions;
+use Mcustiel\Phiremock\Factory;
 
 class BinaryContentCest
 {
-    /**
-     * @var \Mcustiel\Phiremock\Client\Phiremock
-     */
-    private $phiremock;
+    /** @var \Mcustiel\Phiremock\Factory */
+    private $factory;
 
     public function _before(AcceptanceTester $I)
     {
+        $this->factory = new Factory();
         $I->sendDELETE('/__phiremock/expectations');
-        $factory = Factory::createDefault();
-        $this->phiremock = $factory->createPhiremockClient(
-            new Host('127.0.0.1'),
-            new Port(8086)
-        );
     }
 
     // tests
     public function shouldCreateAnExpectationWithBinaryResponseTest(AcceptanceTester $I)
     {
-        $expectation = new Expectation();
-
-        $request = new Request();
-        $request->setMethod('get');
-        $request->setUrl(new Condition('isEqualTo', '/show-me-the-image'));
+        $requestConditions = new RequestConditions(
+            new MethodCondition(
+                MethodMatcher::sameString(),
+                new StringValue('get')
+            ),
+            new UrlCondition(
+                UrlMatcher::equalTo(),
+                new StringValue('/show-me-the-image')
+            )
+        );
 
         $responseContents = file_get_contents(Configuration::dataDir() . '/fixtures/Sparkles-12543.mp4');
 
-        $response = new Response();
-        $response->setStatusCode(200);
-        $response->setHeaders(['Content-Type' => 'video/mp4', 'Content-Encoding' => 'base64']);
-        $response->setBody('phiremock.base64:' . base64_encode($responseContents));
+        $headers = new HeadersCollection();
+        $headers->setHeader(
+            new Header(
+                new HeaderName('Content-Type'),
+                new HeaderValue('video/mp4')
+            )
+        );
+        $headers->setHeader(
+            new Header(
+                new HeaderName('Content-Encoding'),
+                new HeaderValue('base64')
+            )
+        );
+        $response = new HttpResponse(
+            new StatusCode(200),
+            new BinaryBody($responseContents),
+            $headers
+        );
+        $expectation = new MockConfig($requestConditions, $response);
 
-        $expectation->setRequest($request)->setResponse($response);
-        $this->phiremock->createExpectation($expectation);
-
-        $I->sendGET('/show-me-the-image');
-        $I->seeResponseCodeIs(200);
-        $I->seeHttpHeader('Content-Type', 'video/mp4');
-        $responseBody = $I->grabResponse();
-        $I->assertEquals($responseContents, $responseBody);
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            $this->factory->createExpectationToArrayConverter()->convert($expectation)
+        );
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendGET('/__phiremock/expectations');
+        $I->writeDebugMessage($I->grabResponse());
+//         $I->sendGET('/show-me-the-image');
+//         $I->seeResponseCodeIs(200);
+//         $I->seeHttpHeader('Content-Type', 'video/mp4');
+//         $responseBody = $I->grabResponse();
+//         $I->assertEquals($responseContents, $responseBody);
     }
 
     public function shouldCreateAnExpectationWithBinaryResponseUsingClientTest(AcceptanceTester $I)
