@@ -39,6 +39,32 @@ class UrlConditionCest
         );
     }
 
+    public function createAnExpectationUsingUrlEqualToAndQueryStringTest(AcceptanceTester $I)
+    {
+        $I->wantTo('create an expectation that checks url using isEqualTo and the url has query string');
+        $request = new Request();
+        $request->setUrl(new Condition('isEqualTo', '/the/request/url/?query=string&extra=param'));
+        $response = new Response();
+        $response->setStatusCode(418);
+        $expectation = new Expectation();
+        $expectation->setRequest($request)->setResponse($response);
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/__phiremock/expectations', $expectation);
+
+        $I->sendGET('/__phiremock/expectations');
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseIsJson();
+        $I->seeResponseEquals(
+            '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
+            . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url\/?query=string&extra=param"},"body":null,"headers":null},'
+            . '"response":{"statusCode":418,"body":null,"headers":null,"delayMillis":null},'
+            . '"proxyTo":null,"priority":0}]'
+        );
+
+        $I->sendGET('/the/request/url/?query=string&extra=param');
+        $I->seeResponseCodeIs(418);
+    }
+
     public function createAnExpectationUsingUrlMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks url using matches');
