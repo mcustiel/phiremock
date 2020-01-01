@@ -152,12 +152,14 @@ class ReplacementCest
         )->then(
             Respond::withStatusCode(200)
             ->andBody('the numbers are ${url.1} and ${body.1.1}')
+            ->andHeader('Content-Type', 'application/${url.1}')
         );
         $this->phiremock->createExpectation($expectation);
 
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
         $I->seeResponseCodeIs('200');
         $I->seeResponseEquals('the numbers are ${url.1} and ${body.1.1}');
+        $I->canSeeHttpHeader('Content-Type', 'application/${url.1}');
     }
 
     public function createAnExpectationWithRegexMatchGroupsFromUrl(AcceptanceTester $I)
@@ -254,5 +256,99 @@ class ReplacementCest
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
         $I->seeResponseCodeIs('200');
         $I->seeResponseEquals($body);
+    }
+    
+    public function createAnExpectationWithRegexReplacementInHeaderFromUrl(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::getRequest()->andUrl(Is::matching('/&test=(\d+)/'))
+        )->then(
+            Respond::withStatusCode(200)
+                ->andHeader('X-Header', 'test=${url.1}')
+        );
+        $this->phiremock->createExpectation($expectation);
+        
+        $I->sendGET('/potato', ['param1' => 123, 'test' => 456]);
+        $I->seeResponseCodeIs('200');
+        $I->canSeeHttpHeader('X-Header', 'test=456');
+    }
+    
+    public function createAnExpectationWithRegexReplacementInHeaderFromBody(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::equalTo('/potato'))
+                ->andBody(Is::matching('/a tomato (\d+)/'))
+        )->then(
+            Respond::withStatusCode(200)
+                ->andHeader('X-Header', '${body.1}')
+        );
+        $this->phiremock->createExpectation($expectation);
+    
+        $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
+        $I->seeResponseCodeIs('200');
+        $I->canSeeHttpHeader('X-Header', '3');
+    }
+    
+    public function createAnExpectationWithRegexReplacementInHeaderFromBodyAndUrl(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::matching('~^/potato/(\d+)$~'))
+                ->andBody(Is::matching('/^this is a tomato (\d+)kg it weights$/'))
+        )->then(
+            Respond::withStatusCode(200)
+                ->andBody('the numbers are ${url.1} and ${body.1}')
+                ->andHeader('X-Header', 'url=${url.1} body=${body.1}')
+        );
+        $this->phiremock->createExpectation($expectation);
+    
+        $I->sendPOST('/potato/456', 'this is a tomato 3kg it weights');
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseEquals('the numbers are 456 and 3');
+        $I->canSeeHttpHeader('X-Header', 'url=456 body=3');
+    }
+    
+    public function createAnExpectationWithRegexReplacementInHeaderAsGroupExpression(AcceptanceTester $I)
+    {
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::matching('~^/potato/(\d+)$~'))
+                ->andBody(Is::matching('/^this is a tomato (\d+)kg it weights$/'))
+        )->then(
+            Respond::withStatusCode(200)
+                ->andBody('the numbers are ${url.1.1} and ${body.1.1}')
+                ->andHeader('X-Header', 'url=${url.1.1} body=${body.1.1}')
+        );
+        $this->phiremock->createExpectation($expectation);
+        
+        $I->sendPOST('/potato/456', 'this is a tomato 3kg it weights');
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseEquals('the numbers are 456 and 3');
+        $I->canSeeHttpHeader('X-Header', 'url=456 body=3');
+    }
+    
+    public function createAnExpectationWithRegexReplacementInHeaderWithMultipleMatchGroups(AcceptanceTester $I)
+    {
+        $request = '[ { "name": "Sarah", "brothers": 0 },'
+            . ' { "name": "Ruth", "brothers": 2 },'
+            . ' { "name": "Lexi", "brothers": 23 } ]';
+        $matcher = '%"name"\s*:\s*"([^"]*)",\s*"brothers"\s*:\s*(\d+)%';
+    
+        $response = '${body.1} has ${body.2} brothers, ${body.1.2} has ${body.2.2} brothers,'
+            . ' ${body.1.3} has ${body.2.3} brothers';
+        $expectation = PhiremockClient::on(
+            A::postRequest()->andUrl(Is::equalTo('/humans'))
+                ->andBody(Is::matching($matcher))
+        )->then(
+            Respond::withStatusCode(200)
+                ->andBody($response)
+                ->andHeader('X-Header', $response)
+        );
+        $this->phiremock->createExpectation($expectation);
+    
+        $I->sendPOST('/humans', $request);
+    
+        $expectedResponse = 'Sarah has 0 brothers, Ruth has 2 brothers, Lexi has 23 brothers';
+        $I->seeResponseCodeIs('200');
+        $I->seeResponseEquals($expectedResponse);
+        $I->seeHttpHeader('X-Header', $expectedResponse);
     }
 }

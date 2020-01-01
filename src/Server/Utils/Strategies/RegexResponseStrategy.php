@@ -42,7 +42,11 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
             $transactionData->getRequest()
         );
         $httpResponse = $this->getResponseWithStatusCode($responseConfig, $httpResponse);
-        $httpResponse = $this->getResponseWithHeaders($responseConfig, $httpResponse);
+        $httpResponse = $this->getResponseWithReplacedHeaders(
+            $expectation,
+            $httpResponse,
+            $transactionData->getRequest()
+        );
         $this->processDelay($responseConfig);
 
         return $httpResponse;
@@ -68,6 +72,29 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
             $httpResponse = $httpResponse->withBody(new StringStream($responseBody));
         }
 
+        return $httpResponse;
+    }
+    
+    /**
+     * @param Expectation            $expectation
+     * @param ResponseInterface      $httpResponse
+     * @param ServerRequestInterface $httpRequest
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function getResponseWithReplacedHeaders(
+        Expectation $expectation,
+        ResponseInterface $httpResponse,
+        ServerRequestInterface $httpRequest
+    ) {
+        $headers = $expectation->getResponse()->getHeaders();
+        
+        foreach ($headers as $headerName => $headerValue) {
+            $headerValue = $this->fillWithUrlMatches($expectation, $httpRequest, $headerValue);
+            $headerValue = $this->fillWithBodyMatches($expectation, $httpRequest, $headerValue);
+            $httpResponse = $httpResponse->withHeader($headerName, $headerValue);
+        }
+        
         return $httpResponse;
     }
 
