@@ -54,7 +54,7 @@ class ProxyCest
         $this->phiremock->createExpectation($expectation);
 
         $guzzle = new GuzzleHttp\Client();
-        $originalBody = $guzzle->get('https://es.wikipedia.org/wiki/Proxy')->getBody();
+        $originalBody = $guzzle->get('https://es.wikipedia.org/wiki/Proxy')->getBody()->__toString();
 
         $I->haveHttpHeader('X-Potato', 'banana');
         $I->sendGet('/potato');
