@@ -74,7 +74,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
 
         return $httpResponse;
     }
-    
+
     /**
      * @param Expectation            $expectation
      * @param ResponseInterface      $httpResponse
@@ -88,13 +88,17 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
         ServerRequestInterface $httpRequest
     ) {
         $headers = $expectation->getResponse()->getHeaders();
-        
+
+        if (!is_array($headers)) {
+            return $httpResponse;
+        }
+
         foreach ($headers as $headerName => $headerValue) {
             $headerValue = $this->fillWithUrlMatches($expectation, $httpRequest, $headerValue);
             $headerValue = $this->fillWithBodyMatches($expectation, $httpRequest, $headerValue);
             $httpResponse = $httpResponse->withHeader($headerName, $headerValue);
         }
-        
+
         return $httpResponse;
     }
 
