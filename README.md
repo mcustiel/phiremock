@@ -528,7 +528,9 @@ using `${body.matchIndex}` or `${url.matchIndex}` notation.
             ->andBody(Is::matching('~\{"name" : "([^"]+)"\}~'))
             ->andHeader('Content-Type', Is::equalTo('application/json'))
     )->then(
-        Respond::withStatusCode(200)->andBody('The resource is ${url.1}, the id is ${url.2} and the name is ${body.1}')
+        Respond::withStatusCode(200)
+            ->andBody('The resource is ${url.1}, the id is ${url.2} and the name is ${body.1}')
+            ->andHeader('X-id', 'id is ${url.2}')
     );
     $phiremock->createExpectation($expectation);
 ```
