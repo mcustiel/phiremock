@@ -41,11 +41,6 @@ class SearchRequestAction implements ActionInterface
      */
     private $logger;
 
-    /**
-     * @param ExpectationStorage           $storage
-     * @param RequestExpectationComparator $comparator
-     * @param LoggerInterface              $logger
-     */
     public function __construct(
         ExpectationStorage $storage,
         RequestExpectationComparator $comparator,
@@ -76,9 +71,7 @@ class SearchRequestAction implements ActionInterface
     }
 
     /**
-     * @param ServerRequestInterface $request
-     *
-     * @return null|\Mcustiel\Phiremock\Domain\Expectation
+     * @return \Mcustiel\Phiremock\Domain\Expectation|null
      */
     private function searchForMatchingExpectation(ServerRequestInterface $request)
     {
@@ -91,9 +84,7 @@ class SearchRequestAction implements ActionInterface
     }
 
     /**
-     * @param null|\Mcustiel\Phiremock\Domain\Expectation $lastFound
-     * @param ServerRequestInterface                      $request
-     * @param Expectation                                 $expectation
+     * @param \Mcustiel\Phiremock\Domain\Expectation|null $lastFound
      *
      * @return \Mcustiel\Phiremock\Domain\Expectation
      */
@@ -109,8 +100,6 @@ class SearchRequestAction implements ActionInterface
     }
 
     /**
-     * @param ServerRequestInterface $request
-     *
      * @return string
      */
     private function getLoggableRequest(ServerRequestInterface $request)

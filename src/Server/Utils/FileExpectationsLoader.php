@@ -45,12 +45,6 @@ class FileExpectationsLoader
      */
     private $logger;
 
-    /**
-     * @param RequestBuilder     $requestBuilder
-     * @param ExpectationStorage $storage
-     * @param ExpectationStorage $backup
-     * @param LoggerInterface    $logger
-     */
     public function __construct(
         RequestBuilder $requestBuilder,
         ExpectationStorage $storage,

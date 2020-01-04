@@ -41,7 +41,7 @@ class RequestBuilder
 
     /**
      * @param string     $method
-     * @param null|mixed $url
+     * @param mixed|null $url
      *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
@@ -51,8 +51,6 @@ class RequestBuilder
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Domain\Condition $condition
-     *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public function andBody(Condition $condition)
@@ -63,8 +61,7 @@ class RequestBuilder
     }
 
     /**
-     * @param string                               $header
-     * @param \Mcustiel\Phiremock\Domain\Condition $condition
+     * @param string $header
      *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
@@ -76,8 +73,6 @@ class RequestBuilder
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Domain\Condition $condition
-     *
      * @return \Mcustiel\Phiremock\Client\Utils\RequestBuilder
      */
     public function andUrl(Condition $condition)
@@ -129,9 +124,6 @@ class RequestBuilder
         return $expectation;
     }
 
-    /**
-     * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
-     */
     private function setPriority(Expectation $expectation)
     {
         if ($this->priority) {
@@ -139,9 +131,6 @@ class RequestBuilder
         }
     }
 
-    /**
-     * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
-     */
     private function setScenario(Expectation $expectation)
     {
         if ($this->scenarioName && $this->scenarioIs) {

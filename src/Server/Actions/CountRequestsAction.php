@@ -39,12 +39,6 @@ class CountRequestsAction extends AbstractRequestAction implements ActionInterfa
      */
     private $comparator;
 
-    /**
-     * @param RequestBuilder               $requestBuilder
-     * @param RequestStorage               $storage
-     * @param RequestExpectationComparator $comparator
-     * @param LoggerInterface              $logger
-     */
     public function __construct(
         RequestBuilder $requestBuilder,
         RequestStorage $storage,
@@ -81,8 +75,6 @@ class CountRequestsAction extends AbstractRequestAction implements ActionInterfa
     }
 
     /**
-     * @param Expectation $expectation
-     *
      * @return int
      */
     private function searchForExecutionsCount(Expectation $expectation)

@@ -44,9 +44,6 @@ class HttpResponseStrategy extends AbstractResponse implements ResponseStrategyI
     }
 
     /**
-     * @param Response          $responseConfig
-     * @param ResponseInterface $httpResponse
-     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     private function getResponseWithBody(Response $responseConfig, ResponseInterface $httpResponse)

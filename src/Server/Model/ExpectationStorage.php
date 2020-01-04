@@ -22,9 +22,6 @@ use Mcustiel\Phiremock\Domain\Expectation;
 
 interface ExpectationStorage
 {
-    /**
-     * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
-     */
     public function addExpectation(Expectation $expectation);
 
     public function clearExpectations();

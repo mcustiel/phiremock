@@ -53,10 +53,29 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     }
 
     /**
-     * @param Expectation            $expectation
-     * @param ResponseInterface      $httpResponse
-     * @param ServerRequestInterface $httpRequest
-     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function getResponseWithReplacedHeaders(
+        Expectation $expectation,
+        ResponseInterface $httpResponse,
+        ServerRequestInterface $httpRequest
+    ) {
+        $headers = $expectation->getResponse()->getHeaders();
+
+        if (!\is_array($headers)) {
+            return $httpResponse;
+        }
+
+        foreach ($headers as $headerName => $headerValue) {
+            $headerValue = $this->fillWithUrlMatches($expectation, $httpRequest, $headerValue);
+            $headerValue = $this->fillWithBodyMatches($expectation, $httpRequest, $headerValue);
+            $httpResponse = $httpResponse->withHeader($headerName, $headerValue);
+        }
+
+        return $httpResponse;
+    }
+
+    /**
      * @return \Psr\Http\Message\ResponseInterface
      */
     private function getResponseWithBody(
@@ -76,36 +95,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     }
 
     /**
-     * @param Expectation            $expectation
-     * @param ResponseInterface      $httpResponse
-     * @param ServerRequestInterface $httpRequest
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function getResponseWithReplacedHeaders(
-        Expectation $expectation,
-        ResponseInterface $httpResponse,
-        ServerRequestInterface $httpRequest
-    ) {
-        $headers = $expectation->getResponse()->getHeaders();
-
-        if (!is_array($headers)) {
-            return $httpResponse;
-        }
-
-        foreach ($headers as $headerName => $headerValue) {
-            $headerValue = $this->fillWithUrlMatches($expectation, $httpRequest, $headerValue);
-            $headerValue = $this->fillWithBodyMatches($expectation, $httpRequest, $headerValue);
-            $httpResponse = $httpResponse->withHeader($headerName, $headerValue);
-        }
-
-        return $httpResponse;
-    }
-
-    /**
-     * @param Expectation            $expectation
-     * @param ServerRequestInterface $httpRequest
-     * @param string                 $responseBody
+     * @param string $responseBody
      *
      * @return string
      */
@@ -124,8 +114,6 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     }
 
     /**
-     * @param Expectation $expectation
-     *
      * @return bool
      */
     private function bodyConditionIsRegex(Expectation $expectation)
@@ -135,9 +123,7 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     }
 
     /**
-     * @param Expectation            $expectation
-     * @param ServerRequestInterface $httpRequest
-     * @param string                 $responseBody
+     * @param string $responseBody
      *
      * @return string
      */
@@ -156,8 +142,6 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     }
 
     /**
-     * @param ServerRequestInterface $httpRequest
-     *
      * @return string
      */
     private function getUri(ServerRequestInterface $httpRequest)
@@ -173,8 +157,6 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     }
 
     /**
-     * @param Expectation $expectation
-     *
      * @return bool
      */
     private function urlConditionIsRegex(Expectation $expectation)
@@ -210,7 +192,6 @@ class RegexResponseStrategy extends AbstractResponse implements ResponseStrategy
     }
 
     /**
-     * @param array  $matches
      * @param string $type
      * @param string $responseBody
      *

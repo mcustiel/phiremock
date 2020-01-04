@@ -47,12 +47,6 @@ class RequestExpectationComparator
      */
     private $logger;
 
-    /**
-     * @param MatcherFactory     $matcherFactory
-     * @param InputSourceFactory $inputSourceFactory
-     * @param ScenarioStorage    $scenarioStorage
-     * @param LoggerInterface    $logger
-     */
     public function __construct(
         MatcherFactory $matcherFactory,
         InputSourceFactory $inputSourceFactory,
@@ -66,9 +60,6 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $httpRequest
-     * @param \Mcustiel\Phiremock\Domain\Expectation   $expectation
-     *
      * @return bool
      */
     public function equals(ServerRequestInterface $httpRequest, Expectation $expectation)
@@ -93,10 +84,7 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $httpRequest
-     * @param \Mcustiel\Phiremock\Domain\Request       $expectedRequest
-     *
-     * @return null|bool
+     * @return bool|null
      */
     private function compareRequestParts(ServerRequestInterface $httpRequest, Request $expectedRequest)
     {
@@ -119,8 +107,6 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param Expectation $expectation
-     *
      * @return bool
      */
     private function isExpectedScenarioState(Expectation $expectation)
@@ -140,23 +126,16 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param Expectation $expectation
-     *
      * @throws \RuntimeException
      */
     private function checkScenarioNameOrThrowException(Expectation $expectation)
     {
         if (!$expectation->getScenarioName()) {
-            throw new \RuntimeException(
-                'Expecting scenario state without specifying scenario name'
-            );
+            throw new \RuntimeException('Expecting scenario state without specifying scenario name');
         }
     }
 
     /**
-     * @param ServerRequestInterface $httpRequest
-     * @param Request                $expectedRequest
-     *
      * @return bool
      */
     private function requestMethodMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
@@ -172,9 +151,6 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param ServerRequestInterface $httpRequest
-     * @param Request                $expectedRequest
-     *
      * @return bool
      */
     private function requestUrlMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
@@ -190,9 +166,6 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param ServerRequestInterface $httpRequest
-     * @param Request                $expectedRequest
-     *
      * @return bool
      */
     private function requestBodyMatchesExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
@@ -208,9 +181,6 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param ServerRequestInterface $httpRequest
-     * @param Request                $expectedRequest
-     *
      * @return bool
      */
     private function requestHeadersMatchExpectation(ServerRequestInterface $httpRequest, Request $expectedRequest)
@@ -232,10 +202,6 @@ class RequestExpectationComparator
     }
 
     /**
-     * @param ClassArgumentObject    $inputSource
-     * @param ClassArgumentObject    $matcher
-     * @param ServerRequestInterface $httpRequest
-     *
      * @return bool
      */
     private function evaluate(

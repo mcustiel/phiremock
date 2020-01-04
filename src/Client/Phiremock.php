@@ -80,8 +80,6 @@ class Phiremock
 
     /**
      * Creates an expectation with a response for a given request.
-     *
-     * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
      */
     public function createExpectation(Expectation $expectation)
     {
@@ -146,8 +144,6 @@ class Phiremock
     /**
      * Counts the amount of times a request was executed in phiremock.
      *
-     * @param \Mcustiel\Phiremock\Client\Utils\RequestBuilder $requestBuilder
-     *
      * @return int
      */
     public function countExecutions(RequestBuilder $requestBuilder)
@@ -176,8 +172,6 @@ class Phiremock
     /**
      * List requests was executed in phiremock.
      *
-     * @param \Mcustiel\Phiremock\Client\Utils\RequestBuilder $requestBuilder
-     *
      * @return array
      */
     public function listExecutions(RequestBuilder $requestBuilder)
@@ -203,8 +197,6 @@ class Phiremock
 
     /**
      * Sets scenario state.
-     *
-     * @param \Mcustiel\Phiremock\Domain\ScenarioState $scenarioState
      */
     public function setScenarioState(ScenarioState $scenarioState)
     {
@@ -246,8 +238,6 @@ class Phiremock
     /**
      * Inits the fluent interface to create an expectation.
      *
-     * @param \Mcustiel\Phiremock\Client\Utils\RequestBuilder $requestBuilder
-     *
      * @return \Mcustiel\Phiremock\Client\Utils\ExpectationBuilder
      */
     public static function on(RequestBuilder $requestBuilder)
@@ -281,9 +271,6 @@ class Phiremock
             ->withPort($this->port);
     }
 
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     */
     private function checkResponse(ResponseInterface $response)
     {
         if (201 === $response->getStatusCode()) {
@@ -294,8 +281,6 @@ class Phiremock
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     *
      * @throws \RuntimeException
      */
     private function checkErrorResponse(ResponseInterface $response)
@@ -303,10 +288,7 @@ class Phiremock
         if ($response->getStatusCode() >= 500) {
             $errors = json_decode($response->getBody()->__toString(), true)['details'];
 
-            throw new \RuntimeException(
-                'An error occurred creating the expectation: '
-                . ($errors ? var_export($errors, true) : '')
-                . $response->getBody()->__toString());
+            throw new \RuntimeException('An error occurred creating the expectation: ' . ($errors ? var_export($errors, true) : '') . $response->getBody()->__toString());
         }
 
         if ($response->getStatusCode() >= 400) {

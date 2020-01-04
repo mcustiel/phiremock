@@ -57,9 +57,6 @@ class ReactPhpServer implements ServerInterface
      */
     private $logger;
 
-    /**
-     * @param LoggerInterface $logger
-     */
     public function __construct(LoggerInterface $logger)
     {
         $this->loop = EventLoop::create();
@@ -117,8 +114,6 @@ class ReactPhpServer implements ServerInterface
     }
 
     /**
-     * @param ServerRequestInterface $request
-     *
      * @return ResponseInterface
      */
     private function onRequest(ServerRequestInterface $request)
@@ -131,8 +126,6 @@ class ReactPhpServer implements ServerInterface
     }
 
     /**
-     * @param ServerRequestInterface $request
-     *
      * @return \React\Promise\Promise
      */
     private function createRequestManager(ServerRequestInterface $request)

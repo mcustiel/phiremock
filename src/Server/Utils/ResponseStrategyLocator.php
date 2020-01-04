@@ -32,17 +32,12 @@ class ResponseStrategyLocator
      */
     private $diService;
 
-    /**
-     * @param DependencyInjectionService $dependencyService
-     */
     public function __construct(DependencyInjectionService $dependencyService)
     {
         $this->diService = $dependencyService;
     }
 
     /**
-     * @param \Mcustiel\Phiremock\Domain\Expectation $expectation
-     *
      * @return \Mcustiel\Phiremock\Server\Utils\Strategies\ResponseStrategyInterface
      */
     public function getStrategyForExpectation(Expectation $expectation)
@@ -58,8 +53,6 @@ class ResponseStrategyLocator
     }
 
     /**
-     * @param Expectation $expectation
-     *
      * @return bool
      */
     private function requestBodyOrUrlAreRegexp(Expectation $expectation)

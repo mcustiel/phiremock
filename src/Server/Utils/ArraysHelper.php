@@ -21,8 +21,6 @@ namespace Mcustiel\Phiremock\Server\Utils;
 class ArraysHelper
 {
     /**
-     * @param array $array
-     *
      * @return bool
      */
     public static function isAssociative(array $array)
@@ -35,9 +33,6 @@ class ArraysHelper
     }
 
     /**
-     * @param array $array1
-     * @param array $array2
-     *
      * @return bool
      */
     public static function areRecursivelyEquals(array $array1, array $array2)
@@ -50,15 +45,12 @@ class ArraysHelper
     }
 
     /**
-     * @param array $array1
-     * @param array $array2
-     *
      * @return bool
      */
     public static function arrayIsContained(array $array1, array $array2)
     {
         foreach ($array1 as $key => $value1) {
-            if (!array_key_exists($key, $array2)) {
+            if (!\array_key_exists($key, $array2)) {
                 return false;
             }
             if (!self::haveTheSameTypeAndValue($value1, $array2[$key])) {

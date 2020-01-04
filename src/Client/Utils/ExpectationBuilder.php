@@ -27,9 +27,6 @@ class ExpectationBuilder
      */
     private $expectation;
 
-    /**
-     * @param RequestBuilder $requestBuilder
-     */
     public function __construct(RequestBuilder $requestBuilder)
     {
         $this->expectation = $requestBuilder->build();

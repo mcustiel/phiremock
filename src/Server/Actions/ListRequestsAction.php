@@ -39,12 +39,6 @@ class ListRequestsAction extends AbstractRequestAction implements ActionInterfac
      */
     private $comparator;
 
-    /**
-     * @param RequestBuilder               $requestBuilder
-     * @param RequestStorage               $storage
-     * @param RequestExpectationComparator $comparator
-     * @param LoggerInterface              $logger
-     */
     public function __construct(
         RequestBuilder $requestBuilder,
         RequestStorage $storage,
@@ -81,8 +75,6 @@ class ListRequestsAction extends AbstractRequestAction implements ActionInterfac
     }
 
     /**
-     * @param Expectation $expectation
-     *
      * @return array[]
      */
     private function searchForExecutionsCount(Expectation $expectation)

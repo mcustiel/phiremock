@@ -42,10 +42,6 @@ abstract class AbstractRequestAction
      */
     protected $requestBuilder;
 
-    /**
-     * @param RequestBuilder  $requestBuilder
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         RequestBuilder $requestBuilder,
         LoggerInterface $logger
@@ -55,8 +51,6 @@ abstract class AbstractRequestAction
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     *
      * @throws \Exception
      *
      * @return array
@@ -77,9 +71,6 @@ abstract class AbstractRequestAction
     }
 
     /**
-     * @param array                               $listOfErrors
-     * @param \Psr\Http\Message\ResponseInterface $response
-     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function constructErrorResponse(array $listOfErrors, ResponseInterface $response)
@@ -95,9 +86,6 @@ abstract class AbstractRequestAction
     }
 
     /**
-     * @param TransactionData $transactionData
-     * @param callable        $process
-     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function processAndGetResponse(TransactionData $transactionData, callable $process)
@@ -117,8 +105,6 @@ abstract class AbstractRequestAction
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     *
      * @return \Mcustiel\Phiremock\Domain\Expectation
      */
     protected function parseRequestObject(ServerRequestInterface $request)
@@ -135,9 +121,6 @@ abstract class AbstractRequestAction
     }
 
     /**
-     * @param TransactionData $transactionData
-     * @param callable        $process
-     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     private function createObjectFromRequestAndProcess(

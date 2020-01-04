@@ -22,9 +22,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface RequestStorage
 {
-    /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     */
     public function addRequest(ServerRequestInterface $request);
 
     /**

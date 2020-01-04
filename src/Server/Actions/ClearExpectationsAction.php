@@ -29,9 +29,6 @@ class ClearExpectationsAction implements ActionInterface
      */
     private $storage;
 
-    /**
-     * @param ExpectationStorage $storage
-     */
     public function __construct(ExpectationStorage $storage)
     {
         $this->storage = $storage;

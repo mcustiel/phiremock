@@ -29,17 +29,11 @@ class AbstractResponse
      */
     protected $logger;
 
-    /**
-     * @param LoggerInterface $logger
-     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
-    /**
-     * @param Response $responseConfig
-     */
     protected function processDelay(Response $responseConfig)
     {
         if ($responseConfig->getDelayMillis()) {
@@ -51,9 +45,6 @@ class AbstractResponse
     }
 
     /**
-     * @param Response          $responseConfig
-     * @param ResponseInterface $httpResponse
-     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function getResponseWithHeaders(Response $responseConfig, ResponseInterface $httpResponse)
@@ -68,9 +59,6 @@ class AbstractResponse
     }
 
     /**
-     * @param Response          $responseConfig
-     * @param ResponseInterface $httpResponse
-     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function getResponseWithStatusCode(Response $responseConfig, ResponseInterface $httpResponse)

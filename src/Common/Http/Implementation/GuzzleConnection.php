@@ -29,9 +29,6 @@ class GuzzleConnection implements RemoteConnectionInterface
      */
     private $client;
 
-    /**
-     * @param \GuzzleHttp\Client|null $client
-     */
     public function __construct(GuzzleClient $client = null)
     {
         if (!$client) {

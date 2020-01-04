@@ -26,9 +26,6 @@ use Psr\Log\LoggerInterface;
 trait ExpectationValidator
 {
     /**
-     * @param Expectation     $expectation
-     * @param LoggerInterface $logger
-     *
      * @throws \RuntimeException
      */
     protected function validateExpectationOrThrowException(Expectation $expectation, LoggerInterface $logger)
@@ -39,9 +36,6 @@ trait ExpectationValidator
     }
 
     /**
-     * @param Expectation     $expectation
-     * @param LoggerInterface $logger
-     *
      * @throws \RuntimeException
      */
     protected function validateResponseOrThrowException(Expectation $expectation, LoggerInterface $logger)
@@ -53,9 +47,6 @@ trait ExpectationValidator
     }
 
     /**
-     * @param Expectation     $expectation
-     * @param LoggerInterface $logger
-     *
      * @throws \RuntimeException
      */
     protected function validateRequestOrThrowException(Expectation $expectation, LoggerInterface $logger)
@@ -67,8 +58,6 @@ trait ExpectationValidator
     }
 
     /**
-     * @param Response $response
-     *
      * @return bool
      */
     protected function responseIsInvalid(Response $response)
@@ -77,8 +66,6 @@ trait ExpectationValidator
     }
 
     /**
-     * @param Request $request
-     *
      * @return bool
      */
     protected function requestIsInvalid(Request $request)
@@ -87,10 +74,6 @@ trait ExpectationValidator
         && empty($request->getMethod()) && empty($request->getUrl());
     }
 
-    /**
-     * @param Expectation     $expectation
-     * @param LoggerInterface $logger
-     */
     protected function validateScenarioConfigOrThrowException(
         Expectation $expectation,
         LoggerInterface $logger
@@ -100,9 +83,6 @@ trait ExpectationValidator
     }
 
     /**
-     * @param Expectation     $expectation
-     * @param LoggerInterface $logger
-     *
      * @throws \RuntimeException
      */
     protected function validateScenarioStateOrThrowException(
@@ -111,16 +91,11 @@ trait ExpectationValidator
     ) {
         if ($expectation->getNewScenarioState() && !$expectation->getScenarioStateIs()) {
             $logger->error('Scenario states misconfiguration');
-            throw new \RuntimeException(
-                'Trying to set scenario state without specifying scenario previous state'
-            );
+            throw new \RuntimeException('Trying to set scenario state without specifying scenario previous state');
         }
     }
 
     /**
-     * @param Expectation     $expectation
-     * @param LoggerInterface $logger
-     *
      * @throws \RuntimeException
      */
     protected function validateScenarioNameOrThrowException(
@@ -131,9 +106,7 @@ trait ExpectationValidator
             && ($expectation->getScenarioStateIs() || $expectation->getNewScenarioState())
         ) {
             $logger->error('Scenario name related misconfiguration');
-            throw new \RuntimeException(
-                'Expecting or trying to set scenario state without specifying scenario name'
-            );
+            throw new \RuntimeException('Expecting or trying to set scenario state without specifying scenario name');
         }
     }
 }

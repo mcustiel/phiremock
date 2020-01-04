@@ -29,9 +29,6 @@ class ClearScenariosAction implements ActionInterface
      */
     private $storage;
 
-    /**
-     * @param ScenarioStorage $storage
-     */
     public function __construct(ScenarioStorage $storage)
     {
         $this->storage = $storage;

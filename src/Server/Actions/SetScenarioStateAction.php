@@ -35,11 +35,6 @@ class SetScenarioStateAction extends AbstractRequestAction implements ActionInte
      */
     private $storage;
 
-    /**
-     * @param \Mcustiel\SimpleRequest\RequestBuilder           $requestBuilder
-     * @param \Mcustiel\Phiremock\Server\Model\ScenarioStorage $storage
-     * @param \Psr\Log\LoggerInterface                         $logger
-     */
     public function __construct(
         RequestBuilder $requestBuilder,
         ScenarioStorage $storage,

@@ -41,11 +41,6 @@ class VerifyRequestFound implements ActionInterface
      */
     private $responseStrategyFactory;
 
-    /**
-     * @param ScenarioStorage         $scenarioStorage
-     * @param LoggerInterface         $logger
-     * @param ResponseStrategyLocator $responseStrategyFactory
-     */
     public function __construct(
         ScenarioStorage $scenarioStorage,
         LoggerInterface $logger,
@@ -79,8 +74,6 @@ class VerifyRequestFound implements ActionInterface
     }
 
     /**
-     * @param ResponseInterface $response
-     *
      * @return string
      */
     private function getLoggableResponse(ResponseInterface $response)
@@ -98,9 +91,7 @@ class VerifyRequestFound implements ActionInterface
     {
         if ($foundExpectation->getNewScenarioState()) {
             if (!$foundExpectation->getScenarioName()) {
-                throw new \RuntimeException(
-                    'Expecting scenario state without specifying scenario name'
-                );
+                throw new \RuntimeException('Expecting scenario state without specifying scenario name');
             }
             $this->scenarioStorage->setScenarioState(
                 $foundExpectation->getScenarioName(),
