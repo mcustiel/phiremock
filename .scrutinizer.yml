@@ -17,13 +17,27 @@ tools:
         enabled: true
         excluded_dirs: [vendor, test]
 build:
-    environment:
-        postgresql: false
-        mysql: false
-        redis: false
-        php:
-            version: 5.6.9
-    tests:
-        override:
-            -
-                command: ./vendor/bin/codecept build -c tests && ./vendor/bin/codecept run acceptance -c tests
+    nodes:
+        php5-tests:
+            environment:
+                postgresql: false
+                mysql: false
+                redis: false
+                php:
+                    version: 5.6.9
+            tests:
+                override:
+                    -
+                        command: ./vendor/bin/codecept build -c tests && ./vendor/bin/codecept run acceptance -c tests
+        php7-tests:
+            environment:
+                postgresql: false
+                mysql: false
+                redis: false
+                php:
+                    version: 7.2.13
+            tests:
+                override:
+                    -
+                        command: ./vendor/bin/codecept build -c tests && ./vendor/bin/codecept run acceptance -c tests
+                        
