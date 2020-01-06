@@ -21,7 +21,7 @@ namespace Mcustiel\Phiremock\Domain;
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
-class Request implements \JsonSerializable
+class Request implements \JsonSerializable, \Serializable
 {
     /**
      * @var string
@@ -59,7 +59,7 @@ class Request implements \JsonSerializable
                 'method'  => $this->method,
                 'url'     => isset($this->url) ? $this->url->__toString() : 'null',
                 'body'    => isset($this->body) ? $this->body->getMatcher() . ' => ' . (isset($this->body->getValue()[5000]) ? '--VERY LONG CONTENTS--' : $this->body->getValue()) : 'null',
-                'headers' => print_r($this->headers, true),
+                'headers' => is_array($this->headers) ? print_r($this->headers, true) : 'null',
             ],
             true
         );
@@ -158,5 +158,26 @@ class Request implements \JsonSerializable
             'body'    => $this->body,
             'headers' => $this->headers,
         ];
+    }
+
+    public function serialize()
+    {
+        return serialize(
+            [
+                'method'  => $this->method,
+                'url'     => $this->url,
+                'body'    => $this->body,
+                'headers' => $this->headers,
+            ]
+        );
+    }
+
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->method = $data['method'];
+        $this->url = $data['url'];
+        $this->body = $data['body'];
+        $this->headers = $data['headers'];
     }
 }

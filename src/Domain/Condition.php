@@ -18,7 +18,7 @@
 
 namespace Mcustiel\Phiremock\Domain;
 
-class Condition implements \JsonSerializable
+class Condition implements \JsonSerializable, \Serializable
 {
     /**
      * @var string
@@ -92,5 +92,17 @@ class Condition implements \JsonSerializable
     public function jsonSerialize()
     {
         return [$this->matcher => $this->value];
+    }
+
+    public function serialize()
+    {
+        return serialize(['matcher' => $this->matcher, 'value' => $this->value]);
+    }
+
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->matcher = $data['matcher'];
+        $this->value = $data['value'];
     }
 }

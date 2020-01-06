@@ -20,7 +20,7 @@ namespace Mcustiel\Phiremock\Domain;
 
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
-class ScenarioState implements \JsonSerializable
+class ScenarioState implements \JsonSerializable, \Serializable
 {
     /**
      * @var string
@@ -103,5 +103,20 @@ class ScenarioState implements \JsonSerializable
             'scenarioName'   => $this->scenarioName,
             'scenarioState'  => $this->scenarioState,
         ];
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            'scenarioName'   => $this->scenarioName,
+            'scenarioState'  => $this->scenarioState,
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->scenarioName = $data['scenarioName'];
+        $this->scenarioState = $data['scenarioState'];
     }
 }

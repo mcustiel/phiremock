@@ -67,7 +67,12 @@ $handleTermination = function ($signal = 0) use ($server, $logger) {
     $server->shutdown();
     $logger->info('Bye bye');
 };
+$errorHandler = function ($errno, $errstr, $errfile, $errline) use ($logger) {
+    $logger->warning(sprintf('PHP error [%d]: %s on %s:%d', $errno, $errstr, $errfile, $errline));
+};
 
+$logger->debug('Registering global error handler');
+set_error_handler($errorHandler);
 $logger->debug('Registering shutdown function');
 register_shutdown_function($handleTermination);
 

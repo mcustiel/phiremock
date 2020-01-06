@@ -22,7 +22,7 @@ use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\ParseAs;
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
-class Expectation implements \JsonSerializable
+class Expectation implements \JsonSerializable, \Serializable
 {
     /**
      * @var Request
@@ -268,4 +268,32 @@ class Expectation implements \JsonSerializable
             'priority'         => $this->priority,
         ];
     }
+
+    public function serialize()
+    {
+        return serialize(
+            [
+                'scenarioName'     => $this->scenarioName,
+                'scenarioStateIs'  => $this->scenarioStateIs,
+                'newScenarioState' => $this->newScenarioState,
+                'request'          => $this->request,
+                'response'         => $this->response,
+                'proxyTo'          => $this->proxyTo,
+                'priority'         => $this->priority,
+            ]
+        );
+    }
+
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->scenarioName = $data['scenarioName'];
+        $this->scenarioStateIs = $data['scenarioStateIs'];
+        $this->newScenarioState = $data['newScenarioState'];
+        $this->request = $data['request'];
+        $this->response = $data['response'];
+        $this->proxyTo = $data['proxyTo'];
+        $this->priority = $data['priority'];
+    }
+
 }

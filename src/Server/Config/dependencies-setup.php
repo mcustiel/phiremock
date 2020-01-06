@@ -48,6 +48,8 @@ use Mcustiel\PowerRoute\Matchers\RegExp as RegExpMatcher;
 use Mcustiel\PowerRoute\PowerRoute;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Mcustiel\Phiremock\Server\Utils\ExpectationSearchers\SequentialExpectationSearcher;
+use Mcustiel\Phiremock\Server\Utils\ExpectationSearchers\ParallelExpectationSearcher;
 
 $di = new DependencyInjectionService();
 
@@ -121,6 +123,21 @@ $di->register('requestExpectationComparator', function () use ($di) {
         $di->get('matcherFactory'),
         $di->get('inputSourceFactory'),
         $di->get('scenarioStorage'),
+        $di->get('logger')
+    );
+});
+
+$di->register('expectationSearcher', function () use ($di) {
+    if (extension_loaded('pcntl')) {
+        return new ParallelExpectationSearcher(
+            $di->get('expectationStorage'),
+            $di->get('requestExpectationComparator'),
+            $di->get('logger')
+        );
+    }
+    return new SequentialExpectationSearcher(
+        $di->get('expectationStorage'),
+        $di->get('requestExpectationComparator'),
         $di->get('logger')
     );
 });
@@ -216,8 +233,7 @@ $di->register('actionFactory', function () use ($di) {
         'checkExpectations' => new SingletonLazyCreator(
             SearchRequestAction::class,
             [
-                $di->get('expectationStorage'),
-                $di->get('requestExpectationComparator'),
+                $di->get('expectationSearcher'),
                 $di->get('logger'),
             ]
         ),

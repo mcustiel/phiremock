@@ -97,8 +97,10 @@ class RequestExpectationComparator
             if ($expectedRequest->{$getter}()) {
                 $this->logger->debug("Checking {$requestPart} against expectation");
                 if (!$this->{$matcher}($httpRequest, $expectedRequest)) {
+                    $this->logger->debug("{$requestPart} does not match");
                     return null;
                 }
+                $this->logger->debug("{$requestPart} matches");
                 $atLeastOneExecution = true;
             }
         }

@@ -32,7 +32,8 @@
         "mcustiel/power-route" : "^3.0.0",
         "mcustiel/php-simple-di" : "^1.2.1",
         "guzzlehttp/guzzle" : "^6.0",
-        "monolog/monolog" : "^1.17.2||^2.0"
+        "monolog/monolog" : "^1.17.2||^2.0",
+        "ext-json": "*"
     },
     "require-dev" : {
         "codeception/codeception" : "^2.2.10"

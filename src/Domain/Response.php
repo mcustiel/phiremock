@@ -21,7 +21,7 @@ namespace Mcustiel\Phiremock\Domain;
 use Mcustiel\SimpleRequest\Annotation\Filter as SRF;
 use Mcustiel\SimpleRequest\Annotation\Validator as SRV;
 
-class Response implements \JsonSerializable
+class Response implements \JsonSerializable, \Serializable
 {
     /**
      * @SRF\DefaultValue(200)
@@ -172,5 +172,24 @@ class Response implements \JsonSerializable
             'headers'     => $this->headers,
             'delayMillis' => $this->delayMillis,
         ];
+    }
+    public function serialize()
+    {
+        return serialize([
+            'statusCode'  => $this->statusCode,
+            'body'        => $this->body,
+            'headers'     => $this->headers,
+            'delayMillis' => $this->delayMillis,
+        ]);
+
+    }
+
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->statusCode = $data['statusCode'];
+        $this->body = $data['body'];
+        $this->headers = $data['headers'];
+        $this->delayMillis = $data['delayMillis'];
     }
 }
