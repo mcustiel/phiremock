@@ -43,7 +43,6 @@ class ParallelExpectationSearcher extends  ExpectationSearcher
         $result = $this->parallelProcessor->execute(
             $this->getAllExpectations(),
             function ($index, Expectation $expectation) use ($request) {
-                echo sprintf('In function: index is %s', $index);
                 if ($this->compare($request, $expectation)) {
                     return $expectation;
                 }

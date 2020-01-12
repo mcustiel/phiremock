@@ -29,7 +29,6 @@ class IterableParallelProcessing
     {
         $this->parallelCount = $parallelCount;
     }
-
     public function execute($iterable, callable $function)
     {
         $pids = [];
@@ -96,12 +95,15 @@ class IterableParallelProcessing
 
     private function waitForProcesses(array &$pids, array &$socketsCollection, array &$result)
     {
+        echo 'Waiting for processes...' . PHP_EOL;
         foreach($pids as $index => $pid) {
+            echo sprintf('Waiting for process with index %d and pid %d...', $index, $pid) . PHP_EOL;
             $this->getExecutionResult($index, $socketsCollection, $result);
             $status = 0;
             $res = pcntl_waitpid($pid, $status, WNOHANG);
             $processExited = $res == -1 || $res > 0;
             if($processExited) {
+                echo 'Process finished: ' . $pids[$index] . PHP_EOL;
                 fclose($socketsCollection[$index][self::CHILD_STREAM_INDEX]);
                 unset($socketsCollection[$index]);
                 unset($pids[$index]);
@@ -113,6 +115,9 @@ class IterableParallelProcessing
     private function getExecutionResult($index, array $socketsCollection, array &$result)
     {
         if (isset($socketsCollection[$index])) {
+            if (!isset($result[$index])) {
+                $result[$index] = '';
+            }
             while(($string = fgets($socketsCollection[$index][self::CHILD_STREAM_INDEX])) !== false) {
                 $result[$index] .= $string;
             }
