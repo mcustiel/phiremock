@@ -28,7 +28,7 @@ class ProxyCest
                 ->andHeader('X-Potato', Is::sameStringAs('bAnaNa'))
                 ->andScenarioState('PotatoScenario', 'Scenario.START')
                 ->andBody(Is::equalTo('{"key": "This is the body"}'))
-            )->proxyTo('https://es.wikipedia.org/wiki/Proxy');
+            )->proxyTo('https://www.w3schools.com/html/');
         $this->phiremock->createExpectation($expectation);
 
         $I->sendGET('/__phiremock/expectations');
@@ -40,21 +40,22 @@ class ProxyCest
             . '"body":{"isEqualTo":"{\"key\": \"This is the body\"}"},"headers":{"X-Potato":'
             . '{"isSameString":"bAnaNa"}}},"response":{"statusCode":200,"body":null,"headers":'
             . 'null,"delayMillis":null},'
-            . '"proxyTo":"https:\/\/es.wikipedia.org\/wiki\/Proxy","priority":0}]'
+            . '"proxyTo":"https:\/\/www.w3schools.com\/html\/","priority":0}]'
         );
     }
 
     public function proxyToGivenUriTest(AcceptanceTester $I)
     {
+        $realUrl = 'https://www.w3schools.com/html/';
         $expectation = PhiremockClient::on(
             A::getRequest()->andUrl(Is::equalTo('/potato'))
                 ->andHeader('X-Potato', Is::sameStringAs('bAnaNa'))
                 ->andScenarioState('PotatoScenario', 'Scenario.START')
-            )->proxyTo('https://es.wikipedia.org/wiki/Proxy');
+            )->proxyTo($realUrl);
         $this->phiremock->createExpectation($expectation);
 
         $guzzle = new GuzzleHttp\Client();
-        $originalBody = $guzzle->get('https://es.wikipedia.org/wiki/Proxy')->getBody()->__toString();
+        $originalBody = $guzzle->get($realUrl)->getBody()->__toString();
 
         $I->haveHttpHeader('X-Potato', 'banana');
         $I->sendGet('/potato');
