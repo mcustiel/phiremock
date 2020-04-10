@@ -1,5 +1,34 @@
 <?php
 
-define('APP_ROOT', __DIR__ . '/../../');
+define('APP_ROOT', __DIR__ . '/../..');
 
-$loader = require APP_ROOT . 'vendor/autoload.php';
+$loader = require APP_ROOT . '/vendor/autoload.php';
+
+use Symfony\Component\Process\Process;
+
+// Here you can initialize variables that will be available to your tests
+
+$expectationsDir = __DIR__ . '/../_data/expectations';
+$command = [
+    'php',
+    APP_ROOT . '/vendor/bin/phiremock',
+    '--port',
+    '8086',
+    '-d',
+    '-e',
+    $expectationsDir,
+    '>',
+    codecept_log_dir() . '/phiremock.log',
+    '2>&1',
+];
+echo 'Running ' . implode(' ', $command) . PHP_EOL;
+$process = new Process($command);
+$process->disableOutput();
+register_shutdown_function(function () use ($process) {
+    echo 'Terminating phiremock' . PHP_EOL;
+    $process->stop(10, defined('SIGTERM') ? SIGTERM : null);
+});
+
+$process->run();
+
+sleep(1);
