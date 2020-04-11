@@ -23,12 +23,12 @@ class BinaryContentCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/show-me-the-image-now']
+                    'url' => ['isEqualTo' => '/show-me-the-image-now'],
                 ],
                 'response' => [
                     'headers' => [
-                        'Content-Type' => 'image/jpeg',
-                        'Content-Encoding' => 'base64'
+                        'Content-Type'     => 'image/jpeg',
+                        'Content-Encoding' => 'base64',
                     ],
                     'body' => 'phiremock.base64:' . base64_encode($responseContents),
                 ],

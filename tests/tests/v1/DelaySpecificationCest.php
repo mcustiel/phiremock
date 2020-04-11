@@ -1,19 +1,10 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-
 class DelaySpecificationCest
 {
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
-    }
-
-    public function _after(AcceptanceTester $I)
-    {
     }
 
     // tests
@@ -25,11 +16,11 @@ class DelaySpecificationCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/the/request/url']
+                    'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
-                    'delayMillis' => 5000
-                ]
+                    'delayMillis' => 5000,
+                ],
             ]
         );
 
@@ -52,11 +43,11 @@ class DelaySpecificationCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/the/request/url']
+                    'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
-                    'delayMillis' => -5000
-                ]
+                    'delayMillis' => -5000,
+                ],
             ]
         );
 
@@ -75,11 +66,11 @@ class DelaySpecificationCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/the/request/url']
+                    'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
-                    'delayMillis' => 'potato'
-                ]
+                    'delayMillis' => 'potato',
+                ],
             ]
         );
 
@@ -99,11 +90,11 @@ class DelaySpecificationCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/the/request/url']
+                    'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
-                    'delayMillis' => 2000
-                ]
+                    'delayMillis' => 2000,
+                ],
             ]
         );
 

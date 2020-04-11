@@ -14,11 +14,11 @@ class BodyJsonCest
         $I->sendPOST('/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/the/request/url']
+                    'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
-                    'body' => ['foo' => 'bar']
-                ]
+                    'body' => ['foo' => 'bar'],
+                ],
             ]
         );
         $I->seeResponseCodeIs('201');

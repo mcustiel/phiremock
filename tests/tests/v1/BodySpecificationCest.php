@@ -19,11 +19,11 @@ class BodySpecificationCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/the/request/url']
+                    'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
-                    'body' => 'This is the body'
-                ]
+                    'body' => 'This is the body',
+                ],
             ]
         );
 
@@ -45,11 +45,11 @@ class BodySpecificationCest
         $I->sendPOST('/__phiremock/expectations',
             [
                 'request' => [
-                    'url' => ['isEqualTo' => '/the/request/url']
+                    'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
-                    'body' => null
-                ]
+                    'body' => null,
+                ],
             ]
         );
 
