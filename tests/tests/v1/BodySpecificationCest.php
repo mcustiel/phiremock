@@ -1,10 +1,5 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-
 class BodySpecificationCest
 {
     public function _before(AcceptanceTester $I)
@@ -19,14 +14,18 @@ class BodySpecificationCest
     public function createExpectationWithBodyResponseTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with a valid body');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setBody('This is the body');
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url' => ['isEqualTo' => '/the/request/url']
+                ],
+                'response' => [
+                    'body' => 'This is the body'
+                ]
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -42,14 +41,17 @@ class BodySpecificationCest
     public function createWithEmptyBodyTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with an empty body');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setBody(null);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST('/__phiremock/expectations',
+            [
+                'request' => [
+                    'url' => ['isEqualTo' => '/the/request/url']
+                ],
+                'response' => [
+                    'body' => null
+                ]
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');

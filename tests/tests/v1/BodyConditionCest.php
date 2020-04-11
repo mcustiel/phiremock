@@ -32,11 +32,9 @@ class BodyConditionCest
         $request = new Conditions(
             null,
             null,
-            new BodyCondition(BodyMatcher::equalTo(), new StringValue('Potato body')),
-            null,
-            null
+            new BodyCondition(BodyMatcher::equalTo(), new StringValue('Potato body'))
         );
-        $response = new HttpResponse(new StatusCode(201), null, null, null, null);
+        $response = new HttpResponse(new StatusCode(201));
         $expectation = new Expectation($request, $response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -62,11 +60,9 @@ class BodyConditionCest
             new BodyCondition(
                 BodyMatcher::matches(),
                 new StringValue('/tomato (\d[^a])+/')
-            ),
-            null,
-            null
+            )
         );
-        $response = new HttpResponse(new StatusCode(201), null, null, null, null);
+        $response = new HttpResponse(new StatusCode(201));
         $expectation = new Expectation($request, $response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -112,7 +108,7 @@ class BodyConditionCest
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
-        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Condition value can not be null"]}');
+        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid condition value. Expected string, got: NULL"]}');
     }
 
     public function responseExpectedWhenRequestBodyMatchesTest(AcceptanceTester $I)
@@ -125,11 +121,9 @@ class BodyConditionCest
             new BodyCondition(
                 BodyMatcher::matches(),
                 new StringValue('/.*potato.*/')
-            ),
-            null,
-            null
+            )
         );
-        $response = new HttpResponse(new StatusCode(200), new Body('Found'), null, null, null);
+        $response = new HttpResponse(new StatusCode(200), new Body('Found'));
         $expectation = new Expectation($request, $response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -153,11 +147,9 @@ class BodyConditionCest
             new BodyCondition(
                 BodyMatcher::equalTo(),
                 new StringValue('potato')
-            ),
-            null,
-            null
+            )
         );
-        $response = new HttpResponse(new StatusCode(200), new Body('Found'), null, null, null);
+        $response = new HttpResponse(new StatusCode(200), new Body('Found'));
         $expectation = new Expectation($request, $response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -181,11 +173,9 @@ class BodyConditionCest
             new BodyCondition(
                 BodyMatcher::sameString(),
                 new StringValue('pOtAtO')
-            ),
-            null,
-            null
+            )
         );
-        $response = new HttpResponse(new StatusCode(200), new Body('Found'), null, null, null);
+        $response = new HttpResponse(new StatusCode(200), new Body('Found'));
         $expectation = new Expectation($request, $response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
