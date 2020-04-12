@@ -2,6 +2,7 @@
     "scenarioName": "potato",
     "scenarioStateIs": "Scenario.START",
     "newScenarioState": "tomato",
+    "priority": "5",
     "request": {
             "method": "GET",
             "url": {

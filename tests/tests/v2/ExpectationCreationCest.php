@@ -4,38 +4,56 @@ use Mcustiel\Phiremock\Domain\Condition;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Request;
 use Mcustiel\Phiremock\Domain\Response;
+use Mcustiel\Phiremock\Factory;
+use Mcustiel\Phiremock\Domain\RequestConditions;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Method\MethodMatcher;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlCondition;
+use Mcustiel\Phiremock\Domain\Conditions\Url\UrlMatcher;
+use Mcustiel\Phiremock\Domain\Conditions\StringValue;
+use Mcustiel\Phiremock\Domain\HttpResponse;
+use Mcustiel\Phiremock\Domain\Http\StatusCode;
+use Mcustiel\Phiremock\Domain\Http\Body;
+use Mcustiel\Phiremock\Domain\Http\HeadersCollection;
+use Mcustiel\Phiremock\Domain\MockConfig;
 
 class ExpectationCreationCest
 {
+    /** @var \Mcustiel\Phiremock\Factory */
+    private $factory;
+
     public function _before(AcceptanceTester $I)
     {
+        $this->factory = new Factory();
         $I->sendDELETE('/__phiremock/expectations');
-    }
-
-    public function _after(AcceptanceTester $I)
-    {
     }
 
     public function creationWithOnlyValidUrlConditionTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that only checks url');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
+        $request = new RequestConditions(
+            new MethodCondition(MethodMatcher::equalTo(), new StringValue('get')),
+            new UrlCondition(UrlMatcher::equalTo(), new StringValue('/the/request/url'))
+        );
+        $response = new HttpResponse(
+            new StatusCode(201),
+            Body::createEmpty(),
+            new HeadersCollection()
+        );
+        $expectation = new MockConfig($request, $response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            $this->factory->createExpectationToArrayConverter()->convert($expectation)
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
-            '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
-            . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
-            . '"proxyTo":null,"priority":0}]'
+            '[{"request":{"method":{"isSameString":"get"},"url":{"isEqualTo":"\/the\/request\/url"}},'
+            . '"response":{"statusCode":201,"body":""}}]'
         );
     }
 

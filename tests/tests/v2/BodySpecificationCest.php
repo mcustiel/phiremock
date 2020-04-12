@@ -24,10 +24,6 @@ class BodySpecificationCest
         $I->sendDELETE('/__phiremock/expectations');
     }
 
-    public function _after(AcceptanceTester $I)
-    {
-    }
-
     public function createExpectationWithBodyResponseTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation with a valid body');

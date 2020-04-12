@@ -27,10 +27,6 @@ class BodyConditionCest
         $I->sendDELETE('/__phiremock/expectations');
     }
 
-    public function _after(AcceptanceTester $I)
-    {
-    }
-
     public function createAnExpectationUsingBodyEqualToTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks body using isEqualTo');
