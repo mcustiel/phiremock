@@ -1,10 +1,5 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-
 class HeadersSpecificationCest
 {
     public function _before(AcceptanceTester $I)
@@ -12,21 +7,21 @@ class HeadersSpecificationCest
         $I->sendDELETE('/__phiremock/expectations');
     }
 
-    public function _after(AcceptanceTester $I)
-    {
-    }
-
     public function createSpecificationWithOneHeaderInResponseTest(AcceptanceTester $I)
     {
         $I->wantTo('create an specification with one header in response');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setHeaders(['Location' => '/potato.php']);
-        $specification = new Expectation();
-        $specification->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $specification);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url' => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [
+                    'headers' => ['Location' => '/potato.php'],
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs(200);
@@ -42,18 +37,22 @@ class HeadersSpecificationCest
     public function createSpecificationWithMoreThanOneHeaderInResponseTest(AcceptanceTester $I)
     {
         $I->wantTo('create an specification with several headers in response');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setHeaders([
-            'Location'      => '/potato.php',
-            'Cache-Control' => 'private, max-age=0, no-cache',
-            'Pragma'        => 'no-cache',
-        ]);
-        $specification = new Expectation();
-        $specification->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $specification);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url' => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [
+                    'headers' => [
+                        'Location'      => '/potato.php',
+                        'Cache-Control' => 'private, max-age=0, no-cache',
+                        'Pragma'        => 'no-cache',
+                    ],
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs(200);
@@ -71,13 +70,17 @@ class HeadersSpecificationCest
     public function createSpecificationWithEmptyHeadersTest(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with no headers in response');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $specification = new Expectation();
-        $specification->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $specification);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url' => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs(200);
@@ -93,13 +96,19 @@ class HeadersSpecificationCest
     public function failOnEmptyHeadersInspecificationTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when creating a specification with invalid headers');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = (new Response())->setHeaders('potato');
-        $specification = new Expectation();
-        $specification->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $specification);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url' => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [
+                    'headers' => 'potato',
+                ],
+            ]
+        );
         $I->seeResponseCodeIs(500);
+        $I->canSeeResponseEquals('{"result" : "ERROR", "details" : ["Response headers are invalid: \'potato\'"]}');
     }
 }

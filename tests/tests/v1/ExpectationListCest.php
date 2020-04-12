@@ -1,19 +1,10 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-
 class ExpectationListCest
 {
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
-    }
-
-    public function _after(AcceptanceTester $I)
-    {
     }
 
     public function returnEmptyListTest(AcceptanceTester $I)
@@ -25,15 +16,18 @@ class ExpectationListCest
 
     public function returnCreatedExpectationTest(AcceptanceTester $I)
     {
-        $request = new Request();
-        $urlCondition = new Condition('isEqualTo', '/the/request/url');
-        $request->setUrl($urlCondition);
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url' => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');

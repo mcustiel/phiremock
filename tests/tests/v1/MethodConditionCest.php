@@ -1,9 +1,5 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-
 class MethodConditionCest
 {
     public function _before(AcceptanceTester $I)
@@ -11,21 +7,21 @@ class MethodConditionCest
         $I->sendDELETE('/__phiremock/expectations');
     }
 
-    public function _after(AcceptanceTester $I)
-    {
-    }
-
     public function createAnExpectationUsingMethodPost(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method post');
-        $request = new Request();
-        $request->setMethod('post');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'post',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -41,14 +37,19 @@ class MethodConditionCest
     public function createAnExpectationUsingMethodGet(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method get');
-        $request = new Request();
-        $request->setMethod('get');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'get',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -64,14 +65,18 @@ class MethodConditionCest
     public function createAnExpectationUsingMethodPut(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method put');
-        $request = new Request();
-        $request->setMethod('put');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'put',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -87,14 +92,18 @@ class MethodConditionCest
     public function createAnExpectationUsingMethodDelete(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method delete');
-        $request = new Request();
-        $request->setMethod('delete');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'delete',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -110,14 +119,18 @@ class MethodConditionCest
     public function createAnExpectationUsingMethodFetch(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method fetch');
-        $request = new Request();
-        $request->setMethod('fetch');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'fetch',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -133,14 +146,18 @@ class MethodConditionCest
     public function createAnExpectationUsingMethodOptions(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method options');
-        $request = new Request();
-        $request->setMethod('options');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'options',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -156,14 +173,18 @@ class MethodConditionCest
     public function createAnExpectationUsingMethodHead(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method head');
-        $request = new Request();
-        $request->setMethod('head');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'head',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -179,14 +200,18 @@ class MethodConditionCest
     public function createAnExpectationUsingMethodPatch(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with method patch');
-        $request = new Request();
-        $request->setMethod('patch');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'patch',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -202,19 +227,23 @@ class MethodConditionCest
     public function failWhenInvalidMethodSpecifiedTest(AcceptanceTester $I)
     {
         $I->wantTo('create a specification that checks url using matches');
-        $request = new Request();
-        $request->setMethod('potato');
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'method' => 'potato',
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
-            '{"result" : "ERROR", "details" : {"request":"method: Field method, was set with invalid value: \'potato\'"}}'
+            '{"result" : "ERROR", "details" : ["Invalid http method: \'potato\'"]}'
         );
     }
 }

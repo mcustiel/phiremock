@@ -1,10 +1,5 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-
 class HeadersConditionsCest
 {
     public function _before(AcceptanceTester $I)
@@ -19,16 +14,18 @@ class HeadersConditionsCest
     public function creationWithOneHeaderUsingEqualToTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks one header using isEqualTo');
-        $request = new Request();
-        $request->setHeaders([
-            'Content-Type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
-        ]);
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'headers' => ['Content-Type' => ['isEqualTo' => 'application/x-www-form-urlencoded']],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -44,16 +41,18 @@ class HeadersConditionsCest
     public function creationWithOneHeaderUsingMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks one header using matches');
-        $request = new Request();
-        $request->setHeaders([
-            'Content-Type' => new Condition('matches', '/application/'),
-        ]);
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'headers' => ['Content-Type' => ['matches' => '/application/']],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -69,16 +68,19 @@ class HeadersConditionsCest
     public function failWhenUsingInvalidMatcherTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when the matcher is invalid');
-        $request = new Request();
-        $request->setHeaders([
-            'Content-Type' => new Condition('potato', '/application/'),
-        ]);
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'headers' => ['Content-Type' => ['potato' => '/application/']],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
@@ -88,37 +90,45 @@ class HeadersConditionsCest
     public function failWhenUsingNullValueTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when the value is null');
-        $request = new Request();
-        $request->setHeaders([
-            'Content-Type' => new Condition('matches', null),
-        ]);
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'headers' => ['Content-Type' => ['matches' => null]],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(500);
         $I->seeResponseIsJson();
-        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Condition value can not be null"]}');
+        $I->seeResponseEquals('{"result" : "ERROR", "details" : ["Invalid condition value. Expected string, got: NULL"]}');
     }
 
     public function creationWithMoreThanOneHeaderConditionTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks more than one header');
-        $request = new Request();
-        $request->setHeaders([
-            'Content-Type'     => new Condition('matches', '/application/'),
-            'Content-Length'   => new Condition('isEqualTo', '25611'),
-            'Content-Encoding' => new Condition('isEqualTo', 'gzip'),
-        ]);
-        $response = new Response();
-        $response->setStatusCode(201);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'headers' => [
+                        'Content-Type'     => ['matches' => '/application/'],
+                        'Content-Length'   => ['isEqualTo' => '25611'],
+                        'Content-Encoding' => ['isSameString' => 'gzip'],
+                    ],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -128,7 +138,7 @@ class HeadersConditionsCest
             . '"request":{"method":null,"url":null,"body":null,"headers":{'
             . '"Content-Type":{"matches":"\/application\/"},'
             . '"Content-Length":{"isEqualTo":"25611"},'
-            . '"Content-Encoding":{"isEqualTo":"gzip"}}},'
+            . '"Content-Encoding":{"isSameString":"gzip"}}},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
             . '"proxyTo":null,"priority":0}]'
         );
@@ -137,17 +147,21 @@ class HeadersConditionsCest
     public function responseExpectedWhenRequestOneHeaderMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('see if mocking based in one request header works');
-        $request = new Request();
-        $request->setHeaders([
-            'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
-        ]);
-        $response = new Response();
-        $response->setBody('Found');
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'headers' => [
+                        'Content-Type' => ['isEqualTo' => 'application/x-www-form-urlencoded'],
+                    ],
+                ],
+                'response' => [
+                    'body' => 'Found',
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(201);
         $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -160,19 +174,23 @@ class HeadersConditionsCest
     public function responseExpectedWhenSeveralHeadersMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('see if mocking based in several request headers works');
-        $request = new Request();
-        $request->setHeaders([
-            'Content-type' => new Condition('isEqualTo', 'application/x-www-form-urlencoded'),
-            'X-Potato'     => new Condition('matches', '/.*tomato.*/'),
-            'X-Tomato'     => new Condition('isSameString', 'PoTaTo'),
-        ]);
-        $response = new Response();
-        $response->setBody('Found');
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'headers' => [
+                        'Content-Type' => ['isEqualTo' => 'application/x-www-form-urlencoded'],
+                        'X-Potato'     => ['matches' => '/.*tomato.*/'],
+                        'X-Tomato'     => ['isSameString' => 'PoTaTo'],
+                    ],
+                ],
+                'response' => [
+                    'body' => 'Found',
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(201);
 
