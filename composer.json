@@ -26,7 +26,10 @@
 		"symfony/process": "^3.0|^4.0|^5.0"
     },
     "require-dev" : {
-        "codeception/codeception" : "^4.0"
+        "codeception/codeception" : "^4.0",
+        "codeception/module-asserts": "^1.1",
+        "codeception/module-rest": "^1.2",
+        "codeception/module-phpbrowser": "^1.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
