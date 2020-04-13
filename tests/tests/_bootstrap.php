@@ -2,7 +2,7 @@
 
 define('APP_ROOT', __DIR__ . '/../..');
 
-$loader = require APP_ROOT . '/vendor/autoload.php';
+require APP_ROOT . '/vendor/autoload.php';
 
 use Symfony\Component\Process\Process;
 
@@ -10,25 +10,24 @@ use Symfony\Component\Process\Process;
 
 $expectationsDir = __DIR__ . '/../_data/expectations';
 $command = [
-    'php',
-    APP_ROOT . '/vendor/bin/phiremock',
+    './vendor/bin/phiremock',
     '--port',
     '8086',
     '-d',
     '-e',
     $expectationsDir,
     '>',
-    codecept_log_dir() . '/phiremock.log',
+    codecept_log_dir() . 'phiremock.log',
     '2>&1',
 ];
 echo 'Running ' . implode(' ', $command) . PHP_EOL;
-$process = new Process($command);
-$process->disableOutput();
+$process = new Process($command, APP_ROOT);
+//$process->disableOutput();
 register_shutdown_function(function () use ($process) {
     echo 'Terminating phiremock' . PHP_EOL;
     $process->stop(10, defined('SIGTERM') ? SIGTERM : null);
 });
 
-$process->run();
+$process->start();
 
 sleep(1);

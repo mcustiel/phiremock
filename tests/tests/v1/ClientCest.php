@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Scenario;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
 use Mcustiel\Phiremock\Client\Utils\Is;
@@ -19,12 +20,12 @@ class ClientCest
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
-        $this->phiremock = new PhiremockClient('127.0.0.1', '8086');
     }
 
     // tests
-    public function shouldCreateAnExpectationTest(AcceptanceTester $I)
+    public function shouldCreateAnExpectationTest(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation = new Expectation();
         $request = new Request();
         $request->setMethod('get');
@@ -40,8 +41,9 @@ class ClientCest
         $I->seeResponseEquals('Tomato!');
     }
 
-    public function shouldCreateAnExpectationAndReceiveItInTheList(AcceptanceTester $I)
+    public function shouldCreateAnExpectationAndReceiveItInTheList(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation = new Expectation();
         $request = new Request();
         $request->setMethod('get');
@@ -57,8 +59,9 @@ class ClientCest
         $I->assertEquals($expectation, $expectations[0]);
     }
 
-    public function shouldListSeveralExpectations(AcceptanceTester $I)
+    public function shouldListSeveralExpectations(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation1 = new Expectation();
         $request = new Request();
         $request->setMethod('get');
@@ -87,8 +90,9 @@ class ClientCest
         $I->assertEquals($expectation2, $expectations[1]);
     }
 
-    public function shouldCreateAnExpectationTestWithFluentInterface(AcceptanceTester $I)
+    public function shouldCreateAnExpectationTestWithFluentInterface(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation = PhiremockClient::on(
             A::postRequest()->andUrl(Is::equalTo('/potato'))
                 ->andHeader('X-Potato', Is::sameStringAs('bAnaNa'))
@@ -132,8 +136,9 @@ class ClientCest
         $I->seeHttpHeader('X-Tomato', 'Potato-received-again');
     }
 
-    public function countExecutionsTest(AcceptanceTester $I)
+    public function countExecutionsTest(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $I->sendDELETE('/__phiremock/executions');
         $expectation = new Expectation();
         $request = new Request();
@@ -157,8 +162,9 @@ class ClientCest
         $I->assertEquals(2, $count);
     }
 
-    public function listExecutionsTest(AcceptanceTester $I)
+    public function listExecutionsTest(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $I->sendDELETE('/__phiremock/executions');
         $expectation = new Expectation();
         $request = new Request();
@@ -187,8 +193,9 @@ class ClientCest
         }
     }
 
-    public function countExecutionsWhenNoExpectationIsSet(AcceptanceTester $I)
+    public function countExecutionsWhenNoExpectationIsSet(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $I->sendDELETE('/__phiremock/executions');
 
         $I->sendGET('/potato');
@@ -205,8 +212,9 @@ class ClientCest
         $I->assertEquals(2, $count);
     }
 
-    public function containsMatcherShouldWork(AcceptanceTester $I)
+    public function containsMatcherShouldWork(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation = PhiremockClient::on(
             A::postRequest()
                 ->andUrl(Is::equalTo('/potato'))
@@ -224,8 +232,9 @@ class ClientCest
         $I->seeHttpHeader('X-Tomato', 'Potato-received');
     }
 
-    public function fullUrlShouldBeEvaluated(AcceptanceTester $I)
+    public function fullUrlShouldBeEvaluated(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation = PhiremockClient::on(
             A::postRequest()
                 ->andUrl(Is::equalTo('/potato/coconut/?tomato=123'))
@@ -243,8 +252,9 @@ class ClientCest
         $I->seeHttpHeader('X-Tomato', 'Potato-received');
     }
 
-    public function shortcutShouldWorkAsExpected(AcceptanceTester $I)
+    public function shortcutShouldWorkAsExpected(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation = PhiremockClient::onRequest('get', '/potato')
             ->thenRespond(200, 'Everything worked as expected');
         $this->phiremock->createExpectation($expectation);
@@ -253,8 +263,9 @@ class ClientCest
         $I->seeResponseEquals('Everything worked as expected');
     }
 
-    public function severalExpectationsAddedInOneCestTest(AcceptanceTester $I)
+    public function severalExpectationsAddedInOneCestTest(AcceptanceTester $I, Scenario $scenario)
     {
+        $scenario->skip('This will be moved to its own suite');
         $expectation = new Expectation();
         $request = new Request();
         $request->setMethod('get');

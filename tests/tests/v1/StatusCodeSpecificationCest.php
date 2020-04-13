@@ -1,10 +1,5 @@
 <?php
 
-use Mcustiel\Phiremock\Domain\Condition;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Request;
-use Mcustiel\Phiremock\Domain\Response;
-
 class StatusCodeSpecificationCest
 {
     public function _before(AcceptanceTester $I)
@@ -12,21 +7,22 @@ class StatusCodeSpecificationCest
         $I->sendDELETE('/__phiremock/expectations');
     }
 
-    public function _after(AcceptanceTester $I)
-    {
-    }
-
     public function createExpectationWithStatusCodeTest(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with a valid status code');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $response->setStatusCode(401);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
+
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url'    => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [
+                    'statusCode' => 401,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs(200);
@@ -42,13 +38,16 @@ class StatusCodeSpecificationCest
     public function createExpectationWithDefaultStatusCodeTest(AcceptanceTester $I)
     {
         $I->wantTo('create a specification with a default status code');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = new Response();
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url'    => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs(200);
@@ -64,13 +63,19 @@ class StatusCodeSpecificationCest
     public function useDefaultWhenNoStatusCodeIsSetTest(AcceptanceTester $I)
     {
         $I->wantTo('fail when the status code is not set');
-        $request = new Request();
-        $request->setUrl(new Condition('isEqualTo', '/the/request/url'));
-        $response = (new Response())->setStatusCode(null);
-        $expectation = new Expectation();
-        $expectation->setRequest($request)->setResponse($response);
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'url'    => ['isEqualTo' => '/the/request/url'],
+                ],
+                'response' => [
+                    'statusCode' => null,
+                ],
+            ]
+        );
+
         $I->seeResponseCodeIs(201);
 
         $I->sendGET('/__phiremock/expectations');

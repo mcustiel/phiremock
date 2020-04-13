@@ -1,10 +1,6 @@
 <?php
 
 use Codeception\Scenario;
-use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
-use Mcustiel\Phiremock\Client\Utils\A;
-use Mcustiel\Phiremock\Client\Utils\Is;
-use Mcustiel\Phiremock\Client\Utils\Respond;
 
 class SameJsonCest
 {
@@ -180,7 +176,7 @@ class SameJsonCest
 
         $I->seeResponseCodeIs(500);
         $responseBody = $I->grabResponse();
-        $I->assertStringStartsWith('JSON parsing error: ', $responseBody);
+        $I->assertStringStartsWith('{"result":"ERROR","details":"JSON parsing error: ', $responseBody);
     }
 
     public function shouldNotFailIfReceivesInvalidJsonInRequest(AcceptanceTester $I)
