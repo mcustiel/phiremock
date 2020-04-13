@@ -4,11 +4,6 @@ use Codeception\Configuration;
 
 class BinaryContentCest
 {
-    /**
-     * @var \Mcustiel\Phiremock\Client\Phiremock
-     */
-    private $phiremock;
-
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
@@ -28,12 +23,11 @@ class BinaryContentCest
                 'response' => [
                     'headers' => [
                         'Content-Type'     => 'image/jpeg',
-                        'Content-Encoding' => 'base64',
                     ],
                     'body' => 'phiremock.base64:' . base64_encode($responseContents),
                 ],
             ]
-            );
+        );
 
         $I->sendGET('/show-me-the-image-now');
         $I->seeResponseCodeIs(200);

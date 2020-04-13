@@ -69,7 +69,7 @@ class ExpectationCreationCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'body' => ['matches' => 'potato'],
+                    'body' => ['matches' => '~potato~'],
                 ],
                 'response' => [
                     'statusCode' => 201,
@@ -82,7 +82,7 @@ class ExpectationCreationCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":null,"body":{"matches":"potato"},"headers":null},'
+            . '"request":{"method":null,"url":null,"body":{"matches":"~potato~"},"headers":null},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
             . '"proxyTo":null,"priority":0}]'
         );
@@ -96,7 +96,7 @@ class ExpectationCreationCest
             '/__phiremock/expectations',
             [
                 'request' => [
-                    'headers' => ['Accept' => ['matches' => 'potato']],
+                    'headers' => ['Accept' => ['matches' => '~potato~']],
                 ],
                 'response' => [
                     'statusCode' => 201,
@@ -109,7 +109,7 @@ class ExpectationCreationCest
         $I->seeResponseIsJson();
         $I->seeResponseEquals(
             '[{"scenarioName":null,"scenarioStateIs":null,"newScenarioState":null,'
-            . '"request":{"method":null,"url":null,"body":null,"headers":{"Accept":{"matches":"potato"}}},'
+            . '"request":{"method":null,"url":null,"body":null,"headers":{"Accept":{"matches":"~potato~"}}},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
             . '"proxyTo":null,"priority":0}]'
         );

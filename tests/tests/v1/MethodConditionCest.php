@@ -223,27 +223,4 @@ class MethodConditionCest
             . '"proxyTo":null,"priority":0}]'
         );
     }
-
-    public function failWhenInvalidMethodSpecifiedTest(AcceptanceTester $I)
-    {
-        $I->wantTo('create a specification that checks url using matches');
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST(
-            '/__phiremock/expectations',
-            [
-                'request' => [
-                    'method' => 'potato',
-                ],
-                'response' => [
-                    'statusCode' => 201,
-                ],
-            ]
-        );
-
-        $I->seeResponseCodeIs(500);
-        $I->seeResponseIsJson();
-        $I->seeResponseEquals(
-            '{"result" : "ERROR", "details" : ["Invalid http method: \'potato\'"]}'
-        );
-    }
 }
