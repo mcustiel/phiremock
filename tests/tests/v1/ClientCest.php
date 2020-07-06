@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V1;
+
+use AcceptanceTester;
+
 use Codeception\Scenario;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;

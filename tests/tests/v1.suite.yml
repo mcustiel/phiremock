@@ -5,6 +5,7 @@
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 class_name: AcceptanceTester
+suite_namespace: Mcustiel/Phiremock/Tests/V1
 modules:
     enabled:
         - Asserts

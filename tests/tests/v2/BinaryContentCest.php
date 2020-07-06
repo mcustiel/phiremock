@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V2;
+
+use AcceptanceTester;
+
 use Codeception\Configuration;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;
@@ -21,7 +25,7 @@ use Mcustiel\Phiremock\Domain\MockConfig;
 use Mcustiel\Phiremock\Domain\RequestConditions;
 use Mcustiel\Phiremock\Factory;
 
-class BinaryContentCest
+class BinaryContentCest extends BinaryContentCestV1
 {
     /** @var \Mcustiel\Phiremock\Factory */
     private $factory;

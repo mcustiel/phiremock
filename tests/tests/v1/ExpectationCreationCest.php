@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V1;
+
+use AcceptanceTester;
+
 class ExpectationCreationCest
 {
     public function _before(AcceptanceTester $I)

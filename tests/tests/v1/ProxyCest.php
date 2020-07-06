@@ -1,5 +1,9 @@
 <?php
 
+namespace McustielPhiremockTestsV1;
+
+use AcceptanceTester;
+
 class ProxyCest
 {
     public function _before(AcceptanceTester $I)

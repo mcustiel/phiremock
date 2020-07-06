@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V1;
+
+use AcceptanceTester;
+
 use Codeception\Configuration;
 
 class BinaryContentCest

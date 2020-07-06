@@ -1,12 +1,16 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V1;
+
+use AcceptanceTester;
+
 use Codeception\Scenario;
 
 class SameJsonCest
 {
     public function _before(AcceptanceTester $I)
     {
-        $I->sendDELETE('/__phiremock/expectations');
+        $I->sendPOST('/__phiremock/reset');
     }
 
     public function shouldCompareJsonEvenIfStringsDiffer(AcceptanceTester $I)

@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V1;
+
+use AcceptanceTester;
+
 class HeadersSpecificationCest
 {
     public function _before(AcceptanceTester $I)

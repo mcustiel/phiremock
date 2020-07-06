@@ -1,5 +1,9 @@
 <?php
 
+namespace McustielPhiremockTestsV1;
+
+use AcceptanceTester;
+
 class UrlConditionCest
 {
     public function _before(AcceptanceTester $I)

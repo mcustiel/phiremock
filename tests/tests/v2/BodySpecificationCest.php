@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V2;
+
+use AcceptanceTester;
+
 use Mcustiel\Phiremock\Domain\Conditions\Method\MethodCondition;
 use Mcustiel\Phiremock\Domain\Conditions\Method\MethodMatcher;
 use Mcustiel\Phiremock\Domain\Conditions\StringValue;
@@ -9,8 +13,8 @@ use Mcustiel\Phiremock\Domain\Http\Body;
 use Mcustiel\Phiremock\Domain\Http\HeadersCollection;
 use Mcustiel\Phiremock\Domain\Http\StatusCode;
 use Mcustiel\Phiremock\Domain\HttpResponse;
-use Mcustiel\Phiremock\Domain\MockConfig;
-use Mcustiel\Phiremock\Domain\RequestConditions;
+use Mcustiel\Phiremock\Domain\Expectation;
+use Mcustiel\Phiremock\Domain\ConditionsRequestConditions;
 use Mcustiel\Phiremock\Factory;
 
 class BodySpecificationCest

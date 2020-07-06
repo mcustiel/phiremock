@@ -1,5 +1,9 @@
 <?php
 
+namespace McustielPhiremockTestsV1;
+
+use AcceptanceTester;
+
 class ResetCest
 {
     public function restoreExpectationAfterDelete(AcceptanceTester $I)

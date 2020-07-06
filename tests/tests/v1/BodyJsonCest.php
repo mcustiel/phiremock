@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V1;
+
+use AcceptanceTester;
+
 class BodyJsonCest
 {
     public function _before(AcceptanceTester $I)

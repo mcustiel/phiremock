@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V1;
+
+use AcceptanceTester;
+
 class BodySpecificationCest
 {
     public function _before(AcceptanceTester $I)

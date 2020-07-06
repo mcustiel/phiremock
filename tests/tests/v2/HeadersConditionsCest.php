@@ -1,5 +1,9 @@
 <?php
 
+namespace Mcustiel\Phiremock\Tests\V2;
+
+use AcceptanceTester;
+
 use Mcustiel\Phiremock\Domain\Condition;
 use Mcustiel\Phiremock\Domain\Expectation;
 use Mcustiel\Phiremock\Domain\Request;

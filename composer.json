@@ -1,36 +1,41 @@
 {
-    "keywords" : [
-        "http",
-        "mock",
-        "server",
-        "external",
-        "acceptance",
-        "tests"
-    ],
-    "authors" : [
-        {
-            "name" : "Mariano Custiel",
-            "email" : "jmcustiel@gmail.com",
-            "homepage" : "https://github.com/mcustiel",
-            "role" : "Administrator"
-        }
-    ],
-    "name" : "mcustiel/phiremock",
-    "type" : "project",
-    "description" : "A mocker for HTTP and REST services. Full bundle.",
-    "license" : "GPL-3.0-or-later",
-    "require" : {
-        "php" : "^7.2",
-		"mcustiel/phiremock-server": "dev-master",
-		"mcustiel/phiremock-client": "dev-master",
-		"symfony/process": "^3.0|^4.0|^5.0"
-    },
-    "require-dev" : {
-        "codeception/codeception" : "^4.0",
-        "codeception/module-asserts": "^1.1",
-        "codeception/module-rest": "^1.2",
-        "codeception/module-phpbrowser": "^1.0"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+	"keywords" : [
+		"http",
+		"mock",
+		"server",
+		"external",
+		"acceptance",
+		"tests"
+	],
+	"authors" : [{
+			"name" : "Mariano Custiel",
+			"email" : "jmcustiel@gmail.com",
+			"homepage" : "https://github.com/mcustiel",
+			"role" : "Administrator"
+		}
+	],
+	"name" : "mcustiel/phiremock",
+	"type" : "project",
+	"description" : "A mocker for HTTP and REST services. Full bundle.",
+	"license" : "GPL-3.0-or-later",
+	"require" : {
+		"php" : "^7.2",
+		"mcustiel/phiremock-server" : "dev-master",
+		"mcustiel/phiremock-client" : "dev-master",
+		"symfony/process" : "^3.0|^4.0|^5.0"
+	},
+	"require-dev" : {
+		"codeception/codeception" : "^4.0",
+		"codeception/module-asserts" : "^1.1",
+		"codeception/module-rest" : "^1.2",
+		"codeception/module-phpbrowser" : "^1.0"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Mcustiel\\Phiremock\\Tests\\V1\\": "tests/tests/v1",
+			"Mcustiel\\Phiremock\\Tests\\V2\\": "tests/tests/v2"
+		}
+	},
+	"minimum-stability" : "dev",
+	"prefer-stable" : true
 }

@@ -3,14 +3,5 @@
 # Suite for acceptance tests.
 # Perform tests in browser using the WebDriver or PhpBrowser.
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
-
-class_name: AcceptanceTester
-modules:
-    enabled:
-        - Asserts
-        - REST
-        - \Helper\Acceptance
-    config:
-        REST:
-            depends: PhpBrowser
-            url: 'http://localhost:8086'
+extends: v2
+suite_namespace: Mcustiel/Phiremock/Tests/V2
