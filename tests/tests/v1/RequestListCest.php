@@ -1,6 +1,6 @@
 <?php
 
-class ExpectationListCest
+class RequestListCest
 {
     public function _before(AcceptanceTester $I)
     {
