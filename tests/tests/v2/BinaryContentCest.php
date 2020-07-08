@@ -3,7 +3,6 @@
 namespace Mcustiel\Phiremock\Tests\V2;
 
 use AcceptanceTester;
-
 use Codeception\Configuration;
 use Mcustiel\Phiremock\Client\Phiremock as PhiremockClient;
 use Mcustiel\Phiremock\Client\Utils\A;

@@ -1,8 +1,9 @@
 <?php
 
-namespace McustielPhiremockTestsV1;
+namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
+use GuzzleHttp\Client as HttpClient;
 
 class ProxyCest
 {
@@ -62,7 +63,7 @@ class ProxyCest
                 ]
             );
 
-        $guzzle = new GuzzleHttp\Client();
+        $guzzle = new HttpClient();
         $originalBody = $guzzle->get($realUrl)->getBody()->__toString();
 
         $I->haveHttpHeader('X-Potato', 'banana');

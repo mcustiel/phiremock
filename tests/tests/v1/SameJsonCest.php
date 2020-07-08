@@ -3,7 +3,6 @@
 namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
-
 use Codeception\Scenario;
 
 class SameJsonCest
@@ -173,14 +172,9 @@ class SameJsonCest
             ]
         );
 
-        $I->sendPOST(
-            '/test-json-object',
-            '{"tomato":"potato","a":1,"b":null,"recursive":{"a":"b", "array": [ {"c":"d"}, "e" ]}}'
-        );
-
         $I->seeResponseCodeIs(500);
         $responseBody = $I->grabResponse();
-        $I->assertStringStartsWith('{"result":"ERROR","details":"JSON parsing error: ', $responseBody);
+        $I->assertStringStartsWith('{"result" : "ERROR", "details" : ["Invalid json: ', $responseBody);
     }
 
     public function shouldNotFailIfReceivesInvalidJsonInRequest(AcceptanceTester $I)

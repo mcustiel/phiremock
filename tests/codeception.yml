@@ -11,4 +11,5 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+        - Mcustiel\Codeception\Extensions\ServerControl
 bootstrap: _bootstrap.php

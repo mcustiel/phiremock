@@ -3,5 +3,5 @@
 # Suite for acceptance tests.
 # Perform tests in browser using the WebDriver or PhpBrowser.
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
-extends: v2
+extends: v1
 suite_namespace: Mcustiel/Phiremock/Tests/V2

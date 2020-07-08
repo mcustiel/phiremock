@@ -3,7 +3,6 @@
 namespace Mcustiel\Phiremock\Tests\V2;
 
 use AcceptanceTester;
-
 use Mcustiel\Phiremock\Client\Connection\Host;
 use Mcustiel\Phiremock\Client\Connection\Port;
 use Mcustiel\Phiremock\Client\Factory;

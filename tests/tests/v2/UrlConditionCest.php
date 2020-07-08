@@ -3,7 +3,6 @@
 namespace Mcustiel\Phiremock\Tests\V2;
 
 use AcceptanceTester;
-
 use Mcustiel\Phiremock\Domain\Conditions\Method\MethodCondition;
 use Mcustiel\Phiremock\Domain\Conditions\Method\MethodMatcher;
 use Mcustiel\Phiremock\Domain\Conditions\Pattern;

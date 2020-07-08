@@ -3,18 +3,9 @@
 namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
-
 use Mcustiel\Phiremock\Common\Utils\ExpectationToArrayConverter;
 use Mcustiel\Phiremock\Common\Utils\RequestConditionToArrayConverter;
 use Mcustiel\Phiremock\Common\Utils\ResponseToArrayConverterLocator;
-use Mcustiel\Phiremock\Domain\Conditions;
-use Mcustiel\Phiremock\Domain\Conditions\Body\BodyCondition;
-use Mcustiel\Phiremock\Domain\Conditions\Body\BodyMatcher;
-use Mcustiel\Phiremock\Domain\Conditions\StringValue;
-use Mcustiel\Phiremock\Domain\Expectation;
-use Mcustiel\Phiremock\Domain\Http\Body;
-use Mcustiel\Phiremock\Domain\Http\StatusCode;
-use Mcustiel\Phiremock\Domain\HttpResponse;
 use Mcustiel\Phiremock\Factory;
 
 class BodyConditionCest
@@ -33,16 +24,18 @@ class BodyConditionCest
     public function createAnExpectationUsingBodyEqualToTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks body using isEqualTo');
-        $request = new Conditions(
-            null,
-            null,
-            new BodyCondition(BodyMatcher::equalTo(), new StringValue('Potato body'))
-        );
-        $response = new HttpResponse(new StatusCode(201));
-        $expectation = new Expectation($request, $response);
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $this->converter->convert($expectation));
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'body'    => ['isEqualTo' => 'Potato body'],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendGET('/__phiremock/expectations');
         $I->seeResponseCodeIs('200');
@@ -58,19 +51,18 @@ class BodyConditionCest
     public function createAnExpectationUsingBodyMatchesTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks body using matches');
-        $request = new Conditions(
-            null,
-            null,
-            new BodyCondition(
-                BodyMatcher::matches(),
-                new StringValue('/tomato (\d[^a])+/')
-            )
-        );
-        $response = new HttpResponse(new StatusCode(201));
-        $expectation = new Expectation($request, $response);
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $this->converter->convert($expectation));
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'body'    => ['matches' => '/tomato (\d[^a])+/'],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                ],
+            ]
+        );
 
         $I->sendPOST('/test', 'tomato 4b4n7c');
         $I->seeResponseCodeIs(201);
@@ -119,25 +111,25 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body pattern works');
 
-        $request = new Conditions(
-            null,
-            null,
-            new BodyCondition(
-                BodyMatcher::matches(),
-                new StringValue('/.*potato.*/')
-            )
-        );
-        $response = new HttpResponse(new StatusCode(200), new Body('Found'));
-        $expectation = new Expectation($request, $response);
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $this->converter->convert($expectation));
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'body'    => ['matches' => '/.*potato.*/'],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                    'body'       => 'Found',
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(201);
 
         $I->sendPOST('/dontcare', 'This is the potato body');
 
-        $I->seeResponseCodeIs(200);
+        $I->seeResponseCodeIs(201);
         $I->seeResponseEquals('Found');
     }
 
@@ -145,25 +137,25 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body equality works');
 
-        $request = new Conditions(
-            null,
-            null,
-            new BodyCondition(
-                BodyMatcher::equalTo(),
-                new StringValue('potato')
-            )
-        );
-        $response = new HttpResponse(new StatusCode(200), new Body('Found'));
-        $expectation = new Expectation($request, $response);
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $this->converter->convert($expectation));
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'body'    => ['isEqualTo' => 'potato'],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                    'body'       => 'Found',
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(201);
 
         $I->sendPOST('/dontcare', 'potato');
 
-        $I->seeResponseCodeIs(200);
+        $I->seeResponseCodeIs(201);
         $I->seeResponseEquals('Found');
     }
 
@@ -171,24 +163,24 @@ class BodyConditionCest
     {
         $I->wantTo('see if mocking based in request body case insensitive equality works');
 
-        $request = new Conditions(
-            null,
-            null,
-            new BodyCondition(
-                BodyMatcher::sameString(),
-                new StringValue('pOtAtO')
-            )
-        );
-        $response = new HttpResponse(new StatusCode(200), new Body('Found'));
-        $expectation = new Expectation($request, $response);
-
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $this->converter->convert($expectation));
+        $I->sendPOST(
+            '/__phiremock/expectations',
+            [
+                'request' => [
+                    'body'    => ['isSameString' => 'pOtAtO'],
+                ],
+                'response' => [
+                    'statusCode' => 201,
+                    'body'       => 'Found',
+                ],
+            ]
+        );
 
         $I->seeResponseCodeIs(201);
         $I->sendPOST('/dontcare', 'potato');
 
-        $I->seeResponseCodeIs(200);
+        $I->seeResponseCodeIs(201);
         $I->seeResponseEquals('Found');
     }
 }

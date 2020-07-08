@@ -3,7 +3,6 @@
 namespace Mcustiel\Phiremock\Tests\V2;
 
 use AcceptanceTester;
-
 use Mcustiel\Phiremock\Client\Connection\Host;
 use Mcustiel\Phiremock\Client\Connection\Port;
 use Mcustiel\Phiremock\Client\Factory;
@@ -92,8 +91,8 @@ class ClientCest
 
         $expectations = $this->phiremock->listExpectations();
 
-        $I->assertTrue('array' === gettype($expectations));
-        $I->assertEquals(2, count($expectations));
+        $I->assertTrue('array' === \gettype($expectations));
+        $I->assertEquals(2, \count($expectations));
         $I->assertEquals($expectation1, $expectations[0]);
         $I->assertEquals($expectation2, $expectations[1]);
     }
@@ -191,7 +190,7 @@ class ClientCest
         $executions = $this->phiremock->listExecutions(
             A::getRequest()->andUrl(Is::equalTo('/potato'))
         );
-        $I->assertEquals(2, count($executions));
+        $I->assertEquals(2, \count($executions));
         foreach ($executions as $item) {
             $I->assertEquals('GET', $item->method);
             $I->assertContains('potato', $item->url);
