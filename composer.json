@@ -34,7 +34,8 @@
 		"psr-4": {
 			"Mcustiel\\Phiremock\\Tests\\V1\\": "tests/tests/v1",
 			"Mcustiel\\Phiremock\\Tests\\V2\\": "tests/tests/v2",
-			"Mcustiel\\Codeception\\Extensions\\": "tests/codeception/extensions"
+			"Mcustiel\\Codeception\\Extensions\\": "tests/codeception/extensions",
+			"Mcustiel\\Phiremock\\Tests\\Support\\": "tests/support"
 		}
 	},
 	"minimum-stability" : "dev",

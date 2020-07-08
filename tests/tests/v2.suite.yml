@@ -1,7 +1,2 @@
-# Codeception Test Suite Configuration
-#
-# Suite for acceptance tests.
-# Perform tests in browser using the WebDriver or PhpBrowser.
-# If you need both WebDriver and PHPBrowser tests - create a separate suite.
-extends: v1
+extends: v1.suite.yml
 suite_namespace: Mcustiel/Phiremock/Tests/V2
