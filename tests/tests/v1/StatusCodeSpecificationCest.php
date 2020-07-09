@@ -1,6 +1,6 @@
 <?php
 
-namespace McustielPhiremockTestsV1;
+namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
 
@@ -18,14 +18,14 @@ class StatusCodeSpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'statusCode' => 401,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -45,12 +45,12 @@ class StatusCodeSpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -70,14 +70,14 @@ class StatusCodeSpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'statusCode' => null,
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs(201);
@@ -90,6 +90,6 @@ class StatusCodeSpecificationCest
             . '"request":{"method":null,"url":{"isEqualTo":"\/the\/request\/url"},"body":null,"headers":null},'
             . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null},'
             . '"proxyTo":null,"priority":0}]'
-            );
+        );
     }
 }

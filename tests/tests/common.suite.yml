@@ -1,10 +1,10 @@
-class_name: AcceptanceTester
-suite_namespace: Mcustiel/Phiremock/Tests/V1
+class_name: CommonTester
+suite_namespace: Mcustiel/Phiremock/Tests/Common
 modules:
     enabled:
         - Asserts
         - REST
-        - \Helper\AcceptanceV1
+        - \Helper\Common
     config:
         REST:
             depends: PhpBrowser

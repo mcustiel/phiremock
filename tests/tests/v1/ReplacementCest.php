@@ -1,6 +1,6 @@
 <?php
 
-namespace McustielPhiremockTestsV1;
+namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
 
@@ -16,7 +16,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                     'url'    => ['matches' => '/&test=(\d+)/'],
@@ -24,7 +24,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the number is ${url.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/potato', ['param1' => 123, 'test' => 456]);
@@ -37,7 +37,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                     'url'    => ['matches' => '/&test=(\d+)/'],
@@ -45,7 +45,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the number is ${url.1.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/potato', ['param1' => 123, 'test' => 456]);
@@ -58,7 +58,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'body'   => ['matches' => '/a tomato (\d+)/'],
@@ -66,7 +66,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the number is ${body.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
@@ -79,7 +79,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/potato'],
@@ -88,7 +88,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the number is ${body.1.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
@@ -101,7 +101,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '/&test=(\d+)/'],
@@ -110,7 +110,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the numbers are ${url.1} and ${body.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato?param1=123&test=456', 'this is a tomato 3kg it weights');
@@ -123,7 +123,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '/&test=(\d+)/'],
@@ -132,7 +132,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the numbers are ${url.1.1} and ${body.1.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato?param1=123&test=456', 'this is a tomato 3kg it weights');
@@ -145,7 +145,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '~^/potato/(\d+)$~'],
@@ -154,7 +154,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the numbers are ${url.1} and ${body.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato/456', 'this is a tomato 3kg it weights');
@@ -167,7 +167,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '~^/potato/(\d+)$~'],
@@ -176,7 +176,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'the numbers are ${url.1.1} and ${body.1.1}',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato/456', 'this is a tomato 3kg it weights');
@@ -189,7 +189,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '/potato/'],
@@ -199,7 +199,7 @@ class ReplacementCest
                     'body'    => 'the numbers are ${url.1} and ${body.1.1}',
                     'headers' => ['Content-Type' => 'application/${url.1}'],
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
@@ -213,7 +213,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                     'url'    => ['matches' => '/[?&]\w*=(\d+)/'],
@@ -221,7 +221,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'you birthday is at ${url.1.1}.${url.1.2}.${url.1.3}',
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/birthday', ['day' => 28, 'month' => 10, 'year' => 1991]);
@@ -236,7 +236,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/humans'],
@@ -245,7 +245,7 @@ class ReplacementCest
                 'response' => [
                     'body' => 'first name is ${body.1.1}, second: ${body.1.2}',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/humans', $request);
@@ -262,7 +262,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '%[?&]\w*=(\w+)%'],
@@ -271,7 +271,7 @@ class ReplacementCest
                 'response' => [
                     'body' => $responseBody,
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/humans?minage=22&gender=female', $request);
@@ -291,7 +291,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/humans'],
@@ -300,7 +300,7 @@ class ReplacementCest
                 'response' => [
                     'body' => $response,
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/humans', $request);
@@ -316,7 +316,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '/potato/'],
@@ -325,7 +325,7 @@ class ReplacementCest
                 'response' => [
                     'body' => $body,
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
@@ -338,7 +338,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                     'url'    => ['matches' => '/&test=(\d+)/'],
@@ -346,7 +346,7 @@ class ReplacementCest
                 'response' => [
                     'headers' => ['X-Header' =>  'test=${url.1}'],
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/potato', ['param1' => 123, 'test' => 456]);
@@ -359,7 +359,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/potato'],
@@ -368,7 +368,7 @@ class ReplacementCest
                 'response' => [
                     'headers' => ['X-Header' =>  '${body.1}'],
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato', 'this is a tomato 3kg it weights');
@@ -381,7 +381,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '~^/potato/(\d+)$~'],
@@ -391,7 +391,7 @@ class ReplacementCest
                     'body'    => 'the numbers are ${url.1} and ${body.1}',
                     'headers' => ['X-Header' =>  'url=${url.1} body=${body.1}'],
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato/456', 'this is a tomato 3kg it weights');
@@ -405,7 +405,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['matches' => '~^/potato/(\d+)$~'],
@@ -415,7 +415,7 @@ class ReplacementCest
                     'body'    => 'the numbers are ${url.1.1} and ${body.1.1}',
                     'headers' => ['X-Header' =>  'url=${url.1.1} body=${body.1.1}'],
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/potato/456', 'this is a tomato 3kg it weights');
@@ -436,7 +436,7 @@ class ReplacementCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/humans'],
@@ -446,7 +446,7 @@ class ReplacementCest
                     'body'    => $response,
                     'headers' => ['X-Header' => $response],
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/humans', $request);

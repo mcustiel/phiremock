@@ -18,14 +18,14 @@ class DelaySpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'delayMillis' => 5000,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -45,14 +45,14 @@ class DelaySpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'delayMillis' => -5000,
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs('500');
@@ -68,14 +68,14 @@ class DelaySpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'delayMillis' => 'potato',
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs('500');
@@ -92,14 +92,14 @@ class DelaySpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'delayMillis' => 2000,
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs(201);

@@ -1,18 +1,18 @@
 <?php
 
-namespace Mcustiel\Phiremock\Tests\V1;
+namespace Mcustiel\Phiremock\Tests\Common;
 
-use AcceptanceTester;
+use CommonTester;
 
 class RecursiveDirectoryCest
 {
-    public function _before(AcceptanceTester $I)
+    public function _before(CommonTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
         $I->sendPOST('/__phiremock/reset');
     }
 
-    public function detectFilesRecursively(AcceptanceTester $I)
+    public function detectFilesRecursively(CommonTester $I)
     {
         $I->sendGET('/hello');
         $I->seeResponseCodeIs('200');

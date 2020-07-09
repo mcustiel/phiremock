@@ -17,14 +17,14 @@ class ExpectationCreationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -44,14 +44,14 @@ class ExpectationCreationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -71,14 +71,14 @@ class ExpectationCreationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'body' => ['matches' => '~potato~'],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -98,14 +98,14 @@ class ExpectationCreationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'headers' => ['Accept' => ['matches' => '~potato~']],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -125,13 +125,13 @@ class ExpectationCreationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs('500');
@@ -147,12 +147,12 @@ class ExpectationCreationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                 ],
                 'response' => null,
-            ]
+            ])
         );
         $I->seeResponseCodeIs('201');
 
@@ -164,7 +164,7 @@ class ExpectationCreationCest
             . '"request":{"method":"get","url":null,"body":null,"headers":null},'
             . '"response":{"statusCode":200,"body":null,"headers":null,"delayMillis":null},'
             . '"proxyTo":null,"priority":0}]'
-            );
+        );
     }
 
     public function creationFailWhenAnythingSentAsRequestTest(AcceptanceTester $I)
@@ -177,7 +177,7 @@ class ExpectationCreationCest
         ];
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $I->getPhiremockRequest($expectation));
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();
@@ -194,7 +194,7 @@ class ExpectationCreationCest
         ];
 
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/__phiremock/expectations', $expectation);
+        $I->sendPOST('/__phiremock/expectations', $I->getPhiremockRequest($expectation));
 
         $I->seeResponseCodeIs('500');
         $I->seeResponseIsJson();
@@ -210,7 +210,7 @@ class ExpectationCreationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method'  => 'get',
                     'url'     => ['isEqualTo' => '/the/request/url'],
@@ -234,7 +234,7 @@ class ExpectationCreationCest
                 'scenarioStateIs'  => 'tomato',
                 'newScenarioState' => 'banana',
                 'priority'         => 3,
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');

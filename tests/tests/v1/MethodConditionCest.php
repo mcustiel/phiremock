@@ -17,14 +17,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -45,14 +45,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -72,14 +72,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'put',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -99,14 +99,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'delete',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -126,14 +126,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'fetch',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -153,14 +153,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'options',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -171,7 +171,7 @@ class MethodConditionCest
             . '"request":{"method":"options","url":null,"body":null,"headers":null},'
             . '"response":{"statusCode":201,"body":null,"headers":null,"delayMillis":null},'
             . '"proxyTo":null,"priority":0}]'
-            );
+        );
     }
 
     public function createAnExpectationUsingMethodHead(AcceptanceTester $I)
@@ -180,14 +180,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'head',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -207,14 +207,14 @@ class MethodConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'patch',
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');

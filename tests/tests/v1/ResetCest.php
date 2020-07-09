@@ -1,6 +1,6 @@
 <?php
 
-namespace McustielPhiremockTestsV1;
+namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
 
@@ -23,7 +23,7 @@ class ResetCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                     'url'    => ['isEqualTo' => '/hello'],
@@ -33,7 +33,7 @@ class ResetCest
                     'body'       => 'Bye!',
                 ],
                 'priority' => 1,
-            ]
+            ])
         );
 
         $I->sendGET('/hello');

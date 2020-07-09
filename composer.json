@@ -34,6 +34,7 @@
 		"psr-4": {
 			"Mcustiel\\Phiremock\\Tests\\V1\\": "tests/tests/v1",
 			"Mcustiel\\Phiremock\\Tests\\V2\\": "tests/tests/v2",
+			"Mcustiel\\Phiremock\\Tests\\Common\\": "tests/tests/common",
 			"Mcustiel\\Codeception\\Extensions\\": "tests/codeception/extensions",
 			"Mcustiel\\Phiremock\\Tests\\Support\\": "tests/support"
 		}

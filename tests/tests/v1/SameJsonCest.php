@@ -17,7 +17,7 @@ class SameJsonCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/test-json'],
@@ -26,7 +26,7 @@ class SameJsonCest
                 'response' => [
                     'body' => 'It is the same',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/test-json', '{"tomato" : "potato",   "a":1,    "b": null, "recursive": {   "a": "b", "array" : [ {"c":"d" }, "e" ] } }');
@@ -40,7 +40,7 @@ class SameJsonCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/test-json'],
@@ -49,7 +49,7 @@ class SameJsonCest
                 'response' => [
                     'body' => 'It is the same',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/test-json', '{"b": null, "a":1,    "recursive": {   "array" : [ {"c":"d" }, "e" ], "a": "b" }, "tomato" : "potato" }');
@@ -63,7 +63,7 @@ class SameJsonCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/test-json'],
@@ -72,7 +72,7 @@ class SameJsonCest
                 'response' => [
                     'body' => 'It is the same',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/test-json', '{"tomato": "potato", "a": 1, "b": 0, "recursive": {"a": "b", "array": [{"c": "d"}, "e"]}}');
@@ -85,7 +85,7 @@ class SameJsonCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/test-json'],
@@ -94,7 +94,7 @@ class SameJsonCest
                 'response' => [
                     'body' => 'It is the same',
                 ],
-            ]
+            ])
         );
         $I->sendPOST('/test-json', '{ "foo": "1"}');
         $I->seeResponseCodeIs(404);
@@ -160,7 +160,7 @@ class SameJsonCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/test-json-object'],
@@ -169,7 +169,7 @@ class SameJsonCest
                 'response' => [
                     'body' => 'It is the same',
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs(500);
@@ -194,7 +194,7 @@ class SameJsonCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'post',
                     'url'    => ['isEqualTo' => '/test-json'],
@@ -203,7 +203,7 @@ class SameJsonCest
                 'response' => [
                     'body' => 'It is the same',
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST(

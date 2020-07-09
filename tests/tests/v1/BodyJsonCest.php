@@ -16,14 +16,14 @@ class BodyJsonCest
         $I->wantTo('create an expectation with a JSON body defined as array');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'body' => ['foo' => 'bar'],
                 ],
-            ]
+            ])
         );
         $I->seeResponseCodeIs('201');
 

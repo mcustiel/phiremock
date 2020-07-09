@@ -17,14 +17,14 @@ class HeadersSpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'headers' => ['Location' => '/potato.php'],
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -44,7 +44,7 @@ class HeadersSpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
@@ -55,7 +55,7 @@ class HeadersSpecificationCest
                         'Pragma'        => 'no-cache',
                     ],
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -77,13 +77,13 @@ class HeadersSpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -103,14 +103,14 @@ class HeadersSpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'headers' => 'potato',
                 ],
-            ]
+            ])
         );
         $I->seeResponseCodeIs(500);
         $I->canSeeResponseEquals('{"result" : "ERROR", "details" : ["Response headers are invalid: \'potato\'"]}');

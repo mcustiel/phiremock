@@ -1,6 +1,6 @@
 <?php
 
-namespace McustielPhiremockTestsV1;
+namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
 
@@ -17,14 +17,14 @@ class UrlConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -44,14 +44,14 @@ class UrlConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['isEqualTo' => '/the/request/url/?query=string&extra=param'],
                 ],
                 'response' => [
                     'statusCode' => 418,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -74,14 +74,14 @@ class UrlConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['matches' => '/some pattern/'],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -101,14 +101,14 @@ class UrlConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['potato' => '/some pattern/'],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs('500');
@@ -122,14 +122,14 @@ class UrlConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url'    => ['isEqualTo' => null],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs(500);

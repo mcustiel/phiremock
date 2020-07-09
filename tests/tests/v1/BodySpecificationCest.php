@@ -21,14 +21,14 @@ class BodySpecificationCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'body' => 'This is the body',
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -47,14 +47,14 @@ class BodySpecificationCest
         $I->wantTo('create an expectation with an empty body');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'url' => ['isEqualTo' => '/the/request/url'],
                 ],
                 'response' => [
                     'body' => null,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');

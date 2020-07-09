@@ -27,14 +27,14 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'body'    => ['isEqualTo' => 'Potato body'],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -54,14 +54,14 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'body'    => ['matches' => '/tomato (\d[^a])+/'],
                 ],
                 'response' => [
                     'statusCode' => 201,
                 ],
-            ]
+            ])
         );
 
         $I->sendPOST('/test', 'tomato 4b4n7c');
@@ -99,7 +99,7 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            ['request' => ['body' => ['isEqualTo' => null]]]
+            $I->getPhiremockRequest(['request' => ['body' => ['isEqualTo' => null]]])
         );
 
         $I->seeResponseCodeIs(500);
@@ -114,7 +114,7 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'body'    => ['matches' => '/.*potato.*/'],
                 ],
@@ -122,7 +122,7 @@ class BodyConditionCest
                     'statusCode' => 201,
                     'body'       => 'Found',
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs(201);
@@ -140,7 +140,7 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'body'    => ['isEqualTo' => 'potato'],
                 ],
@@ -148,7 +148,7 @@ class BodyConditionCest
                     'statusCode' => 201,
                     'body'       => 'Found',
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs(201);
@@ -166,7 +166,7 @@ class BodyConditionCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'body'    => ['isSameString' => 'pOtAtO'],
                 ],
@@ -174,7 +174,7 @@ class BodyConditionCest
                     'statusCode' => 201,
                     'body'       => 'Found',
                 ],
-            ]
+            ])
         );
 
         $I->seeResponseCodeIs(201);

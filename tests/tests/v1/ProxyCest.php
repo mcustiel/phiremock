@@ -19,7 +19,7 @@ class ProxyCest
 
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'scenarioName'    => 'PotatoScenario',
                 'scenarioStateIs' => 'Scenario.START',
                 'request'         => [
@@ -29,7 +29,7 @@ class ProxyCest
                     'headers' => ['X-Potato' => ['isSameString' => 'bAnaNa']],
                 ],
                 'proxyTo' => 'https://www.w3schools.com/html/',
-            ]
+            ])
         );
 
         $I->sendGET('/__phiremock/expectations');
@@ -51,17 +51,17 @@ class ProxyCest
         $I->haveHttpHeader('Content-Type', 'application/json');
 
         $I->sendPOST(
-                '/__phiremock/expectations',
-                [
-                    'scenarioName'    => 'PotatoScenario',
-                    'scenarioStateIs' => 'Scenario.START',
-                    'request'         => [
-                        'url'    => ['isEqualTo' => '/potato'],
-                        'header' => ['X-Potato' => ['isSameString' => 'bAnaNa']],
-                    ],
-                    'proxyTo' => $realUrl,
-                ]
-            );
+            '/__phiremock/expectations',
+            $I->getPhiremockRequest([
+                'scenarioName'    => 'PotatoScenario',
+                'scenarioStateIs' => 'Scenario.START',
+                'request'         => [
+                    'url'    => ['isEqualTo' => '/potato'],
+                    'header' => ['X-Potato' => ['isSameString' => 'bAnaNa']],
+                ],
+                'proxyTo' => $realUrl,
+            ])
+        );
 
         $guzzle = new HttpClient();
         $originalBody = $guzzle->get($realUrl)->getBody()->__toString();

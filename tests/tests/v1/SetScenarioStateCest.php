@@ -1,6 +1,6 @@
 <?php
 
-namespace McustielPhiremockTestsV1;
+namespace Mcustiel\Phiremock\Tests\V1;
 
 use AcceptanceTester;
 
@@ -16,7 +16,7 @@ class SetScenarioStateCest
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                     'url'    => ['isEqualTo' => '/test'],
@@ -26,13 +26,13 @@ class SetScenarioStateCest
                 ],
                 'scenarioName'    => 'test-scenario',
                 'scenarioStateIs' => 'Scenario.START',
-            ]
+            ])
         );
 
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST(
             '/__phiremock/expectations',
-            [
+            $I->getPhiremockRequest([
                 'request' => [
                     'method' => 'get',
                     'url'    => ['isEqualTo' => '/test'],
@@ -42,7 +42,7 @@ class SetScenarioStateCest
                 ],
                 'scenarioName'    => 'test-scenario',
                 'scenarioStateIs' => 'Scenario.POTATO',
-            ]
+            ])
          );
 
         $I->sendPUT(
