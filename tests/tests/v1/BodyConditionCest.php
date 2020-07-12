@@ -10,15 +10,9 @@ use Mcustiel\Phiremock\Factory;
 
 class BodyConditionCest
 {
-    private $converter;
-
     public function _before(AcceptanceTester $I)
     {
         $I->sendDELETE('/__phiremock/expectations');
-        $this->converter = new ExpectationToArrayConverter(
-            new RequestConditionToArrayConverter(),
-            new ResponseToArrayConverterLocator(new Factory())
-        );
     }
 
     public function createAnExpectationUsingBodyEqualToTest(AcceptanceTester $I)

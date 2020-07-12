@@ -11,10 +11,6 @@ class HeadersConditionsCest
         $I->sendDELETE('/__phiremock/expectations');
     }
 
-    public function _after(AcceptanceTester $I)
-    {
-    }
-
     public function creationWithOneHeaderUsingEqualToTest(AcceptanceTester $I)
     {
         $I->wantTo('create an expectation that checks one header using isEqualTo');
