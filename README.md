@@ -1,4 +1,6 @@
-# Phiremock
+# Phiremock Bundle
+
+**Note**: In version 2 Phiremock has separated libraries for the server and the client. This became the bundle for both libraries.
 
 Phiremock is a mocker and stubber of HTTP services, it allows software developers to mock HTTP requests and setup responses to avoid calling real services during development, and is particulary useful during acceptance testing when expected http requests can be mocked and verified. Any HTTP service (i.e.: REST services) can be mocked and stubbed with Phiremock.
 Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not force you to have a java installation in your PHP development environment. The full functionality of Phiremock is detailed in the following list:
