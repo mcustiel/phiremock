@@ -20,8 +20,8 @@
 	"license" : "GPL-3.0-or-later",
 	"require" : {
 		"php" : "^7.2",
-		"mcustiel/phiremock-server" : "v1.0.0-beta.1",
-		"mcustiel/phiremock-client" : "v1.0.0-beta.1"
+		"mcustiel/phiremock-server" : "v1.0.0",
+		"mcustiel/phiremock-client" : "v1.0.0"
 	},
 	"minimum-stability" : "dev",
 	"prefer-stable" : true
