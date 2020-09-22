@@ -3,6 +3,8 @@
 		"http",
 		"mock",
 		"server",
+		"client",
+		"bundle",
 		"external",
 		"acceptance",
 		"tests"
@@ -23,6 +25,9 @@
 		"mcustiel/phiremock-server" : "v1.0.0",
 		"mcustiel/phiremock-client" : "v1.0.0"
 	},
+	"suggest": {
+        "guzzlehttp/guzzle": "Provides default http client for phiremock client and server."
+    },
 	"minimum-stability" : "dev",
 	"prefer-stable" : true
 }
