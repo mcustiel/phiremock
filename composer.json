@@ -22,8 +22,8 @@
 	"license" : "GPL-3.0-or-later",
 	"require" : {
 		"php" : "^7.2",
-		"mcustiel/phiremock-server" : "v1.0.0",
-		"mcustiel/phiremock-client" : "v1.0.0"
+		"mcustiel/phiremock-server" : "^1.0",
+		"mcustiel/phiremock-client" : "^1.0"
 	},
 	"suggest": {
         "guzzlehttp/guzzle": "Provides default http client for phiremock client and server."
