@@ -16,8 +16,6 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 * Fill the response body using data from the request.
 
 [![Latest Stable Version](https://poser.pugx.org/mcustiel/phiremock/v/stable)](https://packagist.org/packages/mcustiel/phiremock)
-[![Build Status](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcustiel/phiremock/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcustiel/phiremock/?branch=master)
 [![Monthly Downloads](https://poser.pugx.org/mcustiel/phiremock/d/monthly)](https://packagist.org/packages/mcustiel/phiremock)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/55feb317-7a46-4858-8634-31bfc89d7709/big.png)](https://insight.sensiolabs.com/projects/55feb317-7a46-4858-8634-31bfc89d7709)
