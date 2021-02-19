@@ -21,7 +21,7 @@
 	"description" : "A mocker for HTTP and REST services. Full bundle.",
 	"license" : "GPL-3.0-or-later",
 	"require" : {
-		"php" : "^7.2",
+		"php" : "^7.2 | ^8.0",
 		"mcustiel/phiremock-server" : "^1.0",
 		"mcustiel/phiremock-client" : "^1.0"
 	},
