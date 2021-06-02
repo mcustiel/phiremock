@@ -54,11 +54,18 @@ class Request implements \JsonSerializable
 
     public function __toString()
     {
+        if (isset($this->body)) {
+            $bodyValue = $this->body->getValue();
+            if (!is_string($bodyValue)) {
+                $bodyValue = print_r($bodyValue, true);
+            }
+        }
+
         return print_r(
             [
                 'method'  => $this->method,
                 'url'     => isset($this->url) ? $this->url->__toString() : 'null',
-                'body'    => isset($this->body) ? $this->body->getMatcher() . ' => ' . (isset($this->body->getValue()[5000]) ? '--VERY LONG CONTENTS--' : $this->body->getValue()) : 'null',
+                'body'    => isset($this->body) ? $this->body->getMatcher() . ' => ' . (isset($bodyValue[5000]) ? '--VERY LONG CONTENTS--' : $bodyValue) : 'null',
                 'headers' => print_r($this->headers, true),
             ],
             true
