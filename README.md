@@ -18,8 +18,6 @@ Phiremock is heavily inspired by [WireMock](http://wiremock.org/), but does not 
 [![Latest Stable Version](https://poser.pugx.org/mcustiel/phiremock/v/stable)](https://packagist.org/packages/mcustiel/phiremock)
 [![Monthly Downloads](https://poser.pugx.org/mcustiel/phiremock/d/monthly)](https://packagist.org/packages/mcustiel/phiremock)
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/55feb317-7a46-4858-8634-31bfc89d7709/big.png)](https://insight.sensiolabs.com/projects/55feb317-7a46-4858-8634-31bfc89d7709)
-
 **Note**: In version 2 Phiremock has separated libraries for the server and the client. This repository became the bundle for both libraries.
 
 ## Installation
